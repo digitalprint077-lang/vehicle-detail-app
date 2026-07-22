@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Route Permit</title>
+  <link rel="stylesheet" href="route-permit.css?v=16">
+  <link rel="stylesheet" href="permit-print.css?v=43">
+  <link rel="stylesheet" href="permit-frame.css?v=44">
+</head>
+<body class="route-permit-page">
+  <button type="button" id="print-permit-btn" class="permit-print-btn permit-print-btn-page">Print A4</button>
+  <article class="permit-document" id="permit-print-area">
+    <div class="permit-frame" aria-hidden="true"></div>
+    <div class="permit-inner-border" aria-hidden="true"></div>
+    <div class="permit-watermark" aria-hidden="true"></div>
+
+    <div class="permit-content">
+      <div class="permit-header-band">
+        <img class="permit-emblem" src="assets/sindh-emblem.png" alt="Government of Sindh emblem">
+        <div class="permit-header-text">
+          <header class="permit-header permit-header-top">
+            <h1>PROVINCIAL TRANSPORT AUTHORITY, SINDH, KARACHI</h1>
+            <p>GOVERNMENT OF SINDH</p>
+          </header>
+          <section class="permit-summary">
+            <p>SUMMARY TO BE CARRIED ON THE VEHICLE</p>
+            <p class="permit-auth">Authentication of Route Permit</p>
+          </section>
+        </div>
+        <div class="permit-header-qr-col">
+          <canvas id="permit-qr-code" class="permit-qr-code" aria-label="Result page QR code"></canvas>
+          <div class="permit-rp-block">R.P. NO. <span id="permit-rp-no">-</span></div>
+        </div>
+      </div>
+
+      <h2 class="permit-vehicle-type">Vehicle Type: <span id="permit-vehicle-type">-</span></h2>
+
+      <ol class="permit-data-list">
+        <li>
+          <span class="permit-data-label">Full Name</span>
+          <span class="permit-data-value permit-value-as-entered" id="permit-full-name">-</span>
+        </li>
+        <li>
+          <span class="permit-data-label">CNIC/NTN No</span>
+          <span class="permit-data-value" id="permit-cnic">-</span>
+        </li>
+        <li>
+          <span class="permit-data-label">Owner Address</span>
+          <span class="permit-data-value" id="permit-address">-</span>
+        </li>
+        <li>
+          <span class="permit-data-label">Registration No</span>
+          <span class="permit-data-value" id="permit-registration">-</span>
+        </li>
+        <li>
+          <span class="permit-data-label">Authentication Valid Upto</span>
+          <span class="permit-data-value" id="permit-valid-upto">-</span>
+        </li>
+        <li>
+          <span class="permit-data-label">Route Details</span>
+          <span class="permit-data-value" id="permit-route-details">-</span>
+        </li>
+      </ol>
+
+      <div class="permit-bottom-area">
+        <footer class="permit-signatory">
+          <p id="permit-signatory-title">-</p>
+          <p id="permit-signatory-authority">-</p>
+          <p id="permit-signatory-city">-</p>
+        </footer>
+        <div class="permit-urdu-box" id="permit-urdu-footer">-</div>
+      </div>
+    </div>
+  </article>
+
+  <script src="qrcode.min.js"></script>
+  <script src="route-permit.js?v=4"></script>
+  <script>
+    document.getElementById("print-permit-btn")?.addEventListener("click", () => window.print());
+  </script>
+</body>
+</html>

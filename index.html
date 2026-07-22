@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Detail Panel</title>
+  <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem("vehicleDetailTheme");
+        if (theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      } catch (error) {
+        // ignore storage errors
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="panel.css?v=29">
+  <link rel="stylesheet" href="permit-frame.css?v=44">
+  <link rel="stylesheet" href="permit-print.css?v=43">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="panel-page">
+  <div class="panel-shell">
+    <header class="panel-topbar">
+      <div class="panel-brand">
+        <span class="panel-eyebrow">Admin Panel</span>
+        <h1 class="page-title">Vehicle Detail</h1>
+      </div>
+      <div class="panel-topbar-actions">
+        <button type="button" id="theme-toggle-btn" class="theme-toggle-btn" data-theme-toggle aria-label="Switch to night mode" aria-pressed="false">
+          <span class="theme-toggle-icon" aria-hidden="true">&#9790;</span>
+          <span class="theme-toggle-label">Night</span>
+        </button>
+        <button type="button" id="change-password-btn" class="panel-logout-btn">Change Password</button>
+        <button type="button" id="logout-btn" class="panel-logout-btn">Logout</button>
+      </div>
+    </header>
+
+    <dialog id="password-dialog" class="password-dialog" aria-labelledby="password-dialog-title">
+      <form id="password-form" class="password-dialog-form" novalidate>
+        <div class="password-dialog-header">
+          <h2 id="password-dialog-title" class="card-title">Change Password</h2>
+          <button type="button" id="password-dialog-close" class="password-dialog-close" aria-label="Close">&times;</button>
+        </div>
+        <p class="password-dialog-hint">Update the admin panel password for this browser. Username stays the same.</p>
+        <p id="password-form-status" class="password-form-status" aria-live="polite" hidden></p>
+        <div class="field">
+          <label for="current-password">Current password</label>
+          <input type="password" id="current-password" name="currentPassword" autocomplete="current-password" required>
+        </div>
+        <div class="field">
+          <label for="new-password">New password</label>
+          <input type="password" id="new-password" name="newPassword" autocomplete="new-password" minlength="6" required>
+        </div>
+        <div class="field">
+          <label for="confirm-password">Confirm new password</label>
+          <input type="password" id="confirm-password" name="confirmPassword" autocomplete="new-password" minlength="6" required>
+        </div>
+        <div class="password-dialog-actions">
+          <button type="button" id="password-cancel-btn" class="permit-action-btn">Cancel</button>
+          <button type="submit" class="submit-btn">Save password</button>
+        </div>
+      </form>
+    </dialog>
+
+    <section class="panel-hero">
+      <p class="panel-hero-text">Manage vehicle records and build the official route permit preview with a live result QR code.</p>
+    </section>
+
+    <section class="panel-card panel-form-card">
+      <div class="panel-card-header">
+        <h2 class="card-title">Search Vehicle</h2>
+        <span class="panel-badge">Panel</span>
+      </div>
+
+      <form id="vehicle-form" class="vehicle-form" novalidate>
+        <div class="panel-form-grid">
+          <div class="field">
+            <label for="registration">Registration#</label>
+            <input type="text" id="registration" name="registration" value="JV-3805" placeholder="e.g. JV-3805" required>
+          </div>
+          <div class="field">
+            <label for="engine">Engine#</label>
+            <input type="text" id="engine" name="engine" value="6HH102666P" placeholder="e.g. 6HH102666P" required>
+          </div>
+          <div class="field field-full">
+            <label for="chassis">Chassis#</label>
+            <input type="text" id="chassis" name="chassis" value="JALFTR33KH-7000279" placeholder="e.g. JALFTR33KH-7000279" required>
+          </div>
+          <div class="field">
+            <label for="issue-date">Issue Date</label>
+            <input type="date" id="issue-date" name="issueDate">
+          </div>
+          <div class="field">
+            <label for="expiry-date">Expiry Date</label>
+            <input type="date" id="expiry-date" name="expiryDate">
+          </div>
+          <div class="field field-full">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+              <option value="Valid Certificate">Valid Certificate</option>
+              <option value="Expired">Expired</option>
+              <option value="Pending">Pending</option>
+              <option value="Invalid">Invalid</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Show Result</button>
+      </form>
+    </section>
+
+    <section class="panel-card panel-permit-card">
+      <div class="panel-card-header">
+        <h2 class="card-title">Route Permit Data</h2>
+        <span class="panel-badge">Live Preview</span>
+      </div>
+
+      <div class="panel-permit-layout">
+        <div class="panel-permit-side">
+          <div class="permit-tabs" role="tablist" aria-label="Permit panel tabs">
+            <button type="button" class="permit-tab is-active" id="permit-tab-btn-edit" role="tab" aria-selected="true" aria-controls="permit-tab-edit">Edit Permit</button>
+            <button type="button" class="permit-tab" id="permit-tab-btn-saved" role="tab" aria-selected="false" aria-controls="permit-tab-saved">
+              Saved Permits
+              <span id="saved-permits-count" class="permit-tab-count">0</span>
+            </button>
+          </div>
+
+          <div id="permit-tab-edit" class="permit-tab-panel is-active" role="tabpanel" aria-labelledby="permit-tab-btn-edit">
+            <form id="route-permit-form" class="vehicle-form panel-permit-form" novalidate>
+              <div class="panel-form-grid panel-form-grid-single">
+                <div class="field">
+                  <label for="rp-no">R.P. NO.</label>
+                  <input type="text" id="rp-no" name="rpNo" value="466/013" placeholder="e.g. 466/013">
+                </div>
+                <div class="field">
+                  <label for="vehicle-type">Vehicle Type</label>
+                  <select id="vehicle-type" name="vehicleType">
+                    <option value="">Select vehicle type</option>
+                    <option value="TRUCK" selected>TRUCK</option>
+                    <option value="PICKUP">PICKUP</option>
+                    <option value="TRUCK TRAILER">TRUCK TRAILER</option>
+                    <option value="DUMPER TRUCK">DUMPER TRUCK</option>
+                    <option value="OIL TANKER">OIL TANKER</option>
+                    <option value="GAS BOWSER">GAS BOWSER</option>
+                    <option value="GAS BOWSER TRAILER">GAS BOWSER TRAILER</option>
+                  </select>
+                </div>
+                <div class="field field-full">
+                  <label for="full-name">Full Name</label>
+                  <input type="text" id="full-name" name="fullName" value="Mr. NAJEEB ULLAH">
+                </div>
+                <div class="field">
+                  <label for="cnic-ntn">CNIC/NTN No</label>
+                  <input type="text" id="cnic-ntn" name="cnicNtn" value="54401-1502793-1">
+                </div>
+                <div class="field">
+                  <label for="permit-registration">Registration No</label>
+                  <input type="text" id="permit-registration" name="registrationNo" value="TAC-466">
+                </div>
+                <div class="field field-full">
+                  <label for="owner-address">Owner Address</label>
+                  <input type="text" id="owner-address" name="ownerAddress" value="MOH KHAIR ROAD MOH ANDAR COLONY PASHTOON QUETTA">
+                </div>
+                <div class="field field-full">
+                  <label for="valid-upto">Authentication Valid Upto</label>
+                  <input type="date" id="valid-upto" name="validUpto" value="2028-08-26">
+                </div>
+                <div class="field field-full">
+                  <label for="route-details">Route Details</label>
+                  <textarea id="route-details" name="routeDetails" rows="5">KARACHI, TANDO M KHAN, THATTA, TANDO ALLAH YAR, MATIARI, JAMSHORO, DADU, BADIN, SUJAWWAL, HYDERABAD, KAMBER SHAHDADKOT, LARKANA, SHIKARPUR, JACOBABAD, KASHMORE KANDHKOT, KHAIRPUR, SUKKUR, GHOTKI, THARPARKAR MITHI, MIRPURKHAS, UMERKOT, SHAHEED BENAZIRABAD, NAUSHEHROFEROZE, SANGHAR</textarea>
+                </div>
+                <div class="field field-full">
+                  <label for="signatory-title">Signatory Title</label>
+                  <input type="text" id="signatory-title" name="signatoryTitle" value="SECRETARY">
+                </div>
+                <div class="field field-full">
+                  <label for="signatory-authority">Signatory Authority</label>
+                  <input type="text" id="signatory-authority" name="signatoryAuthority" value="PROVINCIAL TRANSPORT AUTHORITY, SINDH">
+                </div>
+                <div class="field field-full">
+                  <label for="urdu-footer">Urdu Footer Text</label>
+                  <textarea id="urdu-footer" name="urduFooter" rows="4">ضروری ہدایات۔ گاڑیوں کے آپریٹرز (مالکان / ڈرائیورز) انسانی جانوں کے تحفظ کے پیش نظر انڈس ہائی وے اور مہران ہائی وے کے ممنوعہ علاقوں میں سفر نہیں کریں گے۔
+فوری طبی امداد کا باکس رکھیں، آگ بجھانے کا آلہ لازمی رکھیں، بس میں ایمرجنسی گیٹ لازمی ہے۔</textarea>
+                </div>
+                <div class="field field-full">
+                  <label for="signatory-city">Signatory City</label>
+                  <input type="text" id="signatory-city" name="signatoryCity" value="KARACHI">
+                </div>
+              </div>
+            </form>
+
+            <div class="permit-edit-save-section">
+              <p class="permit-edit-save-intro">Save, load, and manage your route permits. Vehicle/result fields are saved with each permit.</p>
+              <div class="permit-save-actions">
+                <button type="button" id="save-permit-btn" class="submit-btn submit-btn-secondary">Save Permit</button>
+                <button type="button" id="new-permit-btn" class="permit-action-btn">New Permit</button>
+                <p id="permit-save-status" class="permit-save-status" aria-live="polite"></p>
+              </div>
+            </div>
+          </div>
+
+          <div id="permit-tab-saved" class="permit-tab-panel" role="tabpanel" aria-labelledby="permit-tab-btn-saved" hidden>
+            <div class="permit-saved-section">
+              <div class="permit-saved-search field">
+                <label for="saved-permits-search">Search saved permits</label>
+                <input
+                  type="search"
+                  id="saved-permits-search"
+                  placeholder="Name, R.P. no., registration, CNIC..."
+                  autocomplete="off"
+                  enterkeyhint="search"
+                >
+              </div>
+              <ul id="saved-permits-list" class="permit-saved-list"></ul>
+              <p id="saved-permits-empty" class="permit-saved-empty">No saved permits yet. Go to Edit Permit, fill the form, and click Save Permit.</p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="panel-permit-live" aria-label="Route permit live preview">
+          <button type="button" id="print-permit-btn" class="permit-print-btn">Print A4</button>
+            <div class="permit-live-preview" id="permit-print-area">
+            <div class="permit-frame" aria-hidden="true"></div>
+            <div class="permit-inner-border" aria-hidden="true"></div>
+            <div class="permit-live-watermark" aria-hidden="true"></div>
+            <div class="permit-live-content">
+              <div class="permit-header-band">
+                <img class="permit-live-emblem" src="assets/sindh-emblem.png" alt="">
+                <div class="permit-header-text">
+                  <header class="permit-live-header permit-live-header-top">
+                    <h3>PROVINCIAL TRANSPORT AUTHORITY, SINDH, KARACHI</h3>
+                    <p>GOVERNMENT OF SINDH</p>
+                  </header>
+                  <section class="permit-live-summary">
+                    <p>SUMMARY TO BE CARRIED ON THE VEHICLE</p>
+                    <p class="permit-live-auth">Authentication of Route Permit</p>
+                  </section>
+                </div>
+                <div class="permit-header-qr-col">
+                  <canvas id="permit-qr-code" class="permit-qr-code" aria-label="Result page QR code"></canvas>
+                  <div class="permit-live-rp">R.P. NO. <span id="preview-rp-no">466/013</span></div>
+                </div>
+              </div>
+
+              <p class="permit-live-vehicle">Vehicle Type: <span id="preview-vehicle-type">TRUCK</span></p>
+
+              <ol class="permit-data-list">
+                <li>
+                  <span class="permit-data-label">Full Name</span>
+                  <span class="permit-data-value permit-value-as-entered" id="preview-full-name">Mr. NAJEEB ULLAH</span>
+                </li>
+                <li>
+                  <span class="permit-data-label">CNIC/NTN No</span>
+                  <span class="permit-data-value" id="preview-cnic">54401-1502793-1</span>
+                </li>
+                <li>
+                  <span class="permit-data-label">Owner Address</span>
+                  <span class="permit-data-value" id="preview-address">MOH KHAIR ROAD MOH ANDAR COLONY PASHTOON QUETTA</span>
+                </li>
+                <li>
+                  <span class="permit-data-label">Registration No</span>
+                  <span class="permit-data-value" id="preview-registration">TAC-466</span>
+                </li>
+                <li>
+                  <span class="permit-data-label">Authentication Valid Upto</span>
+                  <span class="permit-data-value" id="preview-valid-upto">26/08/2028</span>
+                </li>
+                <li>
+                  <span class="permit-data-label">Route Details</span>
+                  <span class="permit-data-value" id="preview-route-details">KARACHI, TANDO M KHAN, THATTA, TANDO ALLAH YAR, MATIARI, JAMSHORO, DADU, BADIN, SUJAWWAL, HYDERABAD, KAMBER SHAHDADKOT, LARKANA, SHIKARPUR, JACOBABAD, KASHMORE KANDHKOT, KHAIRPUR, SUKKUR, GHOTKI, THARPARKAR MITHI, MIRPURKHAS, UMERKOT, SHAHEED BENAZIRABAD, NAUSHEHROFEROZE, SANGHAR</span>
+                </li>
+              </ol>
+
+              <div class="permit-bottom-area">
+                <footer class="permit-signatory">
+                  <p id="preview-signatory-title">SECRETARY</p>
+                  <p id="preview-signatory-authority">PROVINCIAL TRANSPORT AUTHORITY, SINDH</p>
+                  <p id="preview-signatory-city">KARACHI</p>
+                </footer>
+                <div class="permit-urdu-box" id="preview-urdu-footer">ضروری ہدایات۔ گاڑیوں کے آپریٹرز (مالکان / ڈرائیورز) انسانی جانوں کے تحفظ کے پیش نظر انڈس ہائی وے اور مہران ہائی وے کے ممنوعہ علاقوں میں سفر نہیں کریں گے۔
+فوری طبی امداد کا باکس رکھیں، آگ بجھانے کا آلہ لازمی رکھیں، بس میں ایمرجنسی گیٹ لازمی ہے۔</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </div>
+
+  <script src="config.js?v=3"></script>
+  <script src="auth.js?v=4"></script>
+  <script>
+    (function bootstrapAuth() {
+      if (typeof redirectResultHashToPublicPage === "function") {
+        if (redirectResultHashToPublicPage()) return;
+      } else if (window.location.hash) {
+        const params = new URLSearchParams(window.location.hash.slice(1));
+        if (params.has("registration") || params.has("chassis") || params.has("engine")) {
+          window.location.replace(`result.html${window.location.hash}`);
+          return;
+        }
+      }
+
+      if (typeof requireAuth === "function") {
+        requireAuth();
+      } else if (sessionStorage.getItem("vehicleDetailAuth") !== "true") {
+        window.location.replace(new URL("login.html", window.location.href).href);
+      }
+    })();
+
+    document.getElementById("logout-btn")?.addEventListener("click", () => {
+      if (typeof logoutAndRedirect === "function") {
+        logoutAndRedirect();
+        return;
+      }
+
+      sessionStorage.removeItem("vehicleDetailAuth");
+      const loginUrl = new URL("login.html", window.location.href);
+      loginUrl.searchParams.set("loggedOut", "1");
+      window.location.replace(loginUrl.href);
+    });
+
+    (function initPasswordChanger() {
+      const dialog = document.getElementById("password-dialog");
+      const form = document.getElementById("password-form");
+      const status = document.getElementById("password-form-status");
+      const openBtn = document.getElementById("change-password-btn");
+      if (!dialog || !form || !openBtn) return;
+
+      function setStatus(message, isError) {
+        if (!status) return;
+        if (!message) {
+          status.hidden = true;
+          status.textContent = "";
+          status.classList.remove("is-error", "is-success");
+          return;
+        }
+        status.hidden = false;
+        status.textContent = message;
+        status.classList.toggle("is-error", Boolean(isError));
+        status.classList.toggle("is-success", !isError);
+      }
+
+      function closeDialog() {
+        form.reset();
+        setStatus("");
+        if (typeof dialog.close === "function") {
+          dialog.close();
+        }
+      }
+
+      function openDialog() {
+        form.reset();
+        setStatus("");
+        if (typeof dialog.showModal === "function") {
+          dialog.showModal();
+          document.getElementById("current-password")?.focus();
+        }
+      }
+
+      openBtn.addEventListener("click", openDialog);
+      document.getElementById("password-cancel-btn")?.addEventListener("click", closeDialog);
+      document.getElementById("password-dialog-close")?.addEventListener("click", closeDialog);
+
+      dialog.addEventListener("cancel", (event) => {
+        event.preventDefault();
+        closeDialog();
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const currentPassword = document.getElementById("current-password")?.value || "";
+        const newPassword = document.getElementById("new-password")?.value || "";
+        const confirmPassword = document.getElementById("confirm-password")?.value || "";
+
+        if (newPassword !== confirmPassword) {
+          setStatus("New password and confirmation do not match.", true);
+          return;
+        }
+
+        if (typeof changePassword !== "function") {
+          setStatus("Password changer is unavailable.", true);
+          return;
+        }
+
+        const result = changePassword(currentPassword, newPassword);
+        setStatus(result.message, !result.ok);
+        if (result.ok) {
+          form.reset();
+          window.setTimeout(closeDialog, 1200);
+        }
+      });
+    })();
+  </script>
+  <script src="qrcode.min.js"></script>
+  <script src="theme.js?v=1"></script>
+  <script src="app.js?v=24"></script>
+</body>
+</html>

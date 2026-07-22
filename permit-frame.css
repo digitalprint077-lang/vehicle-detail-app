@@ -1,0 +1,143 @@
+/* Permit sheet — A4 with slight gap from paper edges */
+.permit-live-preview,
+.permit-document {
+  --permit-page-gap: 4mm;
+  --permit-sheet-w: 202mm;
+  --permit-sheet-h: 289mm;
+  --permit-frame-bleed: 0mm;
+  --permit-inner-inset: 12mm 10mm 13mm 10mm;
+  --permit-fs-vehicle: 14pt;
+  --permit-fs-body: 10.5pt;
+  --permit-fs-summary: 9pt;
+  --permit-fs-data: 8.5pt;
+  --permit-fs-header-sub: 9.5pt;
+  --permit-fs-small: 8.5pt;
+  --permit-data-list-shift: 36mm;
+  --permit-data-list-x-shift: 5mm;
+  --permit-data-row-gap: 4mm;
+  --permit-signatory-gap: 18mm;
+  --permit-signatory-shift: -8mm;
+  --permit-rp-shift: 26mm;
+  --permit-vehicle-shift: 16mm;
+  --permit-watermark-size: 118mm;
+  position: relative;
+  box-sizing: border-box;
+  width: var(--permit-sheet-w);
+  height: var(--permit-sheet-h);
+  min-height: var(--permit-sheet-h);
+  background: #fff;
+  color: #111;
+  overflow: hidden;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.permit-frame {
+  position: absolute;
+  inset: calc(-1 * var(--permit-frame-bleed));
+  z-index: 4;
+  pointer-events: none;
+  background: url("assets/permit-border-frame.png") no-repeat center / 100% 100%;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.permit-inner-border {
+  display: none;
+}
+
+.permit-live-watermark,
+.permit-watermark {
+  z-index: 0;
+}
+
+.permit-live-content,
+.permit-content {
+  position: absolute;
+  inset: var(--permit-inner-inset);
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 4mm 6mm 3mm;
+  min-height: 0;
+}
+
+.permit-header-qr-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2mm;
+}
+
+.permit-header-qr-col .permit-live-rp,
+.permit-header-qr-col .permit-rp-block {
+  margin: 0;
+  transform: translateY(var(--permit-rp-shift));
+  text-align: right;
+  font-size: var(--permit-fs-small);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.permit-live-vehicle,
+.permit-vehicle-type {
+  transform: translateY(var(--permit-vehicle-shift));
+}
+
+.permit-data-list {
+  margin: 0;
+  transform: translateY(var(--permit-data-list-shift));
+}
+
+.permit-data-label {
+  transform: translateX(var(--permit-data-list-x-shift));
+}
+
+.permit-bottom-area {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4mm;
+}
+
+.permit-signatory {
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: 2mm;
+  margin-bottom: var(--permit-signatory-gap);
+  transform: translateY(var(--permit-signatory-shift));
+  text-align: center;
+}
+
+.permit-urdu-box {
+  border: 0.35mm solid #111;
+  border-radius: 2.5mm;
+  padding: 2.5mm 4mm;
+  font-size: var(--permit-fs-small);
+  font-weight: 700;
+  line-height: 1.55;
+  text-align: center;
+  direction: rtl;
+  white-space: pre-line;
+  font-family: "Jameel Noori Nastaleeq", "Urdu Typesetting", "Noto Nastaliq Urdu", serif;
+}
+
+@media print {
+  .permit-live-preview,
+  .permit-document {
+    background: #fff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .permit-frame,
+  .permit-inner-border {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .permit-inner-border {
+    display: none !important;
+  }
+}
