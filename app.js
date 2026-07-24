@@ -1,7 +1,10 @@
 const form = document.getElementById("vehicle-form");
+const fitnessForm = document.getElementById("fitness-form");
 const permitForm = document.getElementById("route-permit-form");
 const permitQrCanvas = document.getElementById("permit-qr-code");
+const fitnessQrCanvas = document.getElementById("fitness-qr-code");
 const SAVED_PERMITS_KEY = "vehicleDetailSavedPermits";
+const SAVED_FITNESS_KEY = "vehicleDetailSavedFitness";
 
 const NEW_PERMIT_DEFAULTS = {
   routeDetails:
@@ -14,6 +17,7 @@ const NEW_PERMIT_DEFAULTS = {
 };
 
 let activeSavedPermitId = null;
+let activeSavedFitnessId = null;
 let isSyncingRegistration = false;
 function getFormDataObject() {
   if (!form) {
@@ -88,6 +92,43 @@ function getResultPageUrl() {
   return new URL("result.html", window.location.href).href.split("#")[0];
 }
 
+function getFitnessPageUrl() {
+  return new URL("fitness.html", window.location.href).href.split("#")[0];
+}
+
+function getResultLink(data) {
+  const params = buildParamsFromData(data || getFormDataObject());
+  return `${getResultPageUrl()}#${params.toString()}`;
+}
+
+function getFitnessFormDataObject() {
+  if (!fitnessForm) {
+    return {
+      registration: document.getElementById("fitness-registration")?.value || "",
+      chassis: document.getElementById("fitness-chassis")?.value || "",
+      engine: document.getElementById("fitness-engine")?.value || "",
+      issueDate: document.getElementById("fitness-issue-date")?.value || "",
+      expiryDate: document.getElementById("fitness-expiry-date")?.value || "",
+      status: document.getElementById("fitness-status")?.value || "",
+    };
+  }
+
+  const data = new FormData(fitnessForm);
+  return {
+    registration: data.get("registration") || "",
+    chassis: data.get("chassis") || "",
+    engine: data.get("engine") || "",
+    issueDate: data.get("issueDate") || "",
+    expiryDate: data.get("expiryDate") || "",
+    status: data.get("status") || "",
+  };
+}
+
+function getFitnessLink(data) {
+  const params = buildParamsFromData(data || getFitnessFormDataObject());
+  return `${getFitnessPageUrl()}#${params.toString()}`;
+}
+
 const permitPreviewFields = {
   rpNo: document.getElementById("preview-rp-no"),
   vehicleType: document.getElementById("preview-vehicle-type"),
@@ -124,11 +165,6 @@ function formatPermitDate(value) {
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
-}
-
-function getResultLink(data) {
-  const params = buildParamsFromData(data || getFormDataObject());
-  return `${getResultPageUrl()}#${params.toString()}`;
 }
 
 function updatePermitPreview() {
@@ -176,8 +212,50 @@ async function updatePermitQrCode() {
   }
 }
 
-function openResultTab(data) {
-  const url = getResultLink(data);
+async function updateFitnessQrCode() {
+  if (!fitnessQrCanvas) return;
+
+  const link = getFitnessLink();
+  const linkLabel = document.getElementById("fitness-qr-link");
+  if (linkLabel) {
+    linkLabel.textContent = link;
+  }
+
+  try {
+    if (window.QRCode) {
+      await QRCode.toCanvas(fitnessQrCanvas, link, {
+        width: 180,
+        margin: 1,
+        color: { dark: "#212121", light: "#ffffff" },
+      });
+      return;
+    }
+  } catch (error) {
+    console.error("Fitness QR render failed:", error);
+  }
+
+  const ctx = fitnessQrCanvas.getContext("2d");
+  if (ctx) {
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, fitnessQrCanvas.width, fitnessQrCanvas.height);
+  }
+}
+
+function onFitnessFormChange() {
+  updateFitnessQrCode();
+}
+
+function downloadFitnessQr() {
+  if (!fitnessQrCanvas) return;
+  const link = document.createElement("a");
+  link.download = "fitness-qr.png";
+  link.href = fitnessQrCanvas.toDataURL("image/png");
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+function openResultPage(url) {
   const link = document.createElement("a");
   link.href = url;
   link.target = "_blank";
@@ -185,6 +263,14 @@ function openResultTab(data) {
   document.body.appendChild(link);
   link.click();
   link.remove();
+}
+
+function openResultTab(data) {
+  openResultPage(getResultLink(data));
+}
+
+function openFitnessTab(data) {
+  openResultPage(getFitnessLink(data));
 }
 
 function syncRegistrationFields(source) {
@@ -276,6 +362,13 @@ function setPermitSaveStatus(message, isError = false) {
   status.style.color = isError ? "var(--panel-danger)" : "var(--panel-success)";
 }
 
+function setFitnessSaveStatus(message, isError = false) {
+  const status = document.getElementById("fitness-save-status");
+  if (!status) return;
+  status.textContent = message;
+  status.style.color = isError ? "var(--panel-danger)" : "var(--panel-success)";
+}
+
 function applyPermitDataToForm(permit) {
   if (!permitForm || !permit) return;
 
@@ -318,6 +411,26 @@ function applyVehicleDataToForm(vehicle) {
     const input = document.getElementById(id);
     if (input && vehicle[key] !== undefined) {
       input.value = vehicle[key];
+    }
+  });
+}
+
+function applyFitnessDataToForm(fitness) {
+  if (!fitnessForm || !fitness) return;
+
+  const fields = {
+    registration: "fitness-registration",
+    chassis: "fitness-chassis",
+    engine: "fitness-engine",
+    issueDate: "fitness-issue-date",
+    expiryDate: "fitness-expiry-date",
+    status: "fitness-status",
+  };
+
+  Object.entries(fields).forEach(([key, id]) => {
+    const input = document.getElementById(id);
+    if (input && fitness[key] !== undefined) {
+      input.value = fitness[key];
     }
   });
 }
@@ -418,6 +531,249 @@ function renderSavedPermitsList() {
     item.append(info, buttons);
     list.appendChild(item);
   });
+}
+
+function getSavedFitness() {
+  try {
+    const raw = localStorage.getItem(SAVED_FITNESS_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.error("Failed to read saved fitness records:", error);
+    return [];
+  }
+}
+
+function setSavedFitness(records) {
+  localStorage.setItem(SAVED_FITNESS_KEY, JSON.stringify(records));
+}
+
+function getFitnessLabel(fitness) {
+  const registration = fitness.registration?.trim() || "No Reg";
+  const engine = fitness.engine?.trim();
+  const status = fitness.status?.trim();
+  if (engine && status) {
+    return `${registration} · ${engine} · ${status}`;
+  }
+  if (engine) {
+    return `${registration} · ${engine}`;
+  }
+  return registration;
+}
+
+function getSavedFitnessSearchText(entry) {
+  const fitness = entry.fitness || {};
+  return [
+    entry.label,
+    getFitnessLabel(fitness),
+    fitness.registration,
+    fitness.chassis,
+    fitness.engine,
+    fitness.status,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+function matchesSavedFitnessSearch(entry, query) {
+  const normalized = query.trim().toLowerCase();
+  if (!normalized) return true;
+  return getSavedFitnessSearchText(entry).includes(normalized);
+}
+
+function renderSavedFitnessList() {
+  const list = document.getElementById("saved-fitness-list");
+  const empty = document.getElementById("saved-fitness-empty");
+  const count = document.getElementById("saved-fitness-count");
+  const searchInput = document.getElementById("saved-fitness-search");
+  if (!list || !empty || !count) return;
+
+  const query = searchInput?.value || "";
+  const allRecords = getSavedFitness().sort(
+    (a, b) => new Date(b.updatedAt || b.savedAt) - new Date(a.updatedAt || a.savedAt)
+  );
+  const records = allRecords.filter((entry) => matchesSavedFitnessSearch(entry, query));
+
+  count.textContent = String(allRecords.length);
+  list.innerHTML = "";
+
+  if (!allRecords.length) {
+    list.classList.add("is-hidden");
+    empty.classList.remove("is-hidden");
+    empty.textContent =
+      "No saved fitness records yet. Go to Edit Fitness, fill the form, and click Save Fitness.";
+    return;
+  }
+
+  if (!records.length) {
+    list.classList.add("is-hidden");
+    empty.classList.remove("is-hidden");
+    empty.textContent = `No fitness records match "${query.trim()}".`;
+    return;
+  }
+
+  list.classList.remove("is-hidden");
+  empty.classList.add("is-hidden");
+  empty.textContent =
+    "No saved fitness records yet. Go to Edit Fitness, fill the form, and click Save Fitness.";
+
+  records.forEach((entry) => {
+    const item = document.createElement("li");
+    item.className = "permit-saved-item";
+    if (entry.id === activeSavedFitnessId) {
+      item.classList.add("is-active");
+    }
+
+    const info = document.createElement("div");
+    info.className = "permit-saved-info";
+    info.innerHTML = `
+      <strong>${entry.label || getFitnessLabel(entry.fitness)}</strong>
+      <span>Saved ${formatSavedDate(entry.updatedAt || entry.savedAt)}</span>
+    `;
+
+    const buttons = document.createElement("div");
+    buttons.className = "permit-saved-buttons";
+
+    const loadBtn = document.createElement("button");
+    loadBtn.type = "button";
+    loadBtn.className = "permit-saved-btn permit-saved-btn-load";
+    loadBtn.textContent = "Load";
+    loadBtn.addEventListener("click", () => loadSavedFitness(entry.id));
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.type = "button";
+    deleteBtn.className = "permit-saved-btn permit-saved-btn-delete";
+    deleteBtn.textContent = "Delete";
+    deleteBtn.addEventListener("click", () => deleteSavedFitness(entry.id));
+
+    buttons.append(loadBtn, deleteBtn);
+    item.append(info, buttons);
+    list.appendChild(item);
+  });
+}
+
+function saveCurrentFitness() {
+  const fitness = getFitnessFormDataObject();
+  const now = new Date().toISOString();
+  const records = getSavedFitness();
+  const label = getFitnessLabel(fitness);
+
+  if (activeSavedFitnessId) {
+    const index = records.findIndex((entry) => entry.id === activeSavedFitnessId);
+    if (index !== -1) {
+      records[index] = {
+        ...records[index],
+        label,
+        fitness,
+        updatedAt: now,
+      };
+      setSavedFitness(records);
+      renderSavedFitnessList();
+      setFitnessSaveStatus(`Updated: ${label}`);
+      return;
+    }
+  }
+
+  const entry = {
+    id: createPermitId(),
+    label,
+    fitness,
+    savedAt: now,
+    updatedAt: now,
+  };
+
+  records.push(entry);
+  activeSavedFitnessId = entry.id;
+  setSavedFitness(records);
+  renderSavedFitnessList();
+  setFitnessSaveStatus(`Saved: ${label}`);
+}
+
+function loadSavedFitness(id) {
+  const entry = getSavedFitness().find((item) => item.id === id);
+  if (!entry) {
+    setFitnessSaveStatus("Saved fitness record not found.", true);
+    renderSavedFitnessList();
+    return;
+  }
+
+  activeSavedFitnessId = entry.id;
+  applyFitnessDataToForm(entry.fitness);
+  onFitnessFormChange();
+  renderSavedFitnessList();
+  switchFitnessTab("edit");
+  setFitnessSaveStatus(`Loaded: ${entry.label || getFitnessLabel(entry.fitness)}`);
+}
+
+function deleteSavedFitness(id) {
+  const entry = getSavedFitness().find((item) => item.id === id);
+  if (!entry) {
+    renderSavedFitnessList();
+    return;
+  }
+
+  const label = entry.label || getFitnessLabel(entry.fitness);
+  if (!window.confirm(`Delete saved fitness record?\n\n${label}`)) {
+    return;
+  }
+
+  const records = getSavedFitness().filter((item) => item.id !== id);
+  setSavedFitness(records);
+
+  if (activeSavedFitnessId === id) {
+    activeSavedFitnessId = null;
+  }
+
+  renderSavedFitnessList();
+  setFitnessSaveStatus(`Deleted: ${label}`);
+}
+
+function resetFormForNewFitness() {
+  applyFitnessDataToForm({
+    registration: "",
+    chassis: "",
+    engine: "",
+    issueDate: "",
+    expiryDate: "",
+    status: "Valid Certificate",
+  });
+}
+
+function startNewFitness() {
+  activeSavedFitnessId = null;
+  resetFormForNewFitness();
+  onFitnessFormChange();
+  renderSavedFitnessList();
+  switchFitnessTab("edit");
+  setFitnessSaveStatus("New fitness record started.");
+}
+
+function switchFitnessTab(tabName) {
+  const isEdit = tabName === "edit";
+  const editPanel = document.getElementById("fitness-tab-edit");
+  const savedPanel = document.getElementById("fitness-tab-saved");
+  const editBtn = document.getElementById("fitness-tab-btn-edit");
+  const savedBtn = document.getElementById("fitness-tab-btn-saved");
+
+  editPanel?.classList.toggle("is-active", isEdit);
+  savedPanel?.classList.toggle("is-active", !isEdit);
+  editBtn?.classList.toggle("is-active", isEdit);
+  savedBtn?.classList.toggle("is-active", !isEdit);
+  editBtn?.setAttribute("aria-selected", isEdit ? "true" : "false");
+  savedBtn?.setAttribute("aria-selected", isEdit ? "false" : "true");
+
+  if (editPanel) editPanel.hidden = !isEdit;
+  if (savedPanel) savedPanel.hidden = isEdit;
+}
+
+function initFitnessSaving() {
+  document.getElementById("save-fitness-btn")?.addEventListener("click", saveCurrentFitness);
+  document.getElementById("new-fitness-btn")?.addEventListener("click", startNewFitness);
+  document.getElementById("fitness-tab-btn-edit")?.addEventListener("click", () => switchFitnessTab("edit"));
+  document.getElementById("fitness-tab-btn-saved")?.addEventListener("click", () => switchFitnessTab("saved"));
+  document.getElementById("saved-fitness-search")?.addEventListener("input", renderSavedFitnessList);
+  renderSavedFitnessList();
 }
 
 function saveCurrentPermit() {
@@ -565,6 +921,16 @@ form?.addEventListener("submit", (event) => {
   openResultTab(getFormDataObject());
 });
 
+fitnessForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  openFitnessTab(getFitnessFormDataObject());
+});
+
+fitnessForm?.addEventListener("input", onFitnessFormChange);
+fitnessForm?.addEventListener("change", onFitnessFormChange);
+
+document.getElementById("fitness-qr-download-btn")?.addEventListener("click", downloadFitnessQr);
+
 permitForm?.addEventListener("input", onPermitFormChange);
 permitForm?.addEventListener("change", onPermitFormChange);
 
@@ -581,4 +947,6 @@ window.addEventListener("afterprint", () => {
 });
 
 initPermitSaving();
+initFitnessSaving();
 onPermitFormChange();
+onFitnessFormChange();

@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" href="assets/sindh-emblem.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/sindh-emblem.png">
   <title>Route Permit</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -24,33 +24,34 @@
       <dl class="result-list">
         <div class="result-row">
           <dt>Registration#:</dt>
-          <dd id="result-registration">-</dd>
+          <dd data-result-field="registration">-</dd>
         </div>
         <div class="result-row">
           <dt>Chassis#:</dt>
-          <dd id="result-chassis">-</dd>
+          <dd data-result-field="chassis">-</dd>
         </div>
         <div class="result-row">
           <dt>Engine#:</dt>
-          <dd id="result-engine">-</dd>
+          <dd data-result-field="engine">-</dd>
         </div>
         <div class="result-row">
           <dt>Issue Date:</dt>
-          <dd id="result-issue-date">-</dd>
+          <dd data-result-field="issueDate">-</dd>
         </div>
         <div class="result-row">
           <dt>Expiry Date:</dt>
-          <dd id="result-expiry-date">-</dd>
+          <dd data-result-field="expiryDate">-</dd>
         </div>
         <div class="result-row">
           <dt>Status:</dt>
-          <dd id="result-status" class="status-value">-</dd>
+          <dd data-result-field="status" class="status-value">-</dd>
         </div>
       </dl>
     </section>
   </main>
 
+  <script src="result-display.js?v=1"></script>
   <script src="cursor.js?v=3"></script>
-  <script src="result.js?v=2"></script>
+  <script src="result.js?v=3"></script>
 </body>
 </html>
