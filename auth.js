@@ -30,7 +30,11 @@ function setActivePassword(password) {
 }
 
 function isAuthenticated() {
-  return sessionStorage.getItem(AUTH_SESSION_KEY) === "true";
+  try {
+    return localStorage.getItem(AUTH_SESSION_KEY) === "true";
+  } catch (error) {
+    return false;
+  }
 }
 
 function login(username, password) {
@@ -38,7 +42,11 @@ function login(username, password) {
   const validPass = getActivePassword();
 
   if (username === validUser && password === validPass) {
-    sessionStorage.setItem(AUTH_SESSION_KEY, "true");
+    try {
+      localStorage.setItem(AUTH_SESSION_KEY, "true");
+    } catch (error) {
+      return false;
+    }
     return true;
   }
 
@@ -76,7 +84,11 @@ function changePassword(currentPassword, newPassword) {
 }
 
 function logout() {
-  sessionStorage.removeItem(AUTH_SESSION_KEY);
+  try {
+    localStorage.removeItem(AUTH_SESSION_KEY);
+  } catch (error) {
+    // ignore storage errors
+  }
 }
 
 function logoutAndRedirect() {

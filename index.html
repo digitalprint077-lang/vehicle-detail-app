@@ -19,7 +19,7 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="panel.css?v=33">
+  <link rel="stylesheet" href="panel.css?v=41">
   <link rel="stylesheet" href="permit-frame.css?v=44">
   <link rel="stylesheet" href="permit-print.css?v=43">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,17 +29,26 @@
 <body class="panel-page">
   <div class="panel-shell">
     <header class="panel-topbar">
-      <div class="panel-brand">
-        <span class="panel-eyebrow">Admin Panel</span>
-        <h1 class="page-title">Vehicle Detail</h1>
+      <div class="panel-brand panel-brand-row">
+        <img class="panel-brand-emblem" src="assets/sindh-emblem.png" alt="">
+        <div>
+          <span class="panel-eyebrow">Admin Panel</span>
+          <h1 class="page-title">Vehicle Detail</h1>
+        </div>
       </div>
       <div class="panel-topbar-actions">
         <button type="button" id="theme-toggle-btn" class="theme-toggle-btn" data-theme-toggle aria-label="Switch to night mode" aria-pressed="false">
-          <span class="theme-toggle-icon" aria-hidden="true">&#9790;</span>
+          <span class="theme-toggle-icon" data-icon="moon" aria-hidden="true"></span>
           <span class="theme-toggle-label">Night</span>
         </button>
-        <button type="button" id="change-password-btn" class="panel-logout-btn">Change Password</button>
-        <button type="button" id="logout-btn" class="panel-logout-btn">Logout</button>
+        <button type="button" id="change-password-btn" class="panel-logout-btn btn-with-icon">
+          <span data-icon="key" aria-hidden="true"></span>
+          <span class="btn-label">Change Password</span>
+        </button>
+        <button type="button" id="logout-btn" class="panel-logout-btn btn-with-icon panel-logout-btn-danger">
+          <span data-icon="logout" aria-hidden="true"></span>
+          <span class="btn-label">Logout</span>
+        </button>
       </div>
     </header>
 
@@ -53,15 +62,24 @@
         <p id="password-form-status" class="password-form-status" aria-live="polite" hidden></p>
         <div class="field">
           <label for="current-password">Current password</label>
-          <input type="password" id="current-password" name="currentPassword" autocomplete="current-password" required>
+          <div class="panel-input-shell">
+            <span class="panel-input-icon" data-icon="lock" aria-hidden="true"></span>
+            <input type="password" id="current-password" name="currentPassword" autocomplete="current-password" required>
+          </div>
         </div>
         <div class="field">
           <label for="new-password">New password</label>
-          <input type="password" id="new-password" name="newPassword" autocomplete="new-password" minlength="6" required>
+          <div class="panel-input-shell">
+            <span class="panel-input-icon" data-icon="key" aria-hidden="true"></span>
+            <input type="password" id="new-password" name="newPassword" autocomplete="new-password" minlength="6" required>
+          </div>
         </div>
         <div class="field">
           <label for="confirm-password">Confirm new password</label>
-          <input type="password" id="confirm-password" name="confirmPassword" autocomplete="new-password" minlength="6" required>
+          <div class="panel-input-shell">
+            <span class="panel-input-icon" data-icon="shield" aria-hidden="true"></span>
+            <input type="password" id="confirm-password" name="confirmPassword" autocomplete="new-password" minlength="6" required>
+          </div>
         </div>
         <div class="password-dialog-actions">
           <button type="button" id="password-cancel-btn" class="permit-action-btn">Cancel</button>
@@ -70,8 +88,21 @@
       </form>
     </dialog>
 
-    <section class="panel-hero">
-      <p class="panel-hero-text">Manage route permit and fitness certificate records, build the official permit preview, and open separate public result pages.</p>
+    <nav class="panel-main-tabs" role="tablist" aria-label="Admin sections">
+      <button type="button" class="panel-main-tab is-active btn-with-icon" id="panel-main-tab-btn-route" role="tab" aria-selected="true" aria-controls="panel-main-tab-route">
+        <span data-icon="truck" aria-hidden="true"></span>
+        <span>Route Permit</span>
+      </button>
+      <button type="button" class="panel-main-tab btn-with-icon" id="panel-main-tab-btn-fitness" role="tab" aria-selected="false" aria-controls="panel-main-tab-fitness">
+        <span data-icon="certificate" aria-hidden="true"></span>
+        <span>Fitness Certificate</span>
+      </button>
+    </nav>
+
+    <div id="panel-main-tab-route" class="panel-main-tab-panel is-active" role="tabpanel" aria-labelledby="panel-main-tab-btn-route">
+    <section class="panel-hero panel-hero-modern">
+      <div class="panel-hero-icon" data-icon="truck" aria-hidden="true"></div>
+      <p class="panel-hero-text">Manage vehicle records, build the official route permit preview, and open the public route permit result page.</p>
     </section>
 
     <section class="panel-card panel-form-card">
@@ -84,133 +115,60 @@
           <div class="panel-form-grid">
             <div class="field">
               <label for="registration">Registration#</label>
-              <input type="text" id="registration" name="registration" value="JV-3805" placeholder="e.g. JV-3805" required>
+              <div class="panel-input-shell">
+                <span class="panel-input-icon" data-icon="hash" aria-hidden="true"></span>
+                <input type="text" id="registration" name="registration" value="JV-3805" placeholder="e.g. JV-3805" required>
+              </div>
             </div>
             <div class="field">
               <label for="engine">Engine#</label>
-              <input type="text" id="engine" name="engine" value="6HH102666P" placeholder="e.g. 6HH102666P" required>
+              <div class="panel-input-shell">
+                <span class="panel-input-icon" data-icon="cog" aria-hidden="true"></span>
+                <input type="text" id="engine" name="engine" value="6HH102666P" placeholder="e.g. 6HH102666P" required>
+              </div>
             </div>
             <div class="field field-full">
               <label for="chassis">Chassis#</label>
-              <input type="text" id="chassis" name="chassis" value="JALFTR33KH-7000279" placeholder="e.g. JALFTR33KH-7000279" required>
+              <div class="panel-input-shell">
+                <span class="panel-input-icon" data-icon="layers" aria-hidden="true"></span>
+                <input type="text" id="chassis" name="chassis" value="JALFTR33KH-7000279" placeholder="e.g. JALFTR33KH-7000279" required>
+              </div>
             </div>
             <div class="field">
               <label for="issue-date">Issue Date</label>
-              <input type="date" id="issue-date" name="issueDate">
+              <div class="panel-input-shell">
+                <span class="panel-input-icon" data-icon="calendar" aria-hidden="true"></span>
+                <input type="date" id="issue-date" name="issueDate">
+              </div>
             </div>
             <div class="field">
               <label for="expiry-date">Expiry Date</label>
-              <input type="date" id="expiry-date" name="expiryDate">
+              <div class="panel-input-shell">
+                <span class="panel-input-icon" data-icon="calendar" aria-hidden="true"></span>
+                <input type="date" id="expiry-date" name="expiryDate">
+              </div>
             </div>
             <div class="field field-full">
               <label for="status">Status</label>
-              <select id="status" name="status">
-                <option value="Valid Certificate">Valid Certificate</option>
-                <option value="Expired">Expired</option>
-                <option value="Pending">Pending</option>
-                <option value="Invalid">Invalid</option>
-              </select>
+              <div class="panel-input-shell">
+                <span class="panel-input-icon" data-icon="shield" aria-hidden="true"></span>
+                <select id="status" name="status">
+                  <option value="Valid Certificate">Valid Certificate</option>
+                  <option value="Expired">Expired</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Invalid">Invalid</option>
+                </select>
+              </div>
             </div>
           </div>
 
           <div class="panel-result-actions">
-            <button type="submit" class="submit-btn">Show Route Permit</button>
+            <button type="submit" class="submit-btn btn-with-icon">
+              <span data-icon="eye" aria-hidden="true"></span>
+              <span>Show Route Permit</span>
+            </button>
           </div>
         </form>
-    </section>
-
-    <section class="panel-card panel-fitness-card">
-      <div class="panel-card-header">
-        <h2 class="card-title">Fitness Certificate</h2>
-        <span class="panel-badge">Fitness</span>
-      </div>
-
-      <div class="permit-tabs" role="tablist" aria-label="Fitness panel tabs">
-        <button type="button" class="permit-tab is-active" id="fitness-tab-btn-edit" role="tab" aria-selected="true" aria-controls="fitness-tab-edit">Edit Fitness</button>
-        <button type="button" class="permit-tab" id="fitness-tab-btn-saved" role="tab" aria-selected="false" aria-controls="fitness-tab-saved">
-          Saved Fitness
-          <span id="saved-fitness-count" class="permit-tab-count">0</span>
-        </button>
-      </div>
-
-      <div id="fitness-tab-edit" class="permit-tab-panel is-active" role="tabpanel" aria-labelledby="fitness-tab-btn-edit">
-        <div class="panel-fitness-layout">
-          <div class="panel-fitness-side">
-            <form id="fitness-form" class="vehicle-form" novalidate>
-          <div class="panel-form-grid">
-            <div class="field">
-              <label for="fitness-registration">Registration#</label>
-              <input type="text" id="fitness-registration" name="registration" value="JV-3805" placeholder="e.g. JV-3805" required>
-            </div>
-            <div class="field">
-              <label for="fitness-engine">Engine#</label>
-              <input type="text" id="fitness-engine" name="engine" value="6HH102666P" placeholder="e.g. 6HH102666P" required>
-            </div>
-            <div class="field field-full">
-              <label for="fitness-chassis">Chassis#</label>
-              <input type="text" id="fitness-chassis" name="chassis" value="JALFTR33KH-7000279" placeholder="e.g. JALFTR33KH-7000279" required>
-            </div>
-            <div class="field">
-              <label for="fitness-issue-date">Issue Date</label>
-              <input type="date" id="fitness-issue-date" name="issueDate">
-            </div>
-            <div class="field">
-              <label for="fitness-expiry-date">Expiry Date</label>
-              <input type="date" id="fitness-expiry-date" name="expiryDate">
-            </div>
-            <div class="field field-full">
-              <label for="fitness-status">Status</label>
-              <select id="fitness-status" name="status">
-                <option value="Valid Certificate">Valid Certificate</option>
-                <option value="Expired">Expired</option>
-                <option value="Pending">Pending</option>
-                <option value="Invalid">Invalid</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="panel-result-actions">
-            <button type="submit" class="submit-btn">Show Fitness Certificate</button>
-          </div>
-        </form>
-
-        <div class="permit-edit-save-section">
-          <p class="permit-edit-save-intro">Save, load, and manage fitness certificate records for quick reuse.</p>
-          <div class="permit-save-actions">
-            <button type="button" id="save-fitness-btn" class="submit-btn submit-btn-secondary">Save Fitness</button>
-            <button type="button" id="new-fitness-btn" class="permit-action-btn">New Fitness</button>
-            <p id="fitness-save-status" class="permit-save-status" aria-live="polite"></p>
-          </div>
-        </div>
-          </div>
-
-          <aside class="panel-qr-card" aria-label="Fitness result QR code">
-            <div class="qr-panel">
-              <p class="panel-qr-label">Scan for fitness result</p>
-              <canvas id="fitness-qr-code" class="qr-code" aria-label="Fitness result page QR code"></canvas>
-              <p id="fitness-qr-link" class="qr-link"></p>
-              <button type="button" id="fitness-qr-download-btn" class="qr-download-btn">Download QR</button>
-            </div>
-          </aside>
-        </div>
-      </div>
-
-      <div id="fitness-tab-saved" class="permit-tab-panel" role="tabpanel" aria-labelledby="fitness-tab-btn-saved" hidden>
-        <div class="permit-saved-section">
-          <div class="permit-saved-search field">
-            <label for="saved-fitness-search">Search saved fitness records</label>
-            <input
-              type="search"
-              id="saved-fitness-search"
-              placeholder="Registration, chassis, engine, status..."
-              autocomplete="off"
-              enterkeyhint="search"
-            >
-          </div>
-          <ul id="saved-fitness-list" class="permit-saved-list"></ul>
-          <p id="saved-fitness-empty" class="permit-saved-empty">No saved fitness records yet. Go to Edit Fitness, fill the form, and click Save Fitness.</p>
-        </div>
-      </div>
     </section>
 
     <section class="panel-card panel-permit-card">
@@ -222,9 +180,13 @@
       <div class="panel-permit-layout">
         <div class="panel-permit-side">
           <div class="permit-tabs" role="tablist" aria-label="Permit panel tabs">
-            <button type="button" class="permit-tab is-active" id="permit-tab-btn-edit" role="tab" aria-selected="true" aria-controls="permit-tab-edit">Edit Permit</button>
-            <button type="button" class="permit-tab" id="permit-tab-btn-saved" role="tab" aria-selected="false" aria-controls="permit-tab-saved">
-              Saved Permits
+            <button type="button" class="permit-tab is-active btn-with-icon" id="permit-tab-btn-edit" role="tab" aria-selected="true" aria-controls="permit-tab-edit">
+              <span data-icon="edit" aria-hidden="true"></span>
+              <span>Edit Permit</span>
+            </button>
+            <button type="button" class="permit-tab btn-with-icon" id="permit-tab-btn-saved" role="tab" aria-selected="false" aria-controls="permit-tab-saved">
+              <span data-icon="folder" aria-hidden="true"></span>
+              <span>Saved Permits</span>
               <span id="saved-permits-count" class="permit-tab-count">0</span>
             </button>
           </div>
@@ -234,61 +196,97 @@
               <div class="panel-form-grid panel-form-grid-single">
                 <div class="field">
                   <label for="rp-no">R.P. NO.</label>
-                  <input type="text" id="rp-no" name="rpNo" value="466/013" placeholder="e.g. 466/013">
+                  <div class="panel-input-shell">
+                    <span class="panel-input-icon" data-icon="edit" aria-hidden="true"></span>
+                    <input type="text" id="rp-no" name="rpNo" value="466/013" placeholder="e.g. 466/013">
+                  </div>
                 </div>
                 <div class="field">
                   <label for="vehicle-type">Vehicle Type</label>
-                  <select id="vehicle-type" name="vehicleType">
-                    <option value="">Select vehicle type</option>
-                    <option value="TRUCK" selected>TRUCK</option>
-                    <option value="PICKUP">PICKUP</option>
-                    <option value="TRUCK TRAILER">TRUCK TRAILER</option>
-                    <option value="DUMPER TRUCK">DUMPER TRUCK</option>
-                    <option value="OIL TANKER">OIL TANKER</option>
-                    <option value="GAS BOWSER">GAS BOWSER</option>
-                    <option value="GAS BOWSER TRAILER">GAS BOWSER TRAILER</option>
-                  </select>
+                  <div class="panel-input-shell">
+                    <span class="panel-input-icon" data-icon="truck" aria-hidden="true"></span>
+                    <select id="vehicle-type" name="vehicleType">
+                      <option value="">Select vehicle type</option>
+                      <option value="TRUCK" selected>TRUCK</option>
+                      <option value="PICKUP">PICKUP</option>
+                      <option value="TRUCK TRAILER">TRUCK TRAILER</option>
+                      <option value="DUMPER TRUCK">DUMPER TRUCK</option>
+                      <option value="OIL TANKER">OIL TANKER</option>
+                      <option value="GAS BOWSER">GAS BOWSER</option>
+                      <option value="GAS BOWSER TRAILER">GAS BOWSER TRAILER</option>
+                    </select>
+                  </div>
                 </div>
                 <div class="field field-full">
                   <label for="full-name">Full Name</label>
-                  <input type="text" id="full-name" name="fullName" value="Mr. NAJEEB ULLAH">
+                  <div class="panel-input-shell">
+                    <span class="panel-input-icon" data-icon="user" aria-hidden="true"></span>
+                    <input type="text" id="full-name" name="fullName" value="Mr. NAJEEB ULLAH">
+                  </div>
                 </div>
                 <div class="field">
                   <label for="cnic-ntn">CNIC/NTN No</label>
-                  <input type="text" id="cnic-ntn" name="cnicNtn" value="54401-1502793-1">
+                  <div class="panel-input-shell">
+                    <span class="panel-input-icon" data-icon="idcard" aria-hidden="true"></span>
+                    <input type="text" id="cnic-ntn" name="cnicNtn" value="54401-1502793-1">
+                  </div>
                 </div>
                 <div class="field">
                   <label for="permit-registration">Registration No</label>
-                  <input type="text" id="permit-registration" name="registrationNo" value="TAC-466">
+                  <div class="panel-input-shell">
+                    <span class="panel-input-icon" data-icon="hash" aria-hidden="true"></span>
+                    <input type="text" id="permit-registration" name="registrationNo" value="TAC-466">
+                  </div>
                 </div>
                 <div class="field field-full">
                   <label for="owner-address">Owner Address</label>
-                  <input type="text" id="owner-address" name="ownerAddress" value="MOH KHAIR ROAD MOH ANDAR COLONY PASHTOON QUETTA">
+                  <div class="panel-input-shell">
+                    <span class="panel-input-icon" data-icon="map" aria-hidden="true"></span>
+                    <input type="text" id="owner-address" name="ownerAddress" value="MOH KHAIR ROAD MOH ANDAR COLONY PASHTOON QUETTA">
+                  </div>
                 </div>
                 <div class="field field-full">
                   <label for="valid-upto">Authentication Valid Upto</label>
-                  <input type="date" id="valid-upto" name="validUpto" value="2028-08-26">
+                  <div class="panel-input-shell">
+                    <span class="panel-input-icon" data-icon="calendar" aria-hidden="true"></span>
+                    <input type="date" id="valid-upto" name="validUpto" value="2028-08-26">
+                  </div>
                 </div>
                 <div class="field field-full">
                   <label for="route-details">Route Details</label>
-                  <textarea id="route-details" name="routeDetails" rows="5">KARACHI, TANDO M KHAN, THATTA, TANDO ALLAH YAR, MATIARI, JAMSHORO, DADU, BADIN, SUJAWWAL, HYDERABAD, KAMBER SHAHDADKOT, LARKANA, SHIKARPUR, JACOBABAD, KASHMORE KANDHKOT, KHAIRPUR, SUKKUR, GHOTKI, THARPARKAR MITHI, MIRPURKHAS, UMERKOT, SHAHEED BENAZIRABAD, NAUSHEHROFEROZE, SANGHAR</textarea>
+                  <div class="panel-input-shell is-textarea">
+                    <span class="panel-input-icon" data-icon="list" aria-hidden="true"></span>
+                    <textarea id="route-details" name="routeDetails" rows="5">KARACHI, TANDO M KHAN, THATTA, TANDO ALLAH YAR, MATIARI, JAMSHORO, DADU, BADIN, SUJAWWAL, HYDERABAD, KAMBER SHAHDADKOT, LARKANA, SHIKARPUR, JACOBABAD, KASHMORE KANDHKOT, KHAIRPUR, SUKKUR, GHOTKI, THARPARKAR MITHI, MIRPURKHAS, UMERKOT, SHAHEED BENAZIRABAD, NAUSHEHROFEROZE, SANGHAR</textarea>
+                  </div>
                 </div>
                 <div class="field field-full">
                   <label for="signatory-title">Signatory Title</label>
-                  <input type="text" id="signatory-title" name="signatoryTitle" value="SECRETARY">
+                  <div class="panel-input-shell">
+                    <span class="panel-input-icon" data-icon="user" aria-hidden="true"></span>
+                    <input type="text" id="signatory-title" name="signatoryTitle" value="SECRETARY">
+                  </div>
                 </div>
                 <div class="field field-full">
                   <label for="signatory-authority">Signatory Authority</label>
-                  <input type="text" id="signatory-authority" name="signatoryAuthority" value="PROVINCIAL TRANSPORT AUTHORITY, SINDH">
+                  <div class="panel-input-shell">
+                    <span class="panel-input-icon" data-icon="building" aria-hidden="true"></span>
+                    <input type="text" id="signatory-authority" name="signatoryAuthority" value="PROVINCIAL TRANSPORT AUTHORITY, SINDH">
+                  </div>
                 </div>
                 <div class="field field-full">
                   <label for="urdu-footer">Urdu Footer Text</label>
-                  <textarea id="urdu-footer" name="urduFooter" rows="4">ضروری ہدایات۔ گاڑیوں کے آپریٹرز (مالکان / ڈرائیورز) انسانی جانوں کے تحفظ کے پیش نظر انڈس ہائی وے اور مہران ہائی وے کے ممنوعہ علاقوں میں سفر نہیں کریں گے۔
+                  <div class="panel-input-shell is-textarea">
+                    <span class="panel-input-icon" data-icon="certificate" aria-hidden="true"></span>
+                    <textarea id="urdu-footer" name="urduFooter" rows="4">ضروری ہدایات۔ گاڑیوں کے آپریٹرز (مالکان / ڈرائیورز) انسانی جانوں کے تحفظ کے پیش نظر انڈس ہائی وے اور مہران ہائی وے کے ممنوعہ علاقوں میں سفر نہیں کریں گے۔
 فوری طبی امداد کا باکس رکھیں، آگ بجھانے کا آلہ لازمی رکھیں، بس میں ایمرجنسی گیٹ لازمی ہے۔</textarea>
+                  </div>
                 </div>
                 <div class="field field-full">
                   <label for="signatory-city">Signatory City</label>
-                  <input type="text" id="signatory-city" name="signatoryCity" value="KARACHI">
+                  <div class="panel-input-shell">
+                    <span class="panel-input-icon" data-icon="map" aria-hidden="true"></span>
+                    <input type="text" id="signatory-city" name="signatoryCity" value="KARACHI">
+                  </div>
                 </div>
               </div>
             </form>
@@ -296,8 +294,14 @@
             <div class="permit-edit-save-section">
               <p class="permit-edit-save-intro">Save, load, and manage your route permits. Vehicle/result fields are saved with each permit.</p>
               <div class="permit-save-actions">
-                <button type="button" id="save-permit-btn" class="submit-btn submit-btn-secondary">Save Permit</button>
-                <button type="button" id="new-permit-btn" class="permit-action-btn">New Permit</button>
+                <button type="button" id="save-permit-btn" class="submit-btn submit-btn-secondary btn-with-icon">
+                  <span data-icon="save" aria-hidden="true"></span>
+                  <span>Save Permit</span>
+                </button>
+                <button type="button" id="new-permit-btn" class="permit-action-btn btn-with-icon">
+                  <span data-icon="plus" aria-hidden="true"></span>
+                  <span>New Permit</span>
+                </button>
                 <p id="permit-save-status" class="permit-save-status" aria-live="polite"></p>
               </div>
             </div>
@@ -307,13 +311,16 @@
             <div class="permit-saved-section">
               <div class="permit-saved-search field">
                 <label for="saved-permits-search">Search saved permits</label>
-                <input
-                  type="search"
-                  id="saved-permits-search"
-                  placeholder="Name, R.P. no., registration, CNIC..."
-                  autocomplete="off"
-                  enterkeyhint="search"
-                >
+                <div class="panel-input-shell">
+                  <span class="panel-input-icon" data-icon="search" aria-hidden="true"></span>
+                  <input
+                    type="search"
+                    id="saved-permits-search"
+                    placeholder="Name, R.P. no., registration, CNIC..."
+                    autocomplete="off"
+                    enterkeyhint="search"
+                  >
+                </div>
               </div>
               <ul id="saved-permits-list" class="permit-saved-list"></ul>
               <p id="saved-permits-empty" class="permit-saved-empty">No saved permits yet. Go to Edit Permit, fill the form, and click Save Permit.</p>
@@ -322,7 +329,10 @@
         </div>
 
         <aside class="panel-permit-live" aria-label="Route permit live preview">
-          <button type="button" id="print-permit-btn" class="permit-print-btn">Print A4</button>
+          <button type="button" id="print-permit-btn" class="permit-print-btn btn-with-icon">
+            <span data-icon="print" aria-hidden="true"></span>
+            <span>Print A4</span>
+          </button>
             <div class="permit-live-preview" id="permit-print-area">
             <div class="permit-frame" aria-hidden="true"></div>
             <div class="permit-inner-border" aria-hidden="true"></div>
@@ -389,10 +399,152 @@
         </aside>
       </div>
     </section>
+    </div>
+
+    <div id="panel-main-tab-fitness" class="panel-main-tab-panel" role="tabpanel" aria-labelledby="panel-main-tab-btn-fitness" hidden>
+      <section class="panel-hero panel-hero-modern">
+        <div class="panel-hero-icon" data-icon="certificate" aria-hidden="true"></div>
+        <p class="panel-hero-text">Manage fitness certificate records, generate a live QR code, and open the public fitness result page.</p>
+      </section>
+
+      <section class="panel-card panel-fitness-card">
+        <div class="panel-card-header">
+          <h2 class="card-title">Fitness Certificate</h2>
+          <span class="panel-badge">Fitness</span>
+        </div>
+
+        <div class="permit-tabs" role="tablist" aria-label="Fitness panel tabs">
+          <button type="button" class="permit-tab is-active btn-with-icon" id="fitness-tab-btn-edit" role="tab" aria-selected="true" aria-controls="fitness-tab-edit">
+            <span data-icon="edit" aria-hidden="true"></span>
+            <span>Edit Fitness</span>
+          </button>
+          <button type="button" class="permit-tab btn-with-icon" id="fitness-tab-btn-saved" role="tab" aria-selected="false" aria-controls="fitness-tab-saved">
+            <span data-icon="folder" aria-hidden="true"></span>
+            <span>Saved Fitness</span>
+            <span id="saved-fitness-count" class="permit-tab-count">0</span>
+          </button>
+        </div>
+
+        <div id="fitness-tab-edit" class="permit-tab-panel is-active" role="tabpanel" aria-labelledby="fitness-tab-btn-edit">
+          <div class="panel-fitness-layout">
+            <div class="panel-fitness-side">
+              <form id="fitness-form" class="vehicle-form" novalidate>
+                <div class="panel-form-grid">
+                  <div class="field">
+                    <label for="fitness-registration">Registration#</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="hash" aria-hidden="true"></span>
+                      <input type="text" id="fitness-registration" name="registration" value="JV-3805" placeholder="e.g. JV-3805" required>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="fitness-engine">Engine#</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="cog" aria-hidden="true"></span>
+                      <input type="text" id="fitness-engine" name="engine" value="6HH102666P" placeholder="e.g. 6HH102666P" required>
+                    </div>
+                  </div>
+                  <div class="field field-full">
+                    <label for="fitness-chassis">Chassis#</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="layers" aria-hidden="true"></span>
+                      <input type="text" id="fitness-chassis" name="chassis" value="JALFTR33KH-7000279" placeholder="e.g. JALFTR33KH-7000279" required>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="fitness-issue-date">Issue Date</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="calendar" aria-hidden="true"></span>
+                      <input type="date" id="fitness-issue-date" name="issueDate">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="fitness-expiry-date">Expiry Date</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="calendar" aria-hidden="true"></span>
+                      <input type="date" id="fitness-expiry-date" name="expiryDate">
+                    </div>
+                  </div>
+                  <div class="field field-full">
+                    <label for="fitness-status">Status</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="shield" aria-hidden="true"></span>
+                      <select id="fitness-status" name="status">
+                        <option value="Valid Certificate">Valid Certificate</option>
+                        <option value="Expired">Expired</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Invalid">Invalid</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-result-actions">
+                  <button type="submit" class="submit-btn btn-with-icon">
+                    <span data-icon="eye" aria-hidden="true"></span>
+                    <span>Show Fitness Certificate</span>
+                  </button>
+                </div>
+              </form>
+
+              <div class="permit-edit-save-section">
+                <p class="permit-edit-save-intro">Save, load, and manage fitness certificate records for quick reuse.</p>
+                <div class="permit-save-actions">
+                  <button type="button" id="save-fitness-btn" class="submit-btn submit-btn-secondary btn-with-icon">
+                    <span data-icon="save" aria-hidden="true"></span>
+                    <span>Save Fitness</span>
+                  </button>
+                  <button type="button" id="new-fitness-btn" class="permit-action-btn btn-with-icon">
+                    <span data-icon="plus" aria-hidden="true"></span>
+                    <span>New Fitness</span>
+                  </button>
+                  <p id="fitness-save-status" class="permit-save-status" aria-live="polite"></p>
+                </div>
+              </div>
+            </div>
+
+            <aside class="panel-qr-card" aria-label="Fitness result QR code">
+              <div class="qr-panel">
+                <p class="panel-qr-label btn-with-icon">
+                  <span data-icon="qr" aria-hidden="true"></span>
+                  <span>Scan for fitness result</span>
+                </p>
+                <canvas id="fitness-qr-code" class="qr-code" aria-label="Fitness result page QR code"></canvas>
+                <p id="fitness-qr-link" class="qr-link"></p>
+                <button type="button" id="fitness-qr-download-btn" class="qr-download-btn btn-with-icon">
+                  <span data-icon="download" aria-hidden="true"></span>
+                  <span>Download QR</span>
+                </button>
+              </div>
+            </aside>
+          </div>
+        </div>
+
+        <div id="fitness-tab-saved" class="permit-tab-panel" role="tabpanel" aria-labelledby="fitness-tab-btn-saved" hidden>
+          <div class="permit-saved-section">
+            <div class="permit-saved-search field">
+              <label for="saved-fitness-search">Search saved fitness records</label>
+              <div class="panel-input-shell">
+                <span class="panel-input-icon" data-icon="search" aria-hidden="true"></span>
+                <input
+                  type="search"
+                  id="saved-fitness-search"
+                  placeholder="Registration, chassis, engine, status..."
+                  autocomplete="off"
+                  enterkeyhint="search"
+                >
+              </div>
+            </div>
+            <ul id="saved-fitness-list" class="permit-saved-list"></ul>
+            <p id="saved-fitness-empty" class="permit-saved-empty">No saved fitness records yet. Go to Edit Fitness, fill the form, and click Save Fitness.</p>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 
   <script src="config.js?v=3"></script>
-  <script src="auth.js?v=4"></script>
+  <script src="auth.js?v=5"></script>
   <script>
     (function bootstrapAuth() {
       if (typeof redirectResultHashToPublicPage === "function") {
@@ -407,7 +559,7 @@
 
       if (typeof requireAuth === "function") {
         requireAuth();
-      } else if (sessionStorage.getItem("vehicleDetailAuth") !== "true") {
+      } else if (localStorage.getItem("vehicleDetailAuth") !== "true") {
         window.location.replace(new URL("login.html", window.location.href).href);
       }
     })();
@@ -418,7 +570,7 @@
         return;
       }
 
-      sessionStorage.removeItem("vehicleDetailAuth");
+      localStorage.removeItem("vehicleDetailAuth");
       const loginUrl = new URL("login.html", window.location.href);
       loginUrl.searchParams.set("loggedOut", "1");
       window.location.replace(loginUrl.href);
@@ -496,8 +648,9 @@
       });
     })();
   </script>
+  <script src="ui-icons.js?v=2"></script>
+  <script src="theme.js?v=3"></script>
   <script src="qrcode.min.js"></script>
-  <script src="theme.js?v=1"></script>
-  <script src="app.js?v=29"></script>
+  <script src="app.js?v=31"></script>
 </body>
 </html>

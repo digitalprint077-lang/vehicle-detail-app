@@ -19,50 +19,62 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="panel.css?v=29">
+  <link rel="stylesheet" href="panel.css?v=40">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="panel-page login-page">
-  <main class="page">
-    <header class="panel-topbar">
-      <div class="panel-brand">
-        <span class="panel-eyebrow">Secure Access</span>
-        <h1 class="page-title">Vehicle Detail</h1>
-      </div>
-      <div class="panel-topbar-actions">
-        <button type="button" id="theme-toggle-btn" class="theme-toggle-btn" data-theme-toggle aria-label="Switch to night mode" aria-pressed="false">
-          <span class="theme-toggle-icon" aria-hidden="true">&#9790;</span>
-          <span class="theme-toggle-label">Night</span>
-        </button>
-      </div>
-    </header>
+  <div class="login-screen">
+    <div class="login-screen-bg" aria-hidden="true">
+      <span class="login-glow login-glow-1"></span>
+      <span class="login-glow login-glow-2"></span>
+      <span class="login-glow login-glow-3"></span>
+    </div>
 
-    <section class="panel-card form-card">
-      <div class="panel-card-header">
-        <h2 class="card-title">Login</h2>
-        <span class="panel-badge">Panel</span>
+    <button type="button" id="theme-toggle-btn" class="login-theme-fab theme-toggle-btn" data-theme-toggle aria-label="Switch to night mode" aria-pressed="false">
+      <span class="theme-toggle-icon" data-icon="moon" aria-hidden="true"></span>
+      <span class="theme-toggle-label">Night</span>
+    </button>
+
+    <main class="login-panel">
+      <div class="login-panel-head login-animate-item" style="--login-delay: 0">
+        <div class="login-app-badge" data-icon="truck" aria-hidden="true"></div>
+        <h1 class="login-panel-title">Vehicle Detail</h1>
+        <p class="login-panel-lead">Sign in to open your admin dashboard</p>
       </div>
 
-      <form id="login-form" class="vehicle-form" novalidate>
-        <p id="login-error" class="login-error hidden">Invalid username or password.</p>
-        <div class="field">
+      <form id="login-form" class="login-panel-form vehicle-form" novalidate>
+        <p id="login-error" class="login-error hidden login-animate-item" style="--login-delay: 1">Invalid username or password.</p>
+
+        <div class="login-field login-animate-item" style="--login-delay: 2">
           <label for="username">Username</label>
-          <input type="text" id="username" name="username" autocomplete="username" required>
+          <div class="login-input-shell">
+            <span class="login-input-icon" data-icon="user" aria-hidden="true"></span>
+            <input type="text" id="username" name="username" autocomplete="username" placeholder="Enter username" required>
+          </div>
         </div>
-        <div class="field">
+
+        <div class="login-field login-animate-item" style="--login-delay: 3">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" autocomplete="current-password" required>
+          <div class="login-input-shell">
+            <span class="login-input-icon" data-icon="lock" aria-hidden="true"></span>
+            <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter password" required>
+          </div>
         </div>
-        <button type="submit" class="submit-btn">Login</button>
+
+        <button type="submit" class="login-submit-btn btn-with-icon login-animate-item" style="--login-delay: 4">
+          <span data-icon="shield" aria-hidden="true"></span>
+          <span>Sign In</span>
+        </button>
       </form>
-    </section>
-  </main>
+    </main>
+  </div>
 
   <script src="config.js?v=3"></script>
-  <script src="auth.js?v=4"></script>
-  <script src="theme.js?v=1"></script>
+  <script src="auth.js?v=5"></script>
+  <script src="ui-icons.js?v=1"></script>
+  <script src="theme.js?v=3"></script>
   <script src="login.js?v=2"></script>
 </body>
 </html>

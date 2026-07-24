@@ -18,6 +18,21 @@ const NEW_PERMIT_DEFAULTS = {
 
 let activeSavedPermitId = null;
 let activeSavedFitnessId = null;
+
+function refreshPanelIcons(root) {
+  if (typeof window.PanelIcons?.init === "function") {
+    window.PanelIcons.init(root || document);
+  }
+}
+
+function createIconButton(className, iconName, label, onClick) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `${className} btn-with-icon`;
+  button.innerHTML = `<span data-icon="${iconName}" aria-hidden="true"></span><span>${label}</span>`;
+  button.addEventListener("click", onClick);
+  return button;
+}
 let isSyncingRegistration = false;
 function getFormDataObject() {
   if (!form) {
@@ -515,22 +530,26 @@ function renderSavedPermitsList() {
     const buttons = document.createElement("div");
     buttons.className = "permit-saved-buttons";
 
-    const loadBtn = document.createElement("button");
-    loadBtn.type = "button";
-    loadBtn.className = "permit-saved-btn permit-saved-btn-load";
-    loadBtn.textContent = "Load";
-    loadBtn.addEventListener("click", () => loadSavedPermit(entry.id));
+    const loadBtn = createIconButton(
+      "permit-saved-btn permit-saved-btn-load",
+      "folder",
+      "Load",
+      () => loadSavedPermit(entry.id)
+    );
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.type = "button";
-    deleteBtn.className = "permit-saved-btn permit-saved-btn-delete";
-    deleteBtn.textContent = "Delete";
-    deleteBtn.addEventListener("click", () => deleteSavedPermit(entry.id));
+    const deleteBtn = createIconButton(
+      "permit-saved-btn permit-saved-btn-delete",
+      "trash",
+      "Delete",
+      () => deleteSavedPermit(entry.id)
+    );
 
     buttons.append(loadBtn, deleteBtn);
     item.append(info, buttons);
     list.appendChild(item);
   });
+
+  refreshPanelIcons(list);
 }
 
 function getSavedFitness() {
@@ -635,22 +654,26 @@ function renderSavedFitnessList() {
     const buttons = document.createElement("div");
     buttons.className = "permit-saved-buttons";
 
-    const loadBtn = document.createElement("button");
-    loadBtn.type = "button";
-    loadBtn.className = "permit-saved-btn permit-saved-btn-load";
-    loadBtn.textContent = "Load";
-    loadBtn.addEventListener("click", () => loadSavedFitness(entry.id));
+    const loadBtn = createIconButton(
+      "permit-saved-btn permit-saved-btn-load",
+      "folder",
+      "Load",
+      () => loadSavedFitness(entry.id)
+    );
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.type = "button";
-    deleteBtn.className = "permit-saved-btn permit-saved-btn-delete";
-    deleteBtn.textContent = "Delete";
-    deleteBtn.addEventListener("click", () => deleteSavedFitness(entry.id));
+    const deleteBtn = createIconButton(
+      "permit-saved-btn permit-saved-btn-delete",
+      "trash",
+      "Delete",
+      () => deleteSavedFitness(entry.id)
+    );
 
     buttons.append(loadBtn, deleteBtn);
     item.append(info, buttons);
     list.appendChild(item);
   });
+
+  refreshPanelIcons(list);
 }
 
 function saveCurrentFitness() {
@@ -946,7 +969,63 @@ window.addEventListener("afterprint", () => {
   document.body.classList.remove("is-printing-permit");
 });
 
+function switchMainPanelTab(tabName) {
+  const isRoute = tabName === "route";
+  const routePanel = document.getElementById("panel-main-tab-route");
+  const fitnessPanel = document.getElementById("panel-main-tab-fitness");
+  const routeBtn = document.getElementById("panel-main-tab-btn-route");
+  const fitnessBtn = document.getElementById("panel-main-tab-btn-fitness");
+
+  routePanel?.classList.toggle("is-active", isRoute);
+  fitnessPanel?.classList.toggle("is-active", !isRoute);
+  routeBtn?.classList.toggle("is-active", isRoute);
+  fitnessBtn?.classList.toggle("is-active", !isRoute);
+  routeBtn?.setAttribute("aria-selected", isRoute ? "true" : "false");
+  fitnessBtn?.setAttribute("aria-selected", isRoute ? "false" : "true");
+
+  if (routePanel) routePanel.hidden = !isRoute;
+  if (fitnessPanel) fitnessPanel.hidden = isRoute;
+
+  try {
+    localStorage.setItem("vehicleDetailPanelMainTab", tabName);
+  } catch (error) {
+    // ignore storage errors
+  }
+
+  if (!isRoute) {
+    onFitnessFormChange();
+  }
+}
+
+function initMainPanelTabs() {
+  let initialTab = "route";
+
+  try {
+    const savedTab = localStorage.getItem("vehicleDetailPanelMainTab");
+    if (savedTab === "route" || savedTab === "fitness") {
+      initialTab = savedTab;
+    }
+  } catch (error) {
+    // ignore storage errors
+  }
+
+  const tabParam = new URLSearchParams(window.location.search).get("tab");
+  if (tabParam === "fitness" || tabParam === "route") {
+    initialTab = tabParam;
+  }
+
+  document.getElementById("panel-main-tab-btn-route")?.addEventListener("click", () => {
+    switchMainPanelTab("route");
+  });
+  document.getElementById("panel-main-tab-btn-fitness")?.addEventListener("click", () => {
+    switchMainPanelTab("fitness");
+  });
+
+  switchMainPanelTab(initialTab);
+}
+
 initPermitSaving();
 initFitnessSaving();
+initMainPanelTabs();
 onPermitFormChange();
 onFitnessFormChange();

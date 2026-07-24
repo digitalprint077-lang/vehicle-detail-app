@@ -6,10 +6,13 @@
   }
 
   function applyTheme(theme) {
+    const root = document.documentElement;
+    root.classList.add("theme-switching");
+
     if (theme === "dark") {
-      document.documentElement.setAttribute("data-theme", "dark");
+      root.setAttribute("data-theme", "dark");
     } else {
-      document.documentElement.removeAttribute("data-theme");
+      root.removeAttribute("data-theme");
     }
 
     document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
@@ -18,8 +21,17 @@
       button.setAttribute("aria-label", isDark ? "Switch to day mode" : "Switch to night mode");
       const icon = button.querySelector(".theme-toggle-icon");
       const label = button.querySelector(".theme-toggle-label");
-      if (icon) icon.textContent = isDark ? "\u2600" : "\u263E";
+      if (icon) {
+        icon.setAttribute("data-icon", isDark ? "sun" : "moon");
+        if (typeof window.PanelIcons?.init === "function") {
+          window.PanelIcons.init(button);
+        }
+      }
       if (label) label.textContent = isDark ? "Day" : "Night";
+    });
+
+    requestAnimationFrame(() => {
+      root.classList.remove("theme-switching");
     });
   }
 
