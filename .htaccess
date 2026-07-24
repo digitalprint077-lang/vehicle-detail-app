@@ -1,11 +1,13 @@
+DirectoryIndex index.html index.htm
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
   # Redirect /page.html to /page
-  RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
-  RewriteRule ^ /%1? [R=301,L,NE]
+  RewriteCond %{THE_REQUEST} \s/+([^?\s]*?)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L,NE]
 
-  # Serve /page from /page.html
+  # Serve /page from /page.html when no folder exists
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME}.html -f

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" href="/assets/sindh-emblem.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/sindh-emblem.png">
+  <title>Route Permit</title>
+  <link rel="stylesheet" href="/styles.css?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dotted-bg result-page-body">
+  <div id="custom-cursor" class="custom-cursor hidden" aria-hidden="true">
+    <div class="cursor-dot"></div>
+  </div>
+  <div id="cursor-ring" class="cursor-ring hidden" aria-hidden="true"></div>
+
+  <main class="result-page">
+    <h1 class="page-title">Vehicle Detail</h1>
+    <section class="card result-card">
+      <h2 class="card-title">Route Permit</h2>
+      <dl class="result-list">
+        <div class="result-row">
+          <dt>Registration#:</dt>
+          <dd data-result-field="registration">-</dd>
+        </div>
+        <div class="result-row">
+          <dt>Chassis#:</dt>
+          <dd data-result-field="chassis">-</dd>
+        </div>
+        <div class="result-row">
+          <dt>Engine#:</dt>
+          <dd data-result-field="engine">-</dd>
+        </div>
+        <div class="result-row">
+          <dt>Issue Date:</dt>
+          <dd data-result-field="issueDate">-</dd>
+        </div>
+        <div class="result-row">
+          <dt>Expiry Date:</dt>
+          <dd data-result-field="expiryDate">-</dd>
+        </div>
+        <div class="result-row">
+          <dt>Status:</dt>
+          <dd data-result-field="status" class="status-value">-</dd>
+        </div>
+      </dl>
+    </section>
+  </main>
+
+  <script src="/result-display.js?v=1"></script>
+  <script src="/cursor.js?v=3"></script>
+  <script src="/result.js?v=3"></script>
+</body>
+</html>
