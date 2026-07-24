@@ -21,6 +21,7 @@
     edit: `<svg ${svgAttrs}><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>`,
     shield: `<svg ${svgAttrs}><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6z"/></svg>`,
     eye: `<svg ${svgAttrs}><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>`,
+    "eye-off": `<svg ${svgAttrs}><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/><path d="M1 1l22 22"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/></svg>`,
     sparkles: `<svg ${svgAttrs}><path d="M12 3l1.2 4.2L17.5 8.5 13.2 9.7 12 14l-1.2-4.3L6.5 8.5l4.3-1.3z"/><path d="M5 17l.6 2.1L7.7 20l-2.1.6L5 23l-.6-2.4L2.3 20l2.1-.6z"/><path d="M19 15l.5 1.8L21.3 18l-1.8.5L19 20l-.5-1.7L16.7 18l1.8-.5z"/></svg>`,
     calendar: `<svg ${svgAttrs}><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>`,
     hash: `<svg ${svgAttrs}><path d="M10 3 8 21M16 3l-2 18M3 8h18M2 16h18"/></svg>`,

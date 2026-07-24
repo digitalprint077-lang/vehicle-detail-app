@@ -10,7 +10,7 @@ if (loginRedirect && isResultPath(loginRedirect)) {
 if (isAuthenticated() && loginParams.get("loggedOut") !== "1") {
   redirectAfterLogin();
 }
-loginForm.addEventListener("submit", (event) => {
+loginForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   loginError.classList.add("hidden");
 
@@ -24,4 +24,19 @@ loginForm.addEventListener("submit", (event) => {
   }
 
   loginError.classList.remove("hidden");
+});
+
+const passwordInput = document.getElementById("password");
+const passwordToggleBtn = document.getElementById("password-toggle-btn");
+
+passwordToggleBtn?.addEventListener("click", () => {
+  if (!passwordInput) return;
+  const isHidden = passwordInput.type === "password";
+  passwordInput.type = isHidden ? "text" : "password";
+  passwordToggleBtn.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
+  const icon = passwordToggleBtn.querySelector("[data-icon]");
+  if (icon) {
+    icon.setAttribute("data-icon", isHidden ? "eye-off" : "eye");
+    window.PanelIcons?.init?.(passwordToggleBtn);
+  }
 });

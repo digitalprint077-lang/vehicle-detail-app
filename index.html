@@ -19,18 +19,22 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="panel.css?v=41">
+  <link rel="stylesheet" href="panel.css?v=44">
   <link rel="stylesheet" href="permit-frame.css?v=44">
   <link rel="stylesheet" href="permit-print.css?v=43">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="panel-page">
+  <div class="panel-page-bg" aria-hidden="true">
+    <span class="panel-page-blob panel-page-blob-1"></span>
+    <span class="panel-page-blob panel-page-blob-2"></span>
+  </div>
   <div class="panel-shell">
     <header class="panel-topbar">
       <div class="panel-brand panel-brand-row">
-        <img class="panel-brand-emblem" src="assets/sindh-emblem.png" alt="">
+        <span class="panel-brand-icon-badge" data-icon="truck" aria-hidden="true"></span>
         <div>
           <span class="panel-eyebrow">Admin Panel</span>
           <h1 class="page-title">Vehicle Detail</h1>
@@ -100,7 +104,7 @@
     </nav>
 
     <div id="panel-main-tab-route" class="panel-main-tab-panel is-active" role="tabpanel" aria-labelledby="panel-main-tab-btn-route">
-    <section class="panel-hero panel-hero-modern">
+    <section class="panel-hero panel-hero-modern panel-hero-showcase">
       <div class="panel-hero-icon" data-icon="truck" aria-hidden="true"></div>
       <p class="panel-hero-text">Manage vehicle records, build the official route permit preview, and open the public route permit result page.</p>
     </section>
@@ -402,7 +406,7 @@
     </div>
 
     <div id="panel-main-tab-fitness" class="panel-main-tab-panel" role="tabpanel" aria-labelledby="panel-main-tab-btn-fitness" hidden>
-      <section class="panel-hero panel-hero-modern">
+      <section class="panel-hero panel-hero-modern panel-hero-showcase">
         <div class="panel-hero-icon" data-icon="certificate" aria-hidden="true"></div>
         <p class="panel-hero-text">Manage fitness certificate records, generate a live QR code, and open the public fitness result page.</p>
       </section>
@@ -648,7 +652,7 @@
       });
     })();
   </script>
-  <script src="ui-icons.js?v=2"></script>
+  <script src="ui-icons.js?v=3"></script>
   <script src="theme.js?v=3"></script>
   <script src="qrcode.min.js"></script>
   <script src="app.js?v=31"></script>
