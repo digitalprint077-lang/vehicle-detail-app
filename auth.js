@@ -93,18 +93,14 @@ function logout() {
 
 function logoutAndRedirect() {
   logout();
-  const loginUrl = new URL("login.html", window.location.href);
-  loginUrl.searchParams.set("loggedOut", "1");
-  window.location.replace(loginUrl.href);
+  window.location.replace(appPageUrl("login", { searchParams: { loggedOut: "1" } }));
 }
 
 function requireAuth() {
   if (isAuthenticated()) return;
 
   const returnPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-  const loginUrl = new URL("login.html", window.location.href);
-  loginUrl.searchParams.set("redirect", returnPath);
-  window.location.replace(loginUrl.href);
+  window.location.replace(appPageUrl("login", { searchParams: { redirect: returnPath } }));
 }
 
 function redirectAfterLogin() {
@@ -121,7 +117,7 @@ function redirectAfterLogin() {
     return;
   }
 
-  window.location.replace(new URL("index.html", window.location.href).href);
+  window.location.replace(appPageUrl("home"));
 }
 
 function isResultHash(hash) {
@@ -136,20 +132,22 @@ function isResultPath(path) {
 }
 
 function toResultPageUrl(pathOrHash) {
+  const resultPath = getAppRoute("result");
+
   if (pathOrHash.startsWith("#")) {
-    return `result.html${pathOrHash}`;
+    return `${resultPath}${pathOrHash}`;
   }
 
   const hashIndex = pathOrHash.indexOf("#");
   if (hashIndex !== -1) {
-    return `result.html${pathOrHash.slice(hashIndex)}`;
+    return `${resultPath}${pathOrHash.slice(hashIndex)}`;
   }
 
-  return "result.html";
+  return resultPath;
 }
 
 function redirectResultHashToPublicPage() {
   if (!isResultHash(window.location.hash)) return false;
-  window.location.replace(`result.html${window.location.hash}`);
+  window.location.replace(`${getAppRoute("result")}${window.location.hash}`);
   return true;
 }

@@ -104,11 +104,11 @@ function buildParamsFromData(data) {
 }
 
 function getResultPageUrl() {
-  return new URL("result.html", window.location.href).href.split("#")[0];
+  return appPageUrl("result").split("#")[0];
 }
 
 function getFitnessPageUrl() {
-  return new URL("fitness.html", window.location.href).href.split("#")[0];
+  return appPageUrl("fitness").split("#")[0];
 }
 
 function getResultLink(data) {

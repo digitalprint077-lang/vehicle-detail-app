@@ -1,0 +1,10 @@
+/index.html / 301
+/login.html /login 301
+/result.html /result 301
+/fitness.html /fitness 301
+/route-permit.html /route-permit 301
+
+/login /login.html 200
+/result /result.html 200
+/fitness /fitness.html 200
+/route-permit /route-permit.html 200

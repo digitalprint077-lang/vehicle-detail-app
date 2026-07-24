@@ -547,8 +547,8 @@
     </div>
   </div>
 
-  <script src="config.js?v=3"></script>
-  <script src="auth.js?v=5"></script>
+  <script src="config.js?v=4"></script>
+  <script src="auth.js?v=6"></script>
   <script>
     (function bootstrapAuth() {
       if (typeof redirectResultHashToPublicPage === "function") {
@@ -556,7 +556,7 @@
       } else if (window.location.hash) {
         const params = new URLSearchParams(window.location.hash.slice(1));
         if (params.has("registration") || params.has("chassis") || params.has("engine")) {
-          window.location.replace(`result.html${window.location.hash}`);
+          window.location.replace(`${getAppRoute("result")}${window.location.hash}`);
           return;
         }
       }
@@ -564,7 +564,7 @@
       if (typeof requireAuth === "function") {
         requireAuth();
       } else if (localStorage.getItem("vehicleDetailAuth") !== "true") {
-        window.location.replace(new URL("login.html", window.location.href).href);
+        window.location.replace(appPageUrl("login"));
       }
     })();
 
@@ -575,9 +575,7 @@
       }
 
       localStorage.removeItem("vehicleDetailAuth");
-      const loginUrl = new URL("login.html", window.location.href);
-      loginUrl.searchParams.set("loggedOut", "1");
-      window.location.replace(loginUrl.href);
+      window.location.replace(appPageUrl("login", { searchParams: { loggedOut: "1" } }));
     });
 
     (function initPasswordChanger() {
@@ -655,6 +653,6 @@
   <script src="ui-icons.js?v=3"></script>
   <script src="theme.js?v=3"></script>
   <script src="qrcode.min.js"></script>
-  <script src="app.js?v=31"></script>
+  <script src="app.js?v=32"></script>
 </body>
 </html>
