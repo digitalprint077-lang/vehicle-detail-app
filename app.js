@@ -104,11 +104,11 @@ function buildParamsFromData(data) {
 }
 
 function getResultPageUrl() {
-  return appPageUrl("result").split("#")[0];
+  return appPublicUrl("result").split("#")[0];
 }
 
 function getFitnessPageUrl() {
-  return appPageUrl("fitness").split("#")[0];
+  return appPublicUrl("fitness").split("#")[0];
 }
 
 function getResultLink(data) {

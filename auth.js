@@ -132,22 +132,22 @@ function isResultPath(path) {
 }
 
 function toResultPageUrl(pathOrHash) {
-  const resultPath = getAppRoute("result");
+  const base = appPageUrl("result").split("#")[0];
 
   if (pathOrHash.startsWith("#")) {
-    return `${resultPath}${pathOrHash}`;
+    return `${base}${pathOrHash}`;
   }
 
   const hashIndex = pathOrHash.indexOf("#");
   if (hashIndex !== -1) {
-    return `${resultPath}${pathOrHash.slice(hashIndex)}`;
+    return `${base}${pathOrHash.slice(hashIndex)}`;
   }
 
-  return resultPath;
+  return base;
 }
 
 function redirectResultHashToPublicPage() {
   if (!isResultHash(window.location.hash)) return false;
-  window.location.replace(`${getAppRoute("result")}${window.location.hash}`);
+  window.location.replace(`${appPageUrl("result").split("#")[0]}${window.location.hash}`);
   return true;
 }

@@ -148,7 +148,7 @@ async function renderPermitQr() {
 
 
 
-  const link = `${appPageUrl("result").split("#")[0]}#${resultParams.toString()}`;
+  const link = `${appPublicUrl("result").split("#")[0]}#${resultParams.toString()}`;
 
 
 

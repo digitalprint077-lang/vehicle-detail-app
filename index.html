@@ -548,8 +548,8 @@
     </div>
   </div>
 
-  <script src="config.js?v=5"></script>
-  <script src="auth.js?v=6"></script>
+  <script src="config.js?v=6"></script>
+  <script src="auth.js?v=7"></script>
   <script>
     (function bootstrapAuth() {
       if (typeof redirectResultHashToPublicPage === "function") {
@@ -557,7 +557,7 @@
       } else if (window.location.hash) {
         const params = new URLSearchParams(window.location.hash.slice(1));
         if (params.has("registration") || params.has("chassis") || params.has("engine")) {
-          window.location.replace(`${getAppRoute("result")}${window.location.hash}`);
+          window.location.replace(`${appPageUrl("result").split("#")[0]}${window.location.hash}`);
           return;
         }
       }
@@ -654,6 +654,6 @@
   <script src="ui-icons.js?v=3"></script>
   <script src="theme.js?v=3"></script>
   <script src="qrcode.min.js"></script>
-  <script src="app.js?v=32"></script>
+  <script src="app.js?v=33"></script>
 </body>
 </html>
