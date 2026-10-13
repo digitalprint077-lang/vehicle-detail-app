@@ -1,12 +1,12 @@
+# Static site + Netlify Functions for cloud backup of saved permits.
 [build]
-  publish = "."
   command = "npm install && node scripts/write-storage-secret.js"
+  publish = "."
   functions = "netlify/functions"
 
 [build.environment]
-  # Build injects PERMIT_STORE_SECRET into storage-secret.js; omit from secret scan.
+  NODE_VERSION = "18"
   SECRETS_SCAN_OMIT_PATHS = "storage-secret.js"
 
 [functions]
   node_bundler = "esbuild"
-  node_version = "18"
