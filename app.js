@@ -348,6 +348,7 @@ function getSavedPermits() {
 
 function setSavedPermits(permits) {
   localStorage.setItem(SAVED_PERMITS_KEY, JSON.stringify(permits));
+  window.RemoteStorage?.scheduleSync?.();
 }
 
 function getPermitLabel(permit, vehicle) {
@@ -565,6 +566,7 @@ function getSavedFitness() {
 
 function setSavedFitness(records) {
   localStorage.setItem(SAVED_FITNESS_KEY, JSON.stringify(records));
+  window.RemoteStorage?.scheduleSync?.();
 }
 
 function getFitnessLabel(fitness) {
@@ -1024,8 +1026,27 @@ function initMainPanelTabs() {
   switchMainPanelTab(initialTab);
 }
 
-initPermitSaving();
-initFitnessSaving();
-initMainPanelTabs();
-onPermitFormChange();
-onFitnessFormChange();
+async function bootAdminPanel() {
+  if (window.RemoteStorage?.isEnabled?.()) {
+    const result = await window.RemoteStorage.hydrate();
+    if (!result.ok && result.reason === "auth") {
+      setPermitSaveStatus(
+        "Cloud save: password mismatch. Set Netlify ADMIN_PASSWORD to match your login password.",
+        true
+      );
+    } else if (!result.ok && result.reason === "config") {
+      setPermitSaveStatus(
+        "Cloud save: add ADMIN_PASSWORD in Netlify environment variables.",
+        true
+      );
+    }
+  }
+
+  initPermitSaving();
+  initFitnessSaving();
+  initMainPanelTabs();
+  onPermitFormChange();
+  onFitnessFormChange();
+}
+
+bootAdminPanel();

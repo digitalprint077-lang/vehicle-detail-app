@@ -4,6 +4,13 @@ window.APP_CONFIG = {
     username: "admin",
     password: "admin123",
   },
+  // Saved permits/fitness sync to Netlify (see netlify/functions/permits.js).
+  // In Netlify: Site settings → Environment variables → ADMIN_PASSWORD
+  // Must match the password you use to log in (auth.password, or after Change Password).
+  storage: {
+    remote: true,
+    apiPath: "/.netlify/functions/permits",
+  },
   routes: {
     home: "/",
     login: "/login",
