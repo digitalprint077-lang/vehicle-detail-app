@@ -5,11 +5,12 @@ window.APP_CONFIG = {
     password: "admin123",
   },
   // Saved permits/fitness sync to Netlify (see netlify/functions/permits.js).
-  // In Netlify: Site settings → Environment variables → ADMIN_PASSWORD
-  // Must match the password you use to log in (auth.password, or after Change Password).
+  // Netlify env: PERMIT_STORE_SECRET = long random string (not your login password).
+  // Injected at build into storage-secret.js — do not commit the real secret here.
   storage: {
     remote: true,
     apiPath: "/.netlify/functions/permits",
+    apiSecret: "",
   },
   routes: {
     home: "/",

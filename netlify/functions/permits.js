@@ -11,17 +11,17 @@ function jsonResponse(statusCode, body) {
   };
 }
 
-function getRequestPassword(event) {
+function getRequestSecret(event) {
   const headers = event.headers || {};
-  return headers["x-admin-password"] || headers["X-Admin-Password"] || "";
+  return headers["x-storage-secret"] || headers["X-Storage-Secret"] || "";
 }
 
 function isAuthorized(event) {
-  const expected = process.env.ADMIN_PASSWORD;
+  const expected = process.env.PERMIT_STORE_SECRET;
   if (!expected) {
     return false;
   }
-  return getRequestPassword(event) === expected;
+  return getRequestSecret(event) === expected;
 }
 
 function emptyPayload() {
@@ -33,9 +33,10 @@ export async function handler(event) {
     return { statusCode: 204, body: "" };
   }
 
-  if (!process.env.ADMIN_PASSWORD) {
+  if (!process.env.PERMIT_STORE_SECRET) {
     return jsonResponse(503, {
-      error: "Server storage is not configured. Set ADMIN_PASSWORD in Netlify environment variables.",
+      error:
+        "Server storage is not configured. Set PERMIT_STORE_SECRET in Netlify environment variables.",
     });
   }
 

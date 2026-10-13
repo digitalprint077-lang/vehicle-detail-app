@@ -1,7 +1,11 @@
 [build]
   publish = "."
-  command = "npm install"
+  command = "npm install && node scripts/write-storage-secret.js"
   functions = "netlify/functions"
+
+[build.environment]
+  # Build injects PERMIT_STORE_SECRET into storage-secret.js; omit from secret scan.
+  SECRETS_SCAN_OMIT_PATHS = "storage-secret.js"
 
 [functions]
   node_bundler = "esbuild"

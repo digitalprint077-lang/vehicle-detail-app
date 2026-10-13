@@ -1031,12 +1031,12 @@ async function bootAdminPanel() {
     const result = await window.RemoteStorage.hydrate();
     if (!result.ok && result.reason === "auth") {
       setPermitSaveStatus(
-        "Cloud save: password mismatch. Set Netlify ADMIN_PASSWORD to match your login password.",
+        "Cloud save: storage secret mismatch. Redeploy after setting PERMIT_STORE_SECRET on Netlify.",
         true
       );
     } else if (!result.ok && result.reason === "config") {
       setPermitSaveStatus(
-        "Cloud save: add ADMIN_PASSWORD in Netlify environment variables.",
+        "Cloud save: add PERMIT_STORE_SECRET in Netlify environment variables and redeploy.",
         true
       );
     }

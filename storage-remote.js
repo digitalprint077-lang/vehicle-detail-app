@@ -3,20 +3,25 @@
     return window.APP_CONFIG?.storage || {};
   }
 
+  function getStorageSecret() {
+    const fromBuild = window.__PERMIT_STORE_SECRET__;
+    if (typeof fromBuild === "string" && fromBuild.length > 0) {
+      return fromBuild;
+    }
+    const fromConfig = getStorageConfig().apiSecret;
+    if (typeof fromConfig === "string" && fromConfig.length > 0) {
+      return fromConfig;
+    }
+    return "";
+  }
+
   function isEnabled() {
     const config = getStorageConfig();
-    return config.remote !== false && Boolean(config.apiPath);
+    return config.remote !== false && Boolean(config.apiPath) && getStorageSecret().length > 0;
   }
 
   function getApiUrl() {
     return getStorageConfig().apiPath || "/.netlify/functions/permits";
-  }
-
-  function getPassword() {
-    if (typeof getActivePassword === "function") {
-      return getActivePassword();
-    }
-    return getStorageConfig().password || "";
   }
 
   async function apiRequest(method, body) {
@@ -24,7 +29,7 @@
       method,
       headers: {
         "Content-Type": "application/json",
-        "X-Admin-Password": getPassword(),
+        "X-Storage-Secret": getStorageSecret(),
       },
       body: body ? JSON.stringify(body) : undefined,
     });
@@ -87,11 +92,11 @@
     try {
       const response = await apiRequest("GET");
       if (response.status === 401) {
-        lastSyncError = new Error("Server rejected the admin password.");
+        lastSyncError = new Error("Server rejected the storage secret.");
         return { ok: false, reason: "auth" };
       }
       if (response.status === 503) {
-        lastSyncError = new Error("Netlify ADMIN_PASSWORD is not configured.");
+        lastSyncError = new Error("Netlify PERMIT_STORE_SECRET is not configured.");
         return { ok: false, reason: "config" };
       }
       if (!response.ok) {
