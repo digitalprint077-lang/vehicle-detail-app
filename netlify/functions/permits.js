@@ -1,4 +1,4 @@
-import { getStore } from "@netlify/blobs";
+const { getStore } = require("@netlify/blobs");
 
 const STORE_NAME = "vehicle-detail";
 const DATA_KEY = "saved-records";
@@ -28,7 +28,7 @@ function emptyPayload() {
   return { permits: [], fitness: [], updatedAt: null };
 }
 
-export async function handler(event) {
+exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, body: "" };
   }
@@ -75,4 +75,4 @@ export async function handler(event) {
   }
 
   return jsonResponse(405, { error: "Method not allowed" });
-}
+};

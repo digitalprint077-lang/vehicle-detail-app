@@ -378,6 +378,132 @@ function setPermitSaveStatus(message, isError = false) {
   status.style.color = isError ? "var(--panel-danger)" : "var(--panel-success)";
 }
 
+function updateCloudSyncBanner(state, detail) {
+  const banner = document.getElementById("cloud-sync-banner");
+  if (!banner) return;
+
+  const messages = {
+    checking: "Checking cloud backup…",
+    ok: `Cloud backup is on. ${detail?.permitCount ?? 0} permit(s) and ${detail?.fitnessCount ?? 0} fitness record(s) loaded from Netlify.`,
+    "no-secret":
+      "Cloud backup is OFF (storage secret missing). Permits stay in this browser only. In Netlify: set PERMIT_STORE_SECRET, remove ADMIN_PASSWORD, then redeploy the latest site code.",
+    "no-api": "Cloud backup is OFF (API path missing in config).",
+    disabled: "Cloud backup is turned off in config.",
+    auth: "Cloud backup failed: wrong PERMIT_STORE_SECRET. Fix the env var and redeploy so storage-secret.js is regenerated.",
+    config: "Cloud backup failed: PERMIT_STORE_SECRET is not set on Netlify. Add it and redeploy.",
+    network: "Cloud backup failed: could not reach /.netlify/functions/permits. Deploy the latest code with Netlify Functions enabled.",
+    "missing-module":
+      "This site build is missing cloud backup (old deploy). Merge/deploy the latest branch with netlify/functions and netlify.toml.",
+  };
+
+  const text = messages[state] || messages.network;
+  banner.textContent = text;
+  banner.hidden = false;
+  banner.dataset.state = state === "ok" ? "ok" : state === "checking" ? "warn" : "error";
+}
+
+async function appendCloudSaveStatus(baseMessage) {
+  if (!window.RemoteStorage?.isEnabled?.()) {
+    return {
+      text: `${baseMessage} · Saved in this browser only (cloud backup off)`,
+      isError: false,
+    };
+  }
+
+  try {
+    await window.RemoteStorage.pushLocalToServer();
+    return { text: `${baseMessage} · Backed up to Netlify cloud`, isError: false };
+  } catch (error) {
+    console.error(error);
+    return {
+      text: `${baseMessage} · Cloud backup FAILED — use Download backup and fix Netlify settings`,
+      isError: true,
+    };
+  }
+}
+
+function exportSavedRecordsBackup() {
+  const payload = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    permits: getSavedPermits(),
+    fitness: getSavedFitness(),
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `vehicle-detail-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  link.click();
+  URL.revokeObjectURL(url);
+  setPermitSaveStatus(`Downloaded backup (${payload.permits.length} permits, ${payload.fitness.length} fitness).`);
+}
+
+async function importSavedRecordsBackup(file) {
+  if (!file) return;
+
+  let payload;
+  try {
+    payload = JSON.parse(await file.text());
+  } catch (error) {
+    setPermitSaveStatus("Could not read backup file (invalid JSON).", true);
+    return;
+  }
+
+  const permits = Array.isArray(payload?.permits) ? payload.permits : [];
+  const fitness = Array.isArray(payload?.fitness) ? payload.fitness : [];
+
+  if (!permits.length && !fitness.length) {
+    setPermitSaveStatus("Backup file has no saved records.", true);
+    return;
+  }
+
+  if (!window.confirm(`Restore backup?\n\n${permits.length} permit(s), ${fitness.length} fitness record(s)`)) {
+    return;
+  }
+
+  setSavedPermits(permits);
+  setSavedFitness(fitness);
+  activeSavedPermitId = null;
+  activeSavedFitnessId = null;
+  renderSavedPermitsList();
+  renderSavedFitnessList();
+
+  const result = await appendCloudSaveStatus("Restored from backup file");
+  setPermitSaveStatus(result.text, result.isError);
+  await refreshCloudSavedRecords();
+}
+
+async function refreshCloudSavedRecords() {
+  updateCloudSyncBanner("checking");
+
+  if (!window.RemoteStorage) {
+    updateCloudSyncBanner("missing-module");
+    return;
+  }
+
+  const disableReason = window.RemoteStorage.getDisableReason?.();
+  if (disableReason) {
+    updateCloudSyncBanner(disableReason);
+    return;
+  }
+
+  const result = await window.RemoteStorage.hydrate();
+  renderSavedPermitsList();
+  renderSavedFitnessList();
+
+  if (result.ok) {
+    updateCloudSyncBanner("ok", {
+      permitCount: getSavedPermits().length,
+      fitnessCount: getSavedFitness().length,
+    });
+    return;
+  }
+
+  updateCloudSyncBanner(result.reason || "network");
+}
+
 function setFitnessSaveStatus(message, isError = false) {
   const status = document.getElementById("fitness-save-status");
   if (!status) return;
@@ -678,11 +804,12 @@ function renderSavedFitnessList() {
   refreshPanelIcons(list);
 }
 
-function saveCurrentFitness() {
+async function saveCurrentFitness() {
   const fitness = getFitnessFormDataObject();
   const now = new Date().toISOString();
   const records = getSavedFitness();
   const label = getFitnessLabel(fitness);
+  let statusPrefix = "";
 
   if (activeSavedFitnessId) {
     const index = records.findIndex((entry) => entry.id === activeSavedFitnessId);
@@ -695,7 +822,9 @@ function saveCurrentFitness() {
       };
       setSavedFitness(records);
       renderSavedFitnessList();
-      setFitnessSaveStatus(`Updated: ${label}`);
+      statusPrefix = `Updated: ${label}`;
+      const result = await appendCloudSaveStatus(statusPrefix);
+      setFitnessSaveStatus(result.text, result.isError);
       return;
     }
   }
@@ -712,7 +841,9 @@ function saveCurrentFitness() {
   activeSavedFitnessId = entry.id;
   setSavedFitness(records);
   renderSavedFitnessList();
-  setFitnessSaveStatus(`Saved: ${label}`);
+  statusPrefix = `Saved: ${label}`;
+  const result = await appendCloudSaveStatus(statusPrefix);
+  setFitnessSaveStatus(result.text, result.isError);
 }
 
 function loadSavedFitness(id) {
@@ -801,12 +932,13 @@ function initFitnessSaving() {
   renderSavedFitnessList();
 }
 
-function saveCurrentPermit() {
+async function saveCurrentPermit() {
   const permit = getPermitFormDataObject();
   const vehicle = getFormDataObject();
   const now = new Date().toISOString();
   const permits = getSavedPermits();
   const label = getPermitLabel(permit, vehicle);
+  let statusPrefix = "";
 
   if (activeSavedPermitId) {
     const index = permits.findIndex((entry) => entry.id === activeSavedPermitId);
@@ -820,7 +952,14 @@ function saveCurrentPermit() {
       };
       setSavedPermits(permits);
       renderSavedPermitsList();
-      setPermitSaveStatus(`Updated: ${label}`);
+      statusPrefix = `Updated: ${label}`;
+      const result = await appendCloudSaveStatus(statusPrefix);
+      setPermitSaveStatus(result.text, result.isError);
+      if (result.isError) return;
+      updateCloudSyncBanner("ok", {
+        permitCount: getSavedPermits().length,
+        fitnessCount: getSavedFitness().length,
+      });
       return;
     }
   }
@@ -838,7 +977,15 @@ function saveCurrentPermit() {
   activeSavedPermitId = entry.id;
   setSavedPermits(permits);
   renderSavedPermitsList();
-  setPermitSaveStatus(`Saved: ${label}`);
+  statusPrefix = `Saved: ${label}`;
+  const result = await appendCloudSaveStatus(statusPrefix);
+  setPermitSaveStatus(result.text, result.isError);
+  if (!result.isError) {
+    updateCloudSyncBanner("ok", {
+      permitCount: getSavedPermits().length,
+      fitnessCount: getSavedFitness().length,
+    });
+  }
 }
 
 function loadSavedPermit(id) {
@@ -933,11 +1080,22 @@ function switchPermitTab(tabName) {
 }
 
 function initPermitSaving() {
-  document.getElementById("save-permit-btn")?.addEventListener("click", saveCurrentPermit);
+  document.getElementById("save-permit-btn")?.addEventListener("click", () => {
+    void saveCurrentPermit();
+  });
   document.getElementById("new-permit-btn")?.addEventListener("click", startNewPermit);
   document.getElementById("permit-tab-btn-edit")?.addEventListener("click", () => switchPermitTab("edit"));
   document.getElementById("permit-tab-btn-saved")?.addEventListener("click", () => switchPermitTab("saved"));
   document.getElementById("saved-permits-search")?.addEventListener("input", renderSavedPermitsList);
+  document.getElementById("export-backup-btn")?.addEventListener("click", exportSavedRecordsBackup);
+  document.getElementById("cloud-sync-retry-btn")?.addEventListener("click", () => {
+    void refreshCloudSavedRecords();
+  });
+  document.getElementById("import-backup-input")?.addEventListener("change", (event) => {
+    const file = event.target.files?.[0];
+    void importSavedRecordsBackup(file);
+    event.target.value = "";
+  });
   renderSavedPermitsList();
 }
 
@@ -1027,26 +1185,14 @@ function initMainPanelTabs() {
 }
 
 async function bootAdminPanel() {
-  if (window.RemoteStorage?.isEnabled?.()) {
-    const result = await window.RemoteStorage.hydrate();
-    if (!result.ok && result.reason === "auth") {
-      setPermitSaveStatus(
-        "Cloud save: storage secret mismatch. Redeploy after setting PERMIT_STORE_SECRET on Netlify.",
-        true
-      );
-    } else if (!result.ok && result.reason === "config") {
-      setPermitSaveStatus(
-        "Cloud save: add PERMIT_STORE_SECRET in Netlify environment variables and redeploy.",
-        true
-      );
-    }
-  }
+  await refreshCloudSavedRecords();
 
   initPermitSaving();
   initFitnessSaving();
   initMainPanelTabs();
   onPermitFormChange();
   onFitnessFormChange();
+  refreshPanelIcons(document.getElementById("cloud-sync-banner")?.parentElement || document);
 }
 
 bootAdminPanel();

@@ -15,9 +15,22 @@
     return "";
   }
 
-  function isEnabled() {
+  function getDisableReason() {
     const config = getStorageConfig();
-    return config.remote !== false && Boolean(config.apiPath) && getStorageSecret().length > 0;
+    if (config.remote === false) {
+      return "disabled";
+    }
+    if (!config.apiPath) {
+      return "no-api";
+    }
+    if (!getStorageSecret()) {
+      return "no-secret";
+    }
+    return null;
+  }
+
+  function isEnabled() {
+    return getDisableReason() === null;
   }
 
   function getApiUrl() {
@@ -133,7 +146,9 @@
 
   window.RemoteStorage = {
     isEnabled,
+    getDisableReason,
     hydrate,
+    pushLocalToServer,
     scheduleSync,
     getLastSyncError,
   };

@@ -20,7 +20,7 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="panel.css?v=44">
+  <link rel="stylesheet" href="panel.css?v=45">
   <link rel="stylesheet" href="permit-frame.css?v=44">
   <link rel="stylesheet" href="permit-print.css?v=43">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,6 +56,8 @@
         </button>
       </div>
     </header>
+
+    <div id="cloud-sync-banner" class="cloud-sync-banner" role="status" aria-live="polite" hidden></div>
 
     <dialog id="password-dialog" class="password-dialog" aria-labelledby="password-dialog-title">
       <form id="password-form" class="password-dialog-form" novalidate>
@@ -327,6 +329,21 @@
                   >
                 </div>
               </div>
+              <div class="permit-backup-actions">
+                <button type="button" id="export-backup-btn" class="permit-action-btn btn-with-icon">
+                  <span data-icon="save" aria-hidden="true"></span>
+                  <span>Download backup</span>
+                </button>
+                <label class="permit-action-btn btn-with-icon permit-backup-import-label">
+                  <span data-icon="folder" aria-hidden="true"></span>
+                  <span>Restore backup</span>
+                  <input type="file" id="import-backup-input" accept="application/json,.json" hidden>
+                </label>
+                <button type="button" id="cloud-sync-retry-btn" class="permit-action-btn btn-with-icon">
+                  <span data-icon="download" aria-hidden="true"></span>
+                  <span>Sync from cloud</span>
+                </button>
+              </div>
               <ul id="saved-permits-list" class="permit-saved-list"></ul>
               <p id="saved-permits-empty" class="permit-saved-empty">No saved permits yet. Go to Edit Permit, fill the form, and click Save Permit.</p>
             </div>
@@ -551,7 +568,7 @@
   <script src="config.js?v=8"></script>
   <script src="auth.js?v=7"></script>
   <script src="storage-secret.js?v=1"></script>
-  <script src="storage-remote.js?v=2"></script>
+  <script src="storage-remote.js?v=3"></script>
   <script>
     (function bootstrapAuth() {
       if (typeof redirectResultHashToPublicPage === "function") {
@@ -656,6 +673,6 @@
   <script src="ui-icons.js?v=3"></script>
   <script src="theme.js?v=3"></script>
   <script src="qrcode.min.js"></script>
-  <script src="app.js?v=34"></script>
+  <script src="app.js?v=35"></script>
 </body>
 </html>

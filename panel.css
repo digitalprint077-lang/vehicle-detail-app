@@ -921,6 +921,42 @@ html[data-theme="dark"] .permit-tab.is-active {
   min-height: 1.2em;
 }
 
+.cloud-sync-banner {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-surface);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--panel-text);
+}
+
+.cloud-sync-banner[data-state="ok"] {
+  border-color: color-mix(in srgb, var(--panel-success) 45%, var(--panel-border));
+  background: color-mix(in srgb, var(--panel-success) 12%, var(--panel-surface));
+}
+
+.cloud-sync-banner[data-state="warn"],
+.cloud-sync-banner[data-state="error"] {
+  border-color: color-mix(in srgb, var(--panel-danger) 45%, var(--panel-border));
+  background: color-mix(in srgb, var(--panel-danger) 10%, var(--panel-surface));
+  color: var(--panel-text);
+}
+
+.permit-backup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 0.85rem;
+}
+
+.permit-backup-import-label {
+  cursor: pointer;
+  margin: 0;
+}
+
 .permit-saved-section {
   margin-top: 0.25rem;
 }
