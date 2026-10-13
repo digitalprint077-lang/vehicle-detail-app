@@ -51,6 +51,12 @@
     padding: 0 !important;
   }
 
+  .panel-page-bg,
+  .panel-page-blob,
+  .cloud-sync-banner,
+  .permit-backup-actions,
+  .custom-cursor,
+  .cursor-ring,
   .permit-print-btn,
   .password-dialog,
   .theme-toggle-btn,
