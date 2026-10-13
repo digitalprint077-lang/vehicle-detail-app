@@ -382,18 +382,21 @@ function updateCloudSyncBanner(state, detail) {
   const banner = document.getElementById("cloud-sync-banner");
   if (!banner) return;
 
+  const apiPath = window.APP_CONFIG?.storage?.apiPath || "/.netlify/functions/vehicle-records";
+
   const messages = {
     checking: "Checking cloud backup…",
     ok: `Cloud backup is on. ${detail?.permitCount ?? 0} permit(s) and ${detail?.fitnessCount ?? 0} fitness record(s) loaded from Netlify.`,
-    "no-secret":
-      "Cloud backup is OFF (storage secret missing). Permits stay in this browser only. In Netlify: set PERMIT_STORE_SECRET, remove ADMIN_PASSWORD, then redeploy the latest site code.",
+    "no-secret": `Cloud backup is OFF (secret not in this build). Set PERMIT_STORE_SECRET on Netlify to a random value (run: openssl rand -hex 32 — paste the result, not the command text), then redeploy.`,
     "no-api": "Cloud backup is OFF (API path missing in config).",
     disabled: "Cloud backup is turned off in config.",
-    auth: "Cloud backup failed: wrong PERMIT_STORE_SECRET. Fix the env var and redeploy so storage-secret.js is regenerated.",
+    auth: "Cloud backup failed: PERMIT_STORE_SECRET does not match. Update the env var, redeploy, then hard-refresh the site (Ctrl+Shift+R).",
     config: "Cloud backup failed: PERMIT_STORE_SECRET is not set on Netlify. Add it and redeploy.",
-    network: "Cloud backup failed: could not reach /.netlify/functions/permits. Deploy the latest code with Netlify Functions enabled.",
+    "not-found": `Cloud backup API not found (404) at ${apiPath}. Redeploy latest code from GitHub master, then open that URL — you should get JSON "Unauthorized", not a 404 page.`,
+    http: `Cloud backup failed (HTTP ${detail?.status ?? "?"}). Check Netlify → Functions → vehicle-records.`,
+    network: `Cloud backup blocked or unreachable (${detail?.message || "Failed to fetch"}). Disable ad blockers for this site, confirm Functions are deployed, then retry.`,
     "missing-module":
-      "This site build is missing cloud backup (old deploy). Merge/deploy the latest branch with netlify/functions and netlify.toml.",
+      "This site build is missing cloud backup (old deploy). Deploy latest master with netlify/functions and netlify.toml.",
   };
 
   const text = messages[state] || messages.network;
@@ -501,7 +504,10 @@ async function refreshCloudSavedRecords() {
     return;
   }
 
-  updateCloudSyncBanner(result.reason || "network");
+  updateCloudSyncBanner(result.reason || "network", {
+    status: result.status,
+    message: result.detail,
+  });
 }
 
 function setFitnessSaveStatus(message, isError = false) {

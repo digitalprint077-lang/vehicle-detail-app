@@ -4,12 +4,12 @@ window.APP_CONFIG = {
     username: "admin",
     password: "admin123",
   },
-  // Saved permits/fitness sync to Netlify (see netlify/functions/permits.js).
-  // Netlify env: PERMIT_STORE_SECRET = long random string (not your login password).
-  // Injected at build into storage-secret.js — do not commit the real secret here.
+  // Saved permits/fitness sync to Netlify (netlify/functions/vehicle-records.js).
+  // Netlify env PERMIT_STORE_SECRET = output of: openssl rand -hex 32 (not the command text).
+  // Redeploy after changing the env var so storage-secret.js is regenerated.
   storage: {
     remote: true,
-    apiPath: "/.netlify/functions/permits",
+    apiPath: "/.netlify/functions/vehicle-records",
     apiSecret: "",
   },
   routes: {

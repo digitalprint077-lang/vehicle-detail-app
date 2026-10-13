@@ -34,7 +34,7 @@
   }
 
   function getApiUrl() {
-    return getStorageConfig().apiPath || "/.netlify/functions/permits";
+    return getStorageConfig().apiPath || "/.netlify/functions/vehicle-records";
   }
 
   async function apiRequest(method, body) {
@@ -114,7 +114,11 @@
       }
       if (!response.ok) {
         lastSyncError = new Error(`Server returned ${response.status}`);
-        return { ok: false, reason: "http" };
+        return {
+          ok: false,
+          reason: response.status === 404 ? "not-found" : "http",
+          status: response.status,
+        };
       }
 
       const data = await response.json();
@@ -140,7 +144,7 @@
     } catch (error) {
       lastSyncError = error;
       console.warn("Remote storage unavailable; using browser cache only.", error);
-      return { ok: false, reason: "network" };
+      return { ok: false, reason: "network", detail: error?.message || String(error) };
     }
   }
 
