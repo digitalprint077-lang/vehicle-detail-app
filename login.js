@@ -1,6 +1,11 @@
 const loginForm = document.getElementById("login-form");
 const loginError = document.getElementById("login-error");
 
+const loginNavigation = performance.getEntriesByType("navigation")[0];
+if (loginNavigation && loginNavigation.type === "reload" && typeof logout === "function") {
+  logout();
+}
+
 const loginParams = new URLSearchParams(window.location.search);
 const loginRedirect = loginParams.get("redirect");
 if (loginRedirect && isResultPath(loginRedirect)) {

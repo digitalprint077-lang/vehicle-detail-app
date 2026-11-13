@@ -590,7 +590,7 @@
   </div>
 
   <script src="config.js?v=9"></script>
-  <script src="auth.js?v=7"></script>
+  <script src="auth.js?v=8"></script>
   <script src="storage-secret.js?v=1"></script>
   <script src="storage-remote.js?v=4"></script>
   <script>
@@ -607,7 +607,7 @@
 
       if (typeof requireAuth === "function") {
         requireAuth();
-      } else if (localStorage.getItem("vehicleDetailAuth") !== "true") {
+      } else if (sessionStorage.getItem("vehicleDetailAuth") !== "true") {
         window.location.replace(appPageUrl("login"));
       }
     })();
@@ -618,6 +618,7 @@
         return;
       }
 
+      sessionStorage.removeItem("vehicleDetailAuth");
       localStorage.removeItem("vehicleDetailAuth");
       window.location.replace(appPageUrl("login", { searchParams: { loggedOut: "1" } }));
     });
@@ -697,6 +698,6 @@
   <script src="ui-icons.js?v=3"></script>
   <script src="theme.js?v=3"></script>
   <script src="qrcode.min.js"></script>
-  <script src="app.js?v=37"></script>
+  <script src="app.js?v=38"></script>
 </body>
 </html>

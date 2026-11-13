@@ -1,4 +1,5 @@
 const AUTH_SESSION_KEY = "vehicleDetailAuth";
+const AUTH_BOOT_KEY = "vehicleDetailAuthBoot";
 const AUTH_PASSWORD_KEY = "vehicleDetailPassword";
 
 function getAuthConfig() {
@@ -31,7 +32,7 @@ function setActivePassword(password) {
 
 function isAuthenticated() {
   try {
-    return localStorage.getItem(AUTH_SESSION_KEY) === "true";
+    return sessionStorage.getItem(AUTH_SESSION_KEY) === "true";
   } catch (error) {
     return false;
   }
@@ -43,7 +44,9 @@ function login(username, password) {
 
   if (username === validUser && password === validPass) {
     try {
-      localStorage.setItem(AUTH_SESSION_KEY, "true");
+      sessionStorage.setItem(AUTH_SESSION_KEY, "true");
+      sessionStorage.setItem(AUTH_BOOT_KEY, "1");
+      localStorage.removeItem(AUTH_SESSION_KEY);
     } catch (error) {
       return false;
     }
@@ -85,6 +88,8 @@ function changePassword(currentPassword, newPassword) {
 
 function logout() {
   try {
+    sessionStorage.removeItem(AUTH_SESSION_KEY);
+    sessionStorage.removeItem(AUTH_BOOT_KEY);
     localStorage.removeItem(AUTH_SESSION_KEY);
   } catch (error) {
     // ignore storage errors
@@ -96,8 +101,22 @@ function logoutAndRedirect() {
   window.location.replace(appPageUrl("login", { searchParams: { loggedOut: "1" } }));
 }
 
+function allowFreshLogin() {
+  try {
+    if (sessionStorage.getItem(AUTH_BOOT_KEY) !== "1") return false;
+    sessionStorage.removeItem(AUTH_BOOT_KEY);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
 function requireAuth() {
-  if (isAuthenticated()) return;
+  // Stay signed in only for the page load right after login.
+  // A refresh has no boot flag, so the session is cleared.
+  if (isAuthenticated() && allowFreshLogin()) return;
+
+  logout();
 
   const returnPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
   window.location.replace(appPageUrl("login", { searchParams: { redirect: returnPath } }));
