@@ -20,12 +20,12 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="panel.css?v=49">
+  <link rel="stylesheet" href="panel.css?v=50">
   <link rel="stylesheet" href="permit-frame.css?v=44">
   <link rel="stylesheet" href="permit-print.css?v=46">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="panel-page panel-ui-v2">
   <div class="panel-page-bg" aria-hidden="true">
@@ -35,12 +35,13 @@
   <div class="panel-app">
     <aside class="panel-sidebar" id="panel-sidebar">
       <div class="panel-brand panel-brand-row panel-sidebar-brand">
-        <span class="panel-brand-icon-badge" data-icon="truck" aria-hidden="true"></span>
+        <img class="panel-sidebar-emblem" src="assets/sindh-emblem.png" alt="">
         <div>
-          <span class="panel-eyebrow">Admin Panel</span>
+          <span class="panel-eyebrow">Provincial desk</span>
           <h1 class="page-title">Vehicle Detail</h1>
         </div>
       </div>
+      <p class="panel-sidebar-status"><span class="panel-sidebar-dot" aria-hidden="true"></span> Session ready</p>
 
       <p class="panel-sidebar-label">Workspace</p>
       <nav class="panel-main-tabs panel-sidebar-nav" role="tablist" aria-label="Admin sections">
@@ -76,10 +77,11 @@
       <button type="button" id="sidebar-toggle-btn" class="sidebar-toggle-btn" aria-controls="panel-sidebar" aria-expanded="false" aria-label="Open menu">
         <span data-icon="list" aria-hidden="true"></span>
       </button>
-      <div>
+      <div class="panel-workspace-heading">
         <span class="panel-eyebrow">Sindh transport desk</span>
         <h2 class="panel-workspace-title" id="panel-workspace-title">Route Permit</h2>
       </div>
+      <span class="panel-workspace-chip">Official A4 output</span>
     </header>
 
     <div id="cloud-sync-banner" class="cloud-sync-banner" role="status" aria-live="polite" hidden></div>
@@ -121,7 +123,7 @@
     </dialog>
 
     <div id="panel-main-tab-route" class="panel-main-tab-panel is-active" role="tabpanel" aria-labelledby="panel-main-tab-btn-route">
-    <section class="panel-hero panel-hero-modern panel-hero-compact">
+    <section class="panel-hero panel-hero-modern panel-hero-compact panel-hero-banner">
       <div class="panel-hero-icon" data-icon="truck" aria-hidden="true"></div>
       <div class="panel-hero-copy">
         <p class="panel-hero-kicker">Sindh route permit workspace</p>
@@ -456,7 +458,7 @@
     </div>
 
     <div id="panel-main-tab-fitness" class="panel-main-tab-panel" role="tabpanel" aria-labelledby="panel-main-tab-btn-fitness" hidden>
-      <section class="panel-hero panel-hero-modern panel-hero-compact">
+      <section class="panel-hero panel-hero-modern panel-hero-compact panel-hero-banner">
         <div class="panel-hero-icon" data-icon="certificate" aria-hidden="true"></div>
         <div class="panel-hero-copy">
           <p class="panel-hero-kicker">Fitness desk</p>

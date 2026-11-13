@@ -1,4 +1,5 @@
 .login-split-page {
+  font-family: "Plus Jakarta Sans", Inter, system-ui, sans-serif;
   --login-green: #0f7a5c;
   --login-green-deep: #0b5f49;
   --login-gradient: linear-gradient(135deg, #1fa67a 0%, var(--login-green) 100%);
@@ -32,21 +33,18 @@ html[data-theme="dark"] .login-split-page {
 .login-split-wrap {
   min-height: 100dvh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom));
 }
 
 .login-split-card {
   display: grid;
-  grid-template-columns: minmax(260px, 0.86fr) minmax(320px, 1.14fr);
-  width: min(100%, 960px);
-  min-height: min(86vh, 600px);
-  border-radius: 24px;
+  grid-template-columns: minmax(280px, 0.92fr) minmax(340px, 1.08fr);
+  width: 100%;
+  min-height: 100dvh;
+  border-radius: 0;
   overflow: hidden;
   background: var(--login-form-bg);
-  box-shadow: var(--login-shadow);
-  border: 1px solid rgba(15, 42, 34, 0.06);
+  box-shadow: none;
+  border: 0;
 }
 
 .login-split-showcase {
@@ -70,15 +68,14 @@ html[data-theme="dark"] .login-split-page {
   gap: 0.7rem;
 }
 
-.login-split-showcase-icon {
-  display: inline-flex;
-  width: 3rem;
-  height: 3rem;
-  padding: 0.65rem;
-  border-radius: 14px;
-  color: #fff;
-  background: var(--login-gradient);
-  box-shadow: 0 10px 22px rgba(15, 122, 92, 0.35);
+.login-split-emblem {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  border-radius: 18px;
+  padding: 0.4rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .login-split-showcase .login-split-eyebrow {
@@ -326,9 +323,14 @@ html[data-theme="dark"] .login-split-error {
 }
 
 @media (max-width: 820px) {
+  .login-split-wrap {
+    padding: 0.75rem;
+  }
+
   .login-split-card {
     grid-template-columns: 1fr;
     min-height: auto;
+    border-radius: 22px;
   }
 
   .login-split-showcase {
