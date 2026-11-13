@@ -51,6 +51,7 @@
     padding: 0 !important;
   }
 
+  .permit-print-overlay-toolbar,
   .permit-print-btn,
   .password-dialog,
   .theme-toggle-btn,
@@ -77,6 +78,12 @@
   .panel-permit-layout,
   .panel-permit-live {
     display: block !important;
+    position: static !important;
+    inset: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
     width: 100% !important;
     max-width: none !important;
     margin: 0 !important;
@@ -91,13 +98,16 @@
     gap: 0 !important;
   }
 
-  .panel-permit-live {
+  .panel-permit-live,
+  .panel-permit-live[hidden] {
     position: static !important;
     top: auto !important;
     width: 100% !important;
     height: auto !important;
     min-height: 0 !important;
     overflow: visible !important;
+    display: block !important;
+    visibility: visible !important;
   }
 
   .route-permit-page {
