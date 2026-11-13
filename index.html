@@ -20,14 +20,14 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="panel.css?v=46">
+  <link rel="stylesheet" href="panel.css?v=47">
   <link rel="stylesheet" href="permit-frame.css?v=44">
   <link rel="stylesheet" href="permit-print.css?v=45">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="panel-page">
+<body class="panel-page panel-ui-v2">
   <div class="panel-page-bg" aria-hidden="true">
     <span class="panel-page-blob panel-page-blob-1"></span>
     <span class="panel-page-blob panel-page-blob-2"></span>
@@ -107,9 +107,12 @@
     </nav>
 
     <div id="panel-main-tab-route" class="panel-main-tab-panel is-active" role="tabpanel" aria-labelledby="panel-main-tab-btn-route">
-    <section class="panel-hero panel-hero-modern panel-hero-showcase">
+    <section class="panel-hero panel-hero-modern panel-hero-compact">
       <div class="panel-hero-icon" data-icon="truck" aria-hidden="true"></div>
-      <p class="panel-hero-text">Manage vehicle records, build the official route permit preview, and open the public route permit result page.</p>
+      <div class="panel-hero-copy">
+        <p class="panel-hero-kicker">Sindh route permit workspace</p>
+        <p class="panel-hero-text">Search vehicle details, edit permit data, save records, and print official A4 when ready.</p>
+      </div>
     </section>
 
     <section class="panel-card panel-form-card">
@@ -179,8 +182,12 @@
     </section>
 
     <section class="panel-card panel-permit-card">
-      <div class="panel-card-header">
-        <h2 class="card-title">Route Permit Data</h2>
+      <div class="panel-card-header panel-card-header-split">
+        <div>
+          <h2 class="card-title">Route Permit Data</h2>
+          <p class="panel-card-lead">Form-only screen — tap <strong>Print A4</strong> to open the official document preview.</p>
+        </div>
+        <span class="panel-badge panel-badge-outline">Permit editor</span>
       </div>
 
       <div class="panel-permit-layout">
@@ -297,9 +304,9 @@
               </div>
             </form>
 
-            <div class="permit-edit-save-section">
-              <p class="permit-edit-save-intro">Save, load, and manage your route permits. Vehicle/result fields are saved with each permit.</p>
-              <div class="permit-save-actions">
+            <div class="permit-edit-save-section permit-action-dock">
+              <p class="permit-edit-save-intro">Save drafts to the cloud or browser. Saved permits tab includes backup and sync tools.</p>
+              <div class="permit-save-actions permit-action-toolbar">
                 <button type="button" id="save-permit-btn" class="submit-btn submit-btn-secondary btn-with-icon">
                   <span data-icon="save" aria-hidden="true"></span>
                   <span>Save Permit</span>
@@ -308,7 +315,7 @@
                   <span data-icon="plus" aria-hidden="true"></span>
                   <span>New Permit</span>
                 </button>
-                <button type="button" id="print-permit-btn" class="permit-action-btn btn-with-icon">
+                <button type="button" id="print-permit-btn" class="permit-action-btn permit-action-btn-print btn-with-icon">
                   <span data-icon="print" aria-hidden="true"></span>
                   <span>Print A4</span>
                 </button>

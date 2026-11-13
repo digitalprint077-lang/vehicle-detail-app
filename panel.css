@@ -1987,3 +1987,265 @@ html[data-theme="dark"] .password-form-status.is-success {
 .panel-qr-label.btn-with-icon {
   justify-content: center;
 }
+
+/* --- Admin UI v2: dashboard chrome only (permit A4 preview unchanged) --- */
+.panel-ui-v2 {
+  --brand-gradient: linear-gradient(135deg, #0f7a5c 0%, #0b5f49 100%);
+  --panel-accent: #0f7a5c;
+  --panel-accent-hover: #0b5f49;
+  --panel-accent-secondary: #c9a227;
+  --panel-fill-active: #e8f5f0;
+  --panel-fill-muted: #edf7f3;
+  --panel-focus-border: #0f7a5c;
+  --panel-focus-ring: rgba(15, 122, 92, 0.16);
+  --panel-load-border: #8fd4bc;
+  --panel-success: #0f7a5c;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(15, 122, 92, 0.07), transparent 35%),
+    radial-gradient(circle at 88% 8%, rgba(201, 162, 39, 0.06), transparent 28%),
+    var(--panel-bg);
+}
+
+html[data-theme="dark"] .panel-ui-v2 {
+  --brand-gradient: linear-gradient(135deg, #1fa67a 0%, #0f7a5c 100%);
+  --panel-accent: #2dd4a0;
+  --panel-accent-hover: #1fa67a;
+  --panel-fill-active: #152820;
+  --panel-fill-muted: #13221b;
+}
+
+.panel-ui-v2 .panel-page-bg {
+  display: none;
+}
+
+.panel-ui-v2 .panel-topbar {
+  border-radius: 16px;
+  box-shadow: none;
+  border-bottom: 3px solid var(--panel-accent);
+}
+
+.panel-ui-v2 .panel-brand-icon-badge {
+  background: var(--brand-gradient);
+  box-shadow: 0 8px 20px rgba(15, 122, 92, 0.28);
+  border-radius: 12px;
+}
+
+.panel-ui-v2 .panel-page .page-title {
+  color: var(--panel-text);
+  background: none;
+  -webkit-text-fill-color: var(--panel-text);
+}
+
+.panel-ui-v2 .panel-main-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  padding: 0.5rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  background: var(--panel-surface);
+}
+
+.panel-ui-v2 .panel-main-tab {
+  border-radius: 12px;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.panel-ui-v2 .panel-main-tab.is-active {
+  background: var(--brand-gradient);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(15, 122, 92, 0.25);
+}
+
+.panel-ui-v2 .panel-hero-compact {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1.1rem;
+  border-radius: 16px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-surface);
+  box-shadow: none;
+}
+
+.panel-ui-v2 .panel-hero-compact .panel-hero-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0;
+  border-radius: 14px;
+  background: var(--panel-fill-active);
+  color: var(--panel-accent);
+  flex-shrink: 0;
+}
+
+.panel-ui-v2 .panel-hero-kicker {
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--panel-accent);
+}
+
+.panel-ui-v2 .panel-hero-compact .panel-hero-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--panel-muted);
+  max-width: none;
+}
+
+.panel-ui-v2 .panel-card {
+  border-radius: 18px;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
+}
+
+.panel-ui-v2 .panel-permit-card {
+  border-left: 4px solid var(--panel-accent);
+}
+
+.panel-ui-v2 .panel-card-header-split {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.panel-ui-v2 .panel-card-lead {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--panel-muted);
+  max-width: 42rem;
+}
+
+.panel-ui-v2 .panel-card-lead strong {
+  color: var(--panel-text);
+  font-weight: 700;
+}
+
+.panel-ui-v2 .panel-badge-outline {
+  background: transparent;
+  color: var(--panel-accent);
+  border: 1px solid var(--panel-load-border);
+  box-shadow: none;
+}
+
+.panel-ui-v2 .permit-tabs {
+  border-radius: 14px;
+  padding: 0.3rem;
+  background: var(--panel-fill-subtle);
+}
+
+.panel-ui-v2 .permit-tab {
+  border-radius: 10px;
+}
+
+.panel-ui-v2 .permit-tab.is-active {
+  box-shadow: 0 6px 16px rgba(15, 122, 92, 0.22);
+}
+
+.panel-ui-v2 .panel-permit-form .panel-form-grid-single {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem 1rem;
+}
+
+.panel-ui-v2 .panel-permit-form .field-full {
+  grid-column: 1 / -1;
+}
+
+.panel-ui-v2 .panel-input-shell {
+  border-radius: 12px;
+  background: var(--panel-surface);
+}
+
+.panel-ui-v2 .permit-action-dock {
+  margin-top: 1.25rem;
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid var(--panel-border);
+  background: linear-gradient(180deg, var(--panel-fill-subtle), var(--panel-surface));
+}
+
+.panel-ui-v2 .permit-edit-save-intro {
+  margin: 0 0 0.85rem;
+  font-size: 0.84rem;
+}
+
+.panel-ui-v2 .permit-action-toolbar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+  align-items: stretch;
+}
+
+.panel-ui-v2 .permit-action-toolbar .permit-save-status {
+  grid-column: 1 / -1;
+  margin-top: 0.25rem;
+}
+
+.panel-ui-v2 .permit-action-toolbar .submit-btn,
+.panel-ui-v2 .permit-action-toolbar .permit-action-btn {
+  width: 100%;
+  margin: 0;
+  justify-content: center;
+  min-height: 44px;
+}
+
+.panel-ui-v2 .permit-action-btn-print {
+  border-color: var(--panel-accent);
+  color: var(--panel-accent);
+  background: var(--panel-fill-active);
+  font-weight: 700;
+}
+
+.panel-ui-v2 .permit-action-btn-print:hover {
+  background: color-mix(in srgb, var(--panel-accent) 12%, var(--panel-fill-active));
+  border-color: var(--panel-accent-hover);
+}
+
+.panel-ui-v2 .permit-save-actions .submit-btn.btn-with-icon,
+.panel-ui-v2 .permit-save-actions .permit-action-btn.btn-with-icon {
+  width: 100%;
+}
+
+.panel-ui-v2 .submit-btn,
+.panel-ui-v2 .submit-btn-secondary {
+  background: var(--brand-gradient);
+  box-shadow: 0 10px 22px rgba(15, 122, 92, 0.25);
+}
+
+.panel-ui-v2 .cloud-sync-banner {
+  border-radius: 12px;
+  font-size: 0.84rem;
+}
+
+body.panel-ui-v2.is-print-preview-visible .panel-permit-live {
+  background: color-mix(in srgb, #0f1419 92%, transparent);
+}
+
+.panel-ui-v2 .permit-print-overlay-toolbar {
+  padding: 0.35rem 0.5rem;
+  border-radius: 12px;
+  background: var(--panel-surface);
+  border: 1px solid var(--panel-border);
+}
+
+@media (max-width: 720px) {
+  .panel-ui-v2 .permit-action-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-ui-v2 .panel-permit-form .panel-form-grid-single {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-ui-v2 .panel-main-tabs {
+    grid-template-columns: 1fr;
+  }
+}
