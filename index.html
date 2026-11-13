@@ -20,9 +20,9 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="panel.css?v=51">
+  <link rel="stylesheet" href="panel.css?v=52">
   <link rel="stylesheet" href="permit-frame.css?v=44">
-  <link rel="stylesheet" href="permit-print.css?v=46">
+  <link rel="stylesheet" href="permit-print.css?v=47">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -45,7 +45,11 @@
 
       <p class="panel-sidebar-label">Workspace</p>
       <nav class="panel-main-tabs panel-sidebar-nav" role="tablist" aria-label="Admin sections">
-        <button type="button" class="panel-main-tab is-active btn-with-icon" id="panel-main-tab-btn-route" role="tab" aria-selected="true" aria-controls="panel-main-tab-route">
+        <button type="button" class="panel-main-tab is-active btn-with-icon" id="panel-main-tab-btn-dashboard" role="tab" aria-selected="true" aria-controls="panel-main-tab-dashboard">
+          <span data-icon="layers" aria-hidden="true"></span>
+          <span>Dashboard</span>
+        </button>
+        <button type="button" class="panel-main-tab btn-with-icon" id="panel-main-tab-btn-route" role="tab" aria-selected="false" aria-controls="panel-main-tab-route">
           <span data-icon="truck" aria-hidden="true"></span>
           <span>Route Permit</span>
         </button>
@@ -79,7 +83,7 @@
       </button>
       <div class="panel-workspace-heading">
         <span class="panel-eyebrow">Sindh transport desk</span>
-        <h2 class="panel-workspace-title" id="panel-workspace-title">Route Permit</h2>
+        <h2 class="panel-workspace-title" id="panel-workspace-title">Dashboard</h2>
       </div>
       <span class="panel-workspace-chip">Official A4 output</span>
     </header>
@@ -122,7 +126,75 @@
       </form>
     </dialog>
 
-    <div id="panel-main-tab-route" class="panel-main-tab-panel is-active" role="tabpanel" aria-labelledby="panel-main-tab-btn-route">
+    <div id="panel-main-tab-dashboard" class="panel-main-tab-panel is-active" role="tabpanel" aria-labelledby="panel-main-tab-btn-dashboard">
+      <section class="panel-hero panel-hero-modern panel-hero-compact panel-hero-banner">
+        <div class="panel-hero-icon" data-icon="layers" aria-hidden="true"></div>
+        <div class="panel-hero-copy">
+          <p class="panel-hero-kicker">Desk overview</p>
+          <p class="panel-hero-text">Start a permit or fitness record, check what is expiring, and open recent files without searching the lists.</p>
+        </div>
+      </section>
+
+      <section class="desk-stats" aria-label="Record totals">
+        <article class="desk-stat">
+          <span class="desk-stat-label">Route permits</span>
+          <strong id="desk-stat-permits">0</strong>
+        </article>
+        <article class="desk-stat">
+          <span class="desk-stat-label">Fitness records</span>
+          <strong id="desk-stat-fitness">0</strong>
+        </article>
+        <article class="desk-stat">
+          <span class="desk-stat-label">Due in 30 days</span>
+          <strong id="desk-stat-due">0</strong>
+        </article>
+        <article class="desk-stat desk-stat-alert">
+          <span class="desk-stat-label">Expired</span>
+          <strong id="desk-stat-expired">0</strong>
+        </article>
+      </section>
+
+      <section class="desk-layout">
+        <div class="panel-card desk-card">
+          <div class="panel-card-header">
+            <h2 class="card-title">Workflow</h2>
+          </div>
+          <ol class="desk-steps">
+            <li><strong>1. Vehicle</strong><span>Enter registration, chassis, and engine.</span></li>
+            <li><strong>2. Permit or fitness</strong><span>Fill the official fields and save.</span></li>
+            <li><strong>3. Print</strong><span>Open A4 only when the record is ready.</span></li>
+          </ol>
+          <div class="desk-actions">
+            <button type="button" class="submit-btn btn-with-icon" id="desk-new-permit">
+              <span data-icon="plus" aria-hidden="true"></span>
+              <span>New route permit</span>
+            </button>
+            <button type="button" class="permit-action-btn btn-with-icon" id="desk-new-fitness">
+              <span data-icon="certificate" aria-hidden="true"></span>
+              <span>New fitness record</span>
+            </button>
+            <button type="button" class="permit-action-btn btn-with-icon" id="desk-open-permits">
+              <span data-icon="folder" aria-hidden="true"></span>
+              <span>Saved permits</span>
+            </button>
+            <button type="button" class="permit-action-btn btn-with-icon" id="desk-open-fitness">
+              <span data-icon="folder" aria-hidden="true"></span>
+              <span>Saved fitness</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-card desk-card">
+          <div class="panel-card-header">
+            <h2 class="card-title">Recent records</h2>
+          </div>
+          <ul id="desk-recent-list" class="desk-recent"></ul>
+          <p id="desk-recent-empty" class="permit-saved-empty">No saved records yet. Create a route permit or fitness certificate to see them here.</p>
+        </div>
+      </section>
+    </div>
+
+    <div id="panel-main-tab-route" class="panel-main-tab-panel" role="tabpanel" aria-labelledby="panel-main-tab-btn-route" hidden>
     <section class="panel-hero panel-hero-modern panel-hero-compact panel-hero-banner">
       <div class="panel-hero-icon" data-icon="truck" aria-hidden="true"></div>
       <div class="panel-hero-copy">
@@ -712,6 +784,6 @@
   <script src="ui-icons.js?v=3"></script>
   <script src="theme.js?v=3"></script>
   <script src="qrcode.min.js"></script>
-  <script src="app.js?v=40"></script>
+  <script src="app.js?v=41"></script>
 </body>
 </html>

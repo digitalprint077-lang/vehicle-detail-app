@@ -1212,6 +1212,94 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+function parseDeskDate(value) {
+  if (!value) return null;
+  const date = new Date(`${String(value).slice(0, 10)}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function daysUntilDate(date) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return Math.round((date.getTime() - today.getTime()) / 86400000);
+}
+
+function getPermitExpiryDate(entry) {
+  return parseDeskDate(entry?.permit?.validUpto || entry?.vehicle?.expiryDate);
+}
+
+function getFitnessExpiryDate(entry) {
+  return parseDeskDate(entry?.fitness?.expiryDate);
+}
+
+function renderDashboard() {
+  const permits = getSavedPermits();
+  const fitness = getSavedFitness();
+  const dated = [
+    ...permits.map((entry) => ({ entry, kind: "permit", date: getPermitExpiryDate(entry) })),
+    ...fitness.map((entry) => ({ entry, kind: "fitness", date: getFitnessExpiryDate(entry) })),
+  ];
+  const dueSoon = dated.filter((item) => item.date && daysUntilDate(item.date) >= 0 && daysUntilDate(item.date) <= 30).length;
+  const expired = dated.filter((item) => item.date && daysUntilDate(item.date) < 0).length;
+
+  const permitCount = document.getElementById("desk-stat-permits");
+  const fitnessCount = document.getElementById("desk-stat-fitness");
+  const dueCount = document.getElementById("desk-stat-due");
+  const expiredCount = document.getElementById("desk-stat-expired");
+  if (permitCount) permitCount.textContent = String(permits.length);
+  if (fitnessCount) fitnessCount.textContent = String(fitness.length);
+  if (dueCount) dueCount.textContent = String(dueSoon);
+  if (expiredCount) expiredCount.textContent = String(expired);
+
+  const list = document.getElementById("desk-recent-list");
+  const empty = document.getElementById("desk-recent-empty");
+  if (!list || !empty) return;
+
+  const recent = [
+    ...permits.map((entry) => ({
+      id: entry.id,
+      kind: "permit",
+      title: entry.label || getPermitLabel(entry.permit, entry.vehicle),
+      when: entry.updatedAt || entry.savedAt,
+    })),
+    ...fitness.map((entry) => ({
+      id: entry.id,
+      kind: "fitness",
+      title: entry.label || getFitnessLabel(entry.fitness),
+      when: entry.updatedAt || entry.savedAt,
+    })),
+  ]
+    .sort((a, b) => new Date(b.when || 0) - new Date(a.when || 0))
+    .slice(0, 6);
+
+  list.innerHTML = "";
+  const hasRecent = recent.length > 0;
+  list.hidden = !hasRecent;
+  empty.hidden = hasRecent;
+  empty.classList.toggle("is-hidden", hasRecent);
+
+  recent.forEach((item) => {
+    const row = document.createElement("li");
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "desk-recent-item";
+    button.innerHTML = `<span class="desk-recent-kind">${item.kind === "permit" ? "Permit" : "Fitness"}</span><strong></strong><span class="desk-recent-when"></span>`;
+    button.querySelector("strong").textContent = item.title;
+    button.querySelector(".desk-recent-when").textContent = formatSavedDate(item.when);
+    button.addEventListener("click", () => {
+      if (item.kind === "permit") {
+        switchMainPanelTab("route");
+        loadSavedPermit(item.id);
+      } else {
+        switchMainPanelTab("fitness");
+        loadSavedFitness(item.id);
+      }
+    });
+    row.appendChild(button);
+    list.appendChild(row);
+  });
+}
+
 function closeSidebar() {
   document.body.classList.remove("is-sidebar-open");
   document.getElementById("sidebar-toggle-btn")?.setAttribute("aria-expanded", "false");
@@ -1220,54 +1308,38 @@ function closeSidebar() {
 }
 
 function switchMainPanelTab(tabName) {
-  const isRoute = tabName === "route";
-  const routePanel = document.getElementById("panel-main-tab-route");
-  const fitnessPanel = document.getElementById("panel-main-tab-fitness");
-  const routeBtn = document.getElementById("panel-main-tab-btn-route");
-  const fitnessBtn = document.getElementById("panel-main-tab-btn-fitness");
+  const tabs = ["dashboard", "route", "fitness"];
+  if (!tabs.includes(tabName)) tabName = "dashboard";
 
-  routePanel?.classList.toggle("is-active", isRoute);
-  fitnessPanel?.classList.toggle("is-active", !isRoute);
-  routeBtn?.classList.toggle("is-active", isRoute);
-  fitnessBtn?.classList.toggle("is-active", !isRoute);
-  routeBtn?.setAttribute("aria-selected", isRoute ? "true" : "false");
-  fitnessBtn?.setAttribute("aria-selected", isRoute ? "false" : "true");
+  tabs.forEach((name) => {
+    const active = name === tabName;
+    const panel = document.getElementById(`panel-main-tab-${name}`);
+    const button = document.getElementById(`panel-main-tab-btn-${name}`);
+    panel?.classList.toggle("is-active", active);
+    button?.classList.toggle("is-active", active);
+    button?.setAttribute("aria-selected", active ? "true" : "false");
+    if (panel) panel.hidden = !active;
+  });
 
-  if (routePanel) routePanel.hidden = !isRoute;
-  if (fitnessPanel) fitnessPanel.hidden = isRoute;
-
+  const titles = {
+    dashboard: "Dashboard",
+    route: "Route Permit",
+    fitness: "Fitness Certificate",
+  };
   const workspaceTitle = document.getElementById("panel-workspace-title");
-  if (workspaceTitle) {
-    workspaceTitle.textContent = isRoute ? "Route Permit" : "Fitness Certificate";
-  }
+  if (workspaceTitle) workspaceTitle.textContent = titles[tabName];
 
   closeSidebar();
 
-  try {
-    localStorage.setItem("vehicleDetailPanelMainTab", tabName);
-  } catch (error) {
-    // ignore storage errors
-  }
-
-  if (!isRoute) {
-    onFitnessFormChange();
-  }
+  if (tabName === "dashboard") renderDashboard();
+  if (tabName === "fitness") onFitnessFormChange();
 }
 
 function initMainPanelTabs() {
-  let initialTab = "route";
-
-  try {
-    const savedTab = localStorage.getItem("vehicleDetailPanelMainTab");
-    if (savedTab === "route" || savedTab === "fitness") {
-      initialTab = savedTab;
-    }
-  } catch (error) {
-    // ignore storage errors
-  }
+  let initialTab = "dashboard";
 
   const tabParam = new URLSearchParams(window.location.search).get("tab");
-  if (tabParam === "fitness" || tabParam === "route") {
+  if (tabParam === "fitness" || tabParam === "route" || tabParam === "dashboard") {
     initialTab = tabParam;
   }
 
@@ -1283,6 +1355,25 @@ function initMainPanelTabs() {
     if (backdrop) backdrop.hidden = true;
   });
 
+  document.getElementById("panel-main-tab-btn-dashboard")?.addEventListener("click", () => {
+    switchMainPanelTab("dashboard");
+  });
+  document.getElementById("desk-new-permit")?.addEventListener("click", () => {
+    switchMainPanelTab("route");
+    startNewPermit();
+  });
+  document.getElementById("desk-new-fitness")?.addEventListener("click", () => {
+    switchMainPanelTab("fitness");
+    startNewFitness();
+  });
+  document.getElementById("desk-open-permits")?.addEventListener("click", () => {
+    switchMainPanelTab("route");
+    switchPermitTab("saved");
+  });
+  document.getElementById("desk-open-fitness")?.addEventListener("click", () => {
+    switchMainPanelTab("fitness");
+    switchFitnessTab("saved");
+  });
   document.getElementById("panel-main-tab-btn-route")?.addEventListener("click", () => {
     switchMainPanelTab("route");
   });
