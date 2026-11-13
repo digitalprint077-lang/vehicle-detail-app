@@ -20,7 +20,7 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="panel.css?v=48">
+  <link rel="stylesheet" href="panel.css?v=49">
   <link rel="stylesheet" href="permit-frame.css?v=44">
   <link rel="stylesheet" href="permit-print.css?v=46">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,6 +70,7 @@
       </div>
     </aside>
 
+    <button type="button" id="sidebar-backdrop" class="panel-sidebar-backdrop" aria-label="Close menu" hidden></button>
     <div class="panel-shell panel-workspace">
     <header class="panel-topbar panel-workspace-bar">
       <button type="button" id="sidebar-toggle-btn" class="sidebar-toggle-btn" aria-controls="panel-sidebar" aria-expanded="false" aria-label="Open menu">
@@ -231,7 +232,7 @@
                   <label for="vehicle-type">Vehicle Type</label>
                   <div class="panel-input-shell">
                     <span class="panel-input-icon" data-icon="truck" aria-hidden="true"></span>
-                    <select id="vehicle-type" name="vehicleType">
+                    <select id="vehicle-type">
                       <option value="">Select vehicle type</option>
                       <option value="TRUCK" selected>TRUCK</option>
                       <option value="PICKUP">PICKUP</option>
@@ -240,7 +241,15 @@
                       <option value="OIL TANKER">OIL TANKER</option>
                       <option value="GAS BOWSER">GAS BOWSER</option>
                       <option value="GAS BOWSER TRAILER">GAS BOWSER TRAILER</option>
+                      <option value="__custom__">Custom</option>
                     </select>
+                  </div>
+                </div>
+                <div class="field" id="vehicle-type-custom-wrap" hidden>
+                  <label for="vehicle-type-custom">Custom vehicle type</label>
+                  <div class="panel-input-shell">
+                    <span class="panel-input-icon" data-icon="edit" aria-hidden="true"></span>
+                    <input type="text" id="vehicle-type-custom" placeholder="Type vehicle type" autocomplete="off">
                   </div>
                 </div>
                 <div class="field field-full">
@@ -447,9 +456,12 @@
     </div>
 
     <div id="panel-main-tab-fitness" class="panel-main-tab-panel" role="tabpanel" aria-labelledby="panel-main-tab-btn-fitness" hidden>
-      <section class="panel-hero panel-hero-modern panel-hero-showcase">
+      <section class="panel-hero panel-hero-modern panel-hero-compact">
         <div class="panel-hero-icon" data-icon="certificate" aria-hidden="true"></div>
-        <p class="panel-hero-text">Manage fitness certificate records, generate a live QR code, and open the public fitness result page.</p>
+        <div class="panel-hero-copy">
+          <p class="panel-hero-kicker">Fitness desk</p>
+          <p class="panel-hero-text">Save fitness records, build a QR link, and open the public certificate page.</p>
+        </div>
       </section>
 
       <section class="panel-card panel-fitness-card">
@@ -698,6 +710,6 @@
   <script src="ui-icons.js?v=3"></script>
   <script src="theme.js?v=3"></script>
   <script src="qrcode.min.js"></script>
-  <script src="app.js?v=38"></script>
+  <script src="app.js?v=40"></script>
 </body>
 </html>

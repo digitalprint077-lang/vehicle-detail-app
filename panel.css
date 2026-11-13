@@ -2397,3 +2397,123 @@ body.panel-ui-v2.is-print-preview-visible .panel-permit-live {
     grid-template-columns: 1fr;
   }
 }
+
+/* --- UI polish --- */
+.panel-ui-v2 .panel-workspace.panel-shell {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 1.35rem 1.6rem 2.5rem;
+}
+
+.panel-ui-v2 .panel-topbar {
+  border: 1px solid var(--panel-border);
+  border-bottom: 1px solid var(--panel-border);
+  border-radius: 16px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1rem;
+  background: var(--panel-surface);
+}
+
+.panel-ui-v2 .panel-sidebar {
+  padding: 1.35rem 0.9rem 1rem;
+  gap: 0.35rem;
+}
+
+.panel-ui-v2 .panel-sidebar-brand {
+  padding: 0.15rem 0.45rem 0.9rem;
+  margin-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.panel-ui-v2 .panel-sidebar-label {
+  padding: 0.85rem 0.55rem 0.35rem;
+}
+
+.panel-ui-v2 .panel-sidebar .panel-main-tab {
+  min-height: 44px;
+  padding: 0.7rem 0.8rem;
+  font-size: 0.92rem;
+}
+
+.panel-ui-v2 .panel-sidebar .panel-main-tab .ui-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.panel-ui-v2 .panel-sidebar-footer {
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.panel-ui-v2 .panel-sidebar-btn {
+  min-height: 42px;
+}
+
+.panel-ui-v2 .panel-card {
+  box-shadow: 0 10px 30px rgba(15, 42, 34, 0.05);
+  padding: 1.25rem 1.3rem 1.35rem;
+}
+
+.panel-ui-v2 .panel-card-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.panel-ui-v2 .card-title {
+  letter-spacing: -0.02em;
+}
+
+.panel-ui-v2 .panel-page .panel-input-shell {
+  border-radius: 12px;
+  min-height: 46px;
+}
+
+.panel-ui-v2 .panel-page .panel-input-shell:focus-within {
+  border-color: var(--panel-focus-border);
+  box-shadow: 0 0 0 4px var(--panel-focus-ring);
+}
+
+.panel-ui-v2 .field label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin-bottom: 0.35rem;
+}
+
+.panel-ui-v2 .submit-btn,
+.panel-ui-v2 .permit-action-btn,
+.panel-ui-v2 .panel-sidebar-btn {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.panel-ui-v2 .submit-btn:hover,
+.panel-ui-v2 .permit-action-btn:hover {
+  transform: translateY(-1px);
+}
+
+.panel-ui-v2 .cloud-sync-banner {
+  margin-bottom: 1rem;
+}
+
+.panel-sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .panel-ui-v2 .panel-workspace.panel-shell {
+    padding: 0.85rem 0.75rem 2rem;
+  }
+
+  body.panel-ui-v2.is-sidebar-open .panel-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 25;
+    border: 0;
+    padding: 0;
+    background: rgba(8, 16, 14, 0.48);
+    cursor: pointer;
+  }
+}

@@ -57,11 +57,51 @@ function getFormDataObject() {
   };
 }
 
+function getVehicleTypeValue() {
+  const select = document.getElementById("vehicle-type");
+  const custom = document.getElementById("vehicle-type-custom");
+  if (!select) return "";
+  if (select.value === "__custom__") {
+    return custom?.value?.trim() || "";
+  }
+  return select.value || "";
+}
+
+function setVehicleTypeValue(value) {
+  const select = document.getElementById("vehicle-type");
+  const custom = document.getElementById("vehicle-type-custom");
+  const wrap = document.getElementById("vehicle-type-custom-wrap");
+  if (!select) return;
+
+  const normalized = String(value || "");
+  const known = Array.from(select.options).some(
+    (option) => option.value === normalized && option.value !== "__custom__"
+  );
+
+  if (normalized && !known) {
+    select.value = "__custom__";
+    if (custom) custom.value = normalized;
+    if (wrap) wrap.hidden = false;
+    return;
+  }
+
+  select.value = normalized;
+  if (custom) custom.value = "";
+  if (wrap) wrap.hidden = true;
+}
+
+function syncVehicleTypeCustomField() {
+  const select = document.getElementById("vehicle-type");
+  const wrap = document.getElementById("vehicle-type-custom-wrap");
+  if (!select || !wrap) return;
+  wrap.hidden = select.value !== "__custom__";
+}
+
 function getPermitFormDataObject() {
   if (!permitForm) {
     return {
       rpNo: document.getElementById("rp-no")?.value || "",
-      vehicleType: document.getElementById("vehicle-type")?.value || "",
+      vehicleType: getVehicleTypeValue(),
       fullName: document.getElementById("full-name")?.value || "",
       cnicNtn: document.getElementById("cnic-ntn")?.value || "",
       ownerAddress: document.getElementById("owner-address")?.value || "",
@@ -78,7 +118,7 @@ function getPermitFormDataObject() {
   const data = new FormData(permitForm);
   return {
     rpNo: data.get("rpNo") || "",
-    vehicleType: data.get("vehicleType") || "",
+    vehicleType: getVehicleTypeValue(),
     fullName: data.get("fullName") || "",
     cnicNtn: data.get("cnicNtn") || "",
     ownerAddress: data.get("ownerAddress") || "",
@@ -187,7 +227,7 @@ function updatePermitPreview() {
   if (!permitPreviewFields.rpNo) return;
 
   permitPreviewFields.rpNo.textContent = displayPermitValue(data.rpNo);
-  permitPreviewFields.vehicleType.textContent = displayPermitValue(data.vehicleType);
+  permitPreviewFields.vehicleType.textContent = formatPermitDisplayValue(data.vehicleType);
   permitPreviewFields.fullName.textContent = displayPermitValue(data.fullName);
   permitPreviewFields.cnicNtn.textContent = formatPermitDisplayValue(data.cnicNtn);
   permitPreviewFields.ownerAddress.textContent = formatPermitDisplayValue(data.ownerAddress);
@@ -317,6 +357,7 @@ function syncRegistrationFields(source) {
 }
 
 function onPermitFormChange() {
+  syncVehicleTypeCustomField();
   syncRegistrationFields("permit");
   updatePermitPreview();
   updatePermitQrCode();
@@ -522,7 +563,6 @@ function applyPermitDataToForm(permit) {
 
   const fields = {
     rpNo: "rp-no",
-    vehicleType: "vehicle-type",
     fullName: "full-name",
     cnicNtn: "cnic-ntn",
     ownerAddress: "owner-address",
@@ -541,6 +581,10 @@ function applyPermitDataToForm(permit) {
       input.value = permit[key];
     }
   });
+
+  if (permit.vehicleType !== undefined) {
+    setVehicleTypeValue(permit.vehicleType);
+  }
 }
 
 function applyVehicleDataToForm(vehicle) {
@@ -1171,6 +1215,8 @@ document.addEventListener("keydown", (event) => {
 function closeSidebar() {
   document.body.classList.remove("is-sidebar-open");
   document.getElementById("sidebar-toggle-btn")?.setAttribute("aria-expanded", "false");
+  const backdrop = document.getElementById("sidebar-backdrop");
+  if (backdrop) backdrop.hidden = true;
 }
 
 function switchMainPanelTab(tabName) {
@@ -1228,6 +1274,13 @@ function initMainPanelTabs() {
   document.getElementById("sidebar-toggle-btn")?.addEventListener("click", () => {
     const open = document.body.classList.toggle("is-sidebar-open");
     document.getElementById("sidebar-toggle-btn")?.setAttribute("aria-expanded", open ? "true" : "false");
+    const backdrop = document.getElementById("sidebar-backdrop");
+    if (backdrop) backdrop.hidden = !open;
+  });
+  document.getElementById("sidebar-backdrop")?.addEventListener("click", () => {
+    closeSidebar();
+    const backdrop = document.getElementById("sidebar-backdrop");
+    if (backdrop) backdrop.hidden = true;
   });
 
   document.getElementById("panel-main-tab-btn-route")?.addEventListener("click", () => {

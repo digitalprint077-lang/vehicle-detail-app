@@ -39,13 +39,14 @@ html[data-theme="dark"] .login-split-page {
 
 .login-split-card {
   display: grid;
-  grid-template-columns: minmax(260px, 0.9fr) minmax(320px, 1.1fr);
-  width: min(100%, 980px);
-  min-height: min(88vh, 620px);
-  border-radius: 22px;
+  grid-template-columns: minmax(260px, 0.86fr) minmax(320px, 1.14fr);
+  width: min(100%, 960px);
+  min-height: min(86vh, 600px);
+  border-radius: 24px;
   overflow: hidden;
   background: var(--login-form-bg);
   box-shadow: var(--login-shadow);
+  border: 1px solid rgba(15, 42, 34, 0.06);
 }
 
 .login-split-showcase {
