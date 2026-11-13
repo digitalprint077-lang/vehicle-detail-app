@@ -20,38 +20,45 @@
     })();
   </script>
   <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/login.css?v=3">
+  <link rel="stylesheet" href="/login.css?v=4">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="login-split-page">
-  <div class="login-split-bg" aria-hidden="true">
-    <span class="login-split-blob login-split-blob-1"></span>
-    <span class="login-split-blob login-split-blob-2"></span>
-  </div>
-
-  <button type="button" id="theme-toggle-btn" class="login-split-theme-btn theme-toggle-btn" data-theme-toggle aria-label="Switch to night mode" aria-pressed="false">
-    <span class="theme-toggle-icon" data-icon="moon" aria-hidden="true"></span>
-    <span class="theme-toggle-label">Night</span>
-  </button>
-
   <div class="login-split-wrap">
     <div class="login-split-card">
-      <section class="login-split-form-side">
-        <p class="login-split-eyebrow">Welcome to</p>
-
-        <div class="login-split-brand">
-          <span class="login-split-brand-icon" data-icon="truck" aria-hidden="true"></span>
-          <h1 class="login-split-brand-title">Vehicle Detail</h1>
+      <aside class="login-split-showcase">
+        <div class="login-split-showcase-content">
+          <div class="login-split-showcase-brand">
+            <span class="login-split-showcase-icon" data-icon="truck" aria-hidden="true"></span>
+            <p class="login-split-eyebrow">Sindh transport desk</p>
+            <h2>Vehicle Detail</h2>
+          </div>
+          <ul class="login-split-points">
+            <li>Route permits and A4 print</li>
+            <li>Fitness certificates</li>
+            <li>Saved records and cloud backup</li>
+          </ul>
         </div>
+        <button type="button" id="theme-toggle-btn" class="login-split-theme-btn theme-toggle-btn" data-theme-toggle aria-label="Switch to night mode" aria-pressed="false">
+          <span class="theme-toggle-icon" data-icon="moon" aria-hidden="true"></span>
+          <span class="theme-toggle-label">Night</span>
+        </button>
+      </aside>
 
-        <p class="login-split-lead">Log in to manage route permits, fitness certificates, and public result pages.</p>
+      <section class="login-split-form-side">
+        <p class="login-split-eyebrow">Admin sign in</p>
+        <div class="login-split-brand">
+          <h1 class="login-split-brand-title">Welcome back</h1>
+        </div>
+        <p class="login-split-lead">Use your admin username and password to open the workspace.</p>
 
         <form id="login-form" class="login-split-form" novalidate>
           <p id="login-error" class="login-split-error hidden">Invalid username or password.</p>
 
           <div class="login-split-field">
+            <label for="username">Username</label>
             <div class="login-split-input">
               <span class="login-split-input-icon" data-icon="user" aria-hidden="true"></span>
               <input type="text" id="username" name="username" autocomplete="username" placeholder="Username" required>
@@ -59,6 +66,7 @@
           </div>
 
           <div class="login-split-field">
+            <label for="password">Password</label>
             <div class="login-split-input">
               <span class="login-split-input-icon" data-icon="lock" aria-hidden="true"></span>
               <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Password" required>
@@ -68,21 +76,9 @@
             </div>
           </div>
 
-          <button type="submit" class="login-split-submit">Sign In</button>
+          <button type="submit" class="login-split-submit">Sign in</button>
         </form>
       </section>
-
-      <aside class="login-split-showcase" aria-hidden="true">
-        <div class="login-split-showcase-bg"></div>
-        <div class="login-split-showcase-overlay"></div>
-        <div class="login-split-showcase-content">
-          <div class="login-split-showcase-brand">
-            <span class="login-split-showcase-icon" data-icon="truck" aria-hidden="true"></span>
-            <h2>Vehicle Detail</h2>
-          </div>
-          <p>Your admin workspace for vehicle records, permit previews, fitness certificates, and instant QR result sharing.</p>
-        </div>
-      </aside>
     </div>
   </div>
 
