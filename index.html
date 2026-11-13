@@ -20,9 +20,9 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="panel.css?v=45">
+  <link rel="stylesheet" href="panel.css?v=46">
   <link rel="stylesheet" href="permit-frame.css?v=44">
-  <link rel="stylesheet" href="permit-print.css?v=44">
+  <link rel="stylesheet" href="permit-print.css?v=45">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -181,7 +181,6 @@
     <section class="panel-card panel-permit-card">
       <div class="panel-card-header">
         <h2 class="card-title">Route Permit Data</h2>
-        <span class="panel-badge">Live Preview</span>
       </div>
 
       <div class="panel-permit-layout">
@@ -309,6 +308,10 @@
                   <span data-icon="plus" aria-hidden="true"></span>
                   <span>New Permit</span>
                 </button>
+                <button type="button" id="print-permit-btn" class="permit-action-btn btn-with-icon">
+                  <span data-icon="print" aria-hidden="true"></span>
+                  <span>Print A4</span>
+                </button>
                 <p id="permit-save-status" class="permit-save-status" aria-live="polite"></p>
               </div>
             </div>
@@ -350,11 +353,11 @@
           </div>
         </div>
 
-        <aside class="panel-permit-live" aria-label="Route permit live preview">
-          <button type="button" id="print-permit-btn" class="permit-print-btn btn-with-icon">
-            <span data-icon="print" aria-hidden="true"></span>
-            <span>Print A4</span>
-          </button>
+        <aside class="panel-permit-live" id="panel-permit-live" aria-label="Route permit print preview" aria-hidden="true" hidden>
+          <div class="permit-print-overlay-toolbar">
+            <p class="permit-print-overlay-title">A4 print preview</p>
+            <button type="button" id="close-print-preview-btn" class="permit-action-btn">Close</button>
+          </div>
             <div class="permit-live-preview" id="permit-print-area">
             <div class="permit-frame" aria-hidden="true"></div>
             <div class="permit-inner-border" aria-hidden="true"></div>
@@ -673,6 +676,6 @@
   <script src="ui-icons.js?v=3"></script>
   <script src="theme.js?v=3"></script>
   <script src="qrcode.min.js"></script>
-  <script src="app.js?v=36"></script>
+  <script src="app.js?v=37"></script>
 </body>
 </html>

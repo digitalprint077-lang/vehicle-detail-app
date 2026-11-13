@@ -1126,13 +1126,46 @@ permitForm?.addEventListener("change", onPermitFormChange);
 form?.addEventListener("input", onVehicleFormChange);
 form?.addEventListener("change", onVehicleFormChange);
 
+function openPrintPreview() {
+  const livePanel = document.getElementById("panel-permit-live");
+  if (!livePanel) return;
+
+  if (typeof onPermitFormChange === "function") {
+    onPermitFormChange();
+  }
+
+  livePanel.hidden = false;
+  livePanel.setAttribute("aria-hidden", "false");
+  document.body.classList.add("is-print-preview-visible");
+}
+
+function closePrintPreview() {
+  const livePanel = document.getElementById("panel-permit-live");
+  document.body.classList.remove("is-print-preview-visible", "is-printing-permit");
+  if (livePanel) {
+    livePanel.hidden = true;
+    livePanel.setAttribute("aria-hidden", "true");
+  }
+}
+
 document.getElementById("print-permit-btn")?.addEventListener("click", () => {
-  document.body.classList.add("is-printing-permit");
-  window.print();
+  openPrintPreview();
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      document.body.classList.add("is-printing-permit");
+      window.print();
+    });
+  });
 });
 
-window.addEventListener("afterprint", () => {
-  document.body.classList.remove("is-printing-permit");
+document.getElementById("close-print-preview-btn")?.addEventListener("click", closePrintPreview);
+
+window.addEventListener("afterprint", closePrintPreview);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && document.body.classList.contains("is-print-preview-visible")) {
+    closePrintPreview();
+  }
 });
 
 function switchMainPanelTab(tabName) {
