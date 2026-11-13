@@ -51,6 +51,8 @@
     padding: 0 !important;
   }
 
+  .panel-sidebar,
+  .sidebar-toggle-btn,
   .panel-page-bg,
   .panel-page-blob,
   .cloud-sync-banner,

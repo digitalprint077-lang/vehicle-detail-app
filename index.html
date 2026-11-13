@@ -20,9 +20,9 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="panel.css?v=47">
+  <link rel="stylesheet" href="panel.css?v=48">
   <link rel="stylesheet" href="permit-frame.css?v=44">
-  <link rel="stylesheet" href="permit-print.css?v=45">
+  <link rel="stylesheet" href="permit-print.css?v=46">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -32,28 +32,52 @@
     <span class="panel-page-blob panel-page-blob-1"></span>
     <span class="panel-page-blob panel-page-blob-2"></span>
   </div>
-  <div class="panel-shell">
-    <header class="panel-topbar">
-      <div class="panel-brand panel-brand-row">
+  <div class="panel-app">
+    <aside class="panel-sidebar" id="panel-sidebar">
+      <div class="panel-brand panel-brand-row panel-sidebar-brand">
         <span class="panel-brand-icon-badge" data-icon="truck" aria-hidden="true"></span>
         <div>
           <span class="panel-eyebrow">Admin Panel</span>
           <h1 class="page-title">Vehicle Detail</h1>
         </div>
       </div>
-      <div class="panel-topbar-actions">
-        <button type="button" id="theme-toggle-btn" class="theme-toggle-btn" data-theme-toggle aria-label="Switch to night mode" aria-pressed="false">
+
+      <p class="panel-sidebar-label">Workspace</p>
+      <nav class="panel-main-tabs panel-sidebar-nav" role="tablist" aria-label="Admin sections">
+        <button type="button" class="panel-main-tab is-active btn-with-icon" id="panel-main-tab-btn-route" role="tab" aria-selected="true" aria-controls="panel-main-tab-route">
+          <span data-icon="truck" aria-hidden="true"></span>
+          <span>Route Permit</span>
+        </button>
+        <button type="button" class="panel-main-tab btn-with-icon" id="panel-main-tab-btn-fitness" role="tab" aria-selected="false" aria-controls="panel-main-tab-fitness">
+          <span data-icon="certificate" aria-hidden="true"></span>
+          <span>Fitness Certificate</span>
+        </button>
+      </nav>
+
+      <div class="panel-sidebar-footer">
+        <button type="button" id="theme-toggle-btn" class="theme-toggle-btn panel-sidebar-btn" data-theme-toggle aria-label="Switch to night mode" aria-pressed="false">
           <span class="theme-toggle-icon" data-icon="moon" aria-hidden="true"></span>
           <span class="theme-toggle-label">Night</span>
         </button>
-        <button type="button" id="change-password-btn" class="panel-logout-btn btn-with-icon">
+        <button type="button" id="change-password-btn" class="panel-logout-btn btn-with-icon panel-sidebar-btn">
           <span data-icon="key" aria-hidden="true"></span>
           <span class="btn-label">Change Password</span>
         </button>
-        <button type="button" id="logout-btn" class="panel-logout-btn btn-with-icon panel-logout-btn-danger">
+        <button type="button" id="logout-btn" class="panel-logout-btn btn-with-icon panel-logout-btn-danger panel-sidebar-btn">
           <span data-icon="logout" aria-hidden="true"></span>
           <span class="btn-label">Logout</span>
         </button>
+      </div>
+    </aside>
+
+    <div class="panel-shell panel-workspace">
+    <header class="panel-topbar panel-workspace-bar">
+      <button type="button" id="sidebar-toggle-btn" class="sidebar-toggle-btn" aria-controls="panel-sidebar" aria-expanded="false" aria-label="Open menu">
+        <span data-icon="list" aria-hidden="true"></span>
+      </button>
+      <div>
+        <span class="panel-eyebrow">Sindh transport desk</span>
+        <h2 class="panel-workspace-title" id="panel-workspace-title">Route Permit</h2>
       </div>
     </header>
 
@@ -94,17 +118,6 @@
         </div>
       </form>
     </dialog>
-
-    <nav class="panel-main-tabs" role="tablist" aria-label="Admin sections">
-      <button type="button" class="panel-main-tab is-active btn-with-icon" id="panel-main-tab-btn-route" role="tab" aria-selected="true" aria-controls="panel-main-tab-route">
-        <span data-icon="truck" aria-hidden="true"></span>
-        <span>Route Permit</span>
-      </button>
-      <button type="button" class="panel-main-tab btn-with-icon" id="panel-main-tab-btn-fitness" role="tab" aria-selected="false" aria-controls="panel-main-tab-fitness">
-        <span data-icon="certificate" aria-hidden="true"></span>
-        <span>Fitness Certificate</span>
-      </button>
-    </nav>
 
     <div id="panel-main-tab-route" class="panel-main-tab-panel is-active" role="tabpanel" aria-labelledby="panel-main-tab-btn-route">
     <section class="panel-hero panel-hero-modern panel-hero-compact">
@@ -572,6 +585,7 @@
           </div>
         </div>
       </section>
+    </div>
     </div>
   </div>
 

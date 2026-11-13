@@ -1168,6 +1168,11 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+function closeSidebar() {
+  document.body.classList.remove("is-sidebar-open");
+  document.getElementById("sidebar-toggle-btn")?.setAttribute("aria-expanded", "false");
+}
+
 function switchMainPanelTab(tabName) {
   const isRoute = tabName === "route";
   const routePanel = document.getElementById("panel-main-tab-route");
@@ -1184,6 +1189,13 @@ function switchMainPanelTab(tabName) {
 
   if (routePanel) routePanel.hidden = !isRoute;
   if (fitnessPanel) fitnessPanel.hidden = isRoute;
+
+  const workspaceTitle = document.getElementById("panel-workspace-title");
+  if (workspaceTitle) {
+    workspaceTitle.textContent = isRoute ? "Route Permit" : "Fitness Certificate";
+  }
+
+  closeSidebar();
 
   try {
     localStorage.setItem("vehicleDetailPanelMainTab", tabName);
@@ -1212,6 +1224,11 @@ function initMainPanelTabs() {
   if (tabParam === "fitness" || tabParam === "route") {
     initialTab = tabParam;
   }
+
+  document.getElementById("sidebar-toggle-btn")?.addEventListener("click", () => {
+    const open = document.body.classList.toggle("is-sidebar-open");
+    document.getElementById("sidebar-toggle-btn")?.setAttribute("aria-expanded", open ? "true" : "false");
+  });
 
   document.getElementById("panel-main-tab-btn-route")?.addEventListener("click", () => {
     switchMainPanelTab("route");

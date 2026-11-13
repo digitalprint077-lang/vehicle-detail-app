@@ -2036,27 +2036,175 @@ html[data-theme="dark"] .panel-ui-v2 {
   -webkit-text-fill-color: var(--panel-text);
 }
 
-.panel-ui-v2 .panel-main-tabs {
+.panel-ui-v2 .panel-app {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.65rem;
-  padding: 0.5rem;
-  margin-bottom: 1.25rem;
-  border: 1px solid var(--panel-border);
-  border-radius: 16px;
-  background: var(--panel-surface);
+  grid-template-columns: 272px minmax(0, 1fr);
+  min-height: 100dvh;
+  width: 100%;
 }
 
-.panel-ui-v2 .panel-main-tab {
-  border-radius: 12px;
-  justify-content: center;
-  font-weight: 700;
+.panel-ui-v2 .panel-sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100dvh;
+  padding: 1.25rem 1rem 1rem;
+  background: #0f2a22;
+  color: #e8f5f0;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  z-index: 30;
 }
 
-.panel-ui-v2 .panel-main-tab.is-active {
-  background: var(--brand-gradient);
+html[data-theme="dark"] .panel-ui-v2 .panel-sidebar {
+  background: #0c1412;
+}
+
+.panel-ui-v2 .panel-sidebar-brand .panel-eyebrow,
+.panel-ui-v2 .panel-sidebar-label {
+  color: rgba(232, 245, 240, 0.62);
+}
+
+.panel-ui-v2 .panel-sidebar .page-title {
   color: #fff;
-  box-shadow: 0 8px 18px rgba(15, 122, 92, 0.25);
+  background: none;
+  -webkit-text-fill-color: #fff;
+  font-size: 1.25rem;
+}
+
+.panel-ui-v2 .panel-sidebar-label {
+  margin: 0.4rem 0 0;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.panel-ui-v2 .panel-sidebar-nav.panel-main-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.panel-ui-v2 .panel-sidebar .panel-main-tab {
+  justify-content: flex-start;
+  width: 100%;
+  border-radius: 12px;
+  color: rgba(232, 245, 240, 0.82);
+  background: transparent;
+  box-shadow: none;
+}
+
+.panel-ui-v2 .panel-sidebar .panel-main-tab:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.panel-ui-v2 .panel-sidebar .panel-main-tab.is-active {
+  background: linear-gradient(135deg, #1fa67a, #0f7a5c);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(15, 122, 92, 0.35);
+}
+
+.panel-ui-v2 .panel-sidebar-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.panel-ui-v2 .panel-sidebar-btn {
+  width: 100%;
+  justify-content: flex-start;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #e8f5f0;
+}
+
+.panel-ui-v2 .panel-sidebar-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.panel-ui-v2 .panel-sidebar .panel-logout-btn-danger {
+  background: rgba(220, 38, 38, 0.16);
+  border-color: rgba(252, 165, 165, 0.35);
+  color: #fecaca;
+}
+
+.panel-ui-v2 .panel-workspace.panel-shell {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1.25rem 0 3rem;
+}
+
+.panel-ui-v2 .panel-workspace-bar {
+  border-bottom: none;
+  box-shadow: none;
+}
+
+.panel-ui-v2 .panel-workspace-title {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--panel-text);
+}
+
+.panel-ui-v2 .sidebar-toggle-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-surface);
+  color: var(--panel-text);
+  cursor: pointer;
+}
+
+.panel-ui-v2 .sidebar-toggle-btn .ui-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+@media (max-width: 960px) {
+  .panel-ui-v2 .panel-app {
+    display: block;
+  }
+
+  .panel-ui-v2 .sidebar-toggle-btn {
+    display: inline-flex;
+  }
+
+  .panel-ui-v2 .panel-workspace-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .panel-ui-v2 .panel-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: min(280px, 86vw);
+    transform: translateX(-105%);
+    transition: transform 0.2s ease;
+    box-shadow: 16px 0 40px rgba(0, 0, 0, 0.28);
+  }
+
+  body.panel-ui-v2.is-sidebar-open .panel-sidebar {
+    transform: translateX(0);
+  }
 }
 
 .panel-ui-v2 .panel-hero-compact {
