@@ -356,11 +356,61 @@ function syncRegistrationFields(source) {
   isSyncingRegistration = false;
 }
 
+function renderRoutePermitSummary() {
+  const data = getPermitFormDataObject();
+  const cityCount = String(data.routeDetails || "")
+    .split(",")
+    .map((city) => city.trim())
+    .filter(Boolean).length;
+  const routeLabel = `${cityCount} ${cityCount === 1 ? "city" : "cities"}`;
+  const values = {
+    rpNo: displayPermitValue(data.rpNo),
+    vehicleType: formatPermitDisplayValue(data.vehicleType),
+    registrationNo: displayPermitValue(data.registrationNo),
+    fullName: displayPermitValue(data.fullName),
+    cnicNtn: displayPermitValue(data.cnicNtn),
+    validUpto: formatPermitDate(data.validUpto),
+    routeCount: cityCount ? routeLabel : "-",
+  };
+
+  document.querySelectorAll("[data-rp-summary]").forEach((element) => {
+    element.textContent = values[element.dataset.rpSummary] ?? "-";
+  });
+
+  const countLabel = document.getElementById("rp-route-count");
+  if (countLabel) countLabel.textContent = routeLabel;
+
+  const validUpto = parseDeskDate(data.validUpto);
+  const days = validUpto ? daysUntilDate(validUpto) : null;
+  let state = "none";
+  let label = "No date";
+  if (days !== null && days < 0) {
+    state = "expired";
+    label = "Expired";
+  } else if (days !== null && days <= 30) {
+    state = "due";
+    label = days === 0 ? "Expires today" : `${days} days left`;
+  } else if (days !== null) {
+    state = "valid";
+    label = "Valid";
+  }
+
+  const badge = document.getElementById("rp-validity-badge");
+  if (badge) {
+    badge.textContent = label;
+    badge.dataset.state = state;
+  }
+  document.querySelectorAll("[data-rp-validity]").forEach((element) => {
+    element.dataset.state = state;
+  });
+}
+
 function onPermitFormChange() {
   syncVehicleTypeCustomField();
   syncRegistrationFields("permit");
   updatePermitPreview();
   updatePermitQrCode();
+  renderRoutePermitSummary();
 }
 
 function onVehicleFormChange() {

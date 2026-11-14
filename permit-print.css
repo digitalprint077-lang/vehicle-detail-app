@@ -72,6 +72,8 @@
   #panel-main-tab-fitness,
   .panel-fitness-card,
   .panel-hero,
+  .rp-head,
+  .rp-rail,
   .panel-grid,
   .panel-form-card,
   .panel-permit-side,
@@ -85,6 +87,8 @@
   }
 
   .panel-shell,
+  .rp-workspace,
+  .rp-main,
   .panel-permit-card,
   .panel-permit-layout,
   .panel-permit-live {
