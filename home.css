@@ -81,7 +81,7 @@ html[data-theme="dark"] .home-page {
     radial-gradient(circle at 85% 10%, rgba(45, 212, 160, 0.28), transparent 34%),
     radial-gradient(circle at 10% 90%, rgba(217, 180, 74, 0.16), transparent 30%),
     linear-gradient(160deg, #0f3b2f 0%, #0a2a21 55%, #071c16 100%);
-  padding-bottom: 5.5rem;
+  padding-bottom: 3.5rem;
 }
 
 .home-hero-glow {
@@ -108,7 +108,6 @@ html[data-theme="dark"] .home-page {
 .home-header,
 .home-hero,
 .home-section,
-.home-strip,
 .home-cta,
 .home-footer {
   width: min(1180px, calc(100% - 2.5rem));
@@ -578,48 +577,6 @@ html[data-theme="dark"] .home-page {
   50% { transform: translateY(-8px); }
 }
 
-/* Strip */
-.home-strip {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-top: -3rem;
-  border-radius: 22px;
-  border: 1px solid var(--home-line);
-  background: var(--home-surface);
-  box-shadow: var(--home-shadow);
-  overflow: hidden;
-}
-
-.home-strip div {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 1.4rem 1.5rem;
-}
-
-.home-strip div + div {
-  border-left: 1px solid var(--home-line);
-}
-
-.home-strip strong {
-  color: var(--home-green);
-  font-size: 1.7rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-
-html[data-theme="dark"] .home-strip strong {
-  color: var(--home-mint);
-}
-
-.home-strip span {
-  color: var(--home-muted);
-  font-size: 0.88rem;
-  line-height: 1.45;
-}
-
 /* Sections */
 .home-section {
   padding: 5.5rem 0 0;
@@ -990,18 +947,6 @@ html[data-theme="dark"] .home-card-icon {
 
   .home-steps::before {
     display: none;
-  }
-
-  .home-strip {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .home-strip div:nth-child(3) {
-    border-left: 0;
-  }
-
-  .home-strip div:nth-child(n + 3) {
-    border-top: 1px solid var(--home-line);
   }
 }
 
