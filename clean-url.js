@@ -1,6 +1,7 @@
 (function cleanLegacyHtmlUrls() {
   const cleanMap = {
     "/index.html": "/",
+    "/desk.html": "/desk",
     "/login.html": "/login",
     "/result.html": "/result",
     "/fitness.html": "/fitness",

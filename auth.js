@@ -132,11 +132,15 @@ function redirectAfterLogin() {
       window.location.replace(toResultPageUrl(target));
       return;
     }
+    if (target === "/" || target === "") {
+      window.location.replace(appPageUrl("desk"));
+      return;
+    }
     window.location.replace(target);
     return;
   }
 
-  window.location.replace(appPageUrl("home"));
+  window.location.replace(appPageUrl("desk"));
 }
 
 function isResultHash(hash) {
