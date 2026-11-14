@@ -1198,6 +1198,39 @@ function getFitnessExpiryDate(entry) {
   return parseDeskDate(entry?.fitness?.expiryDate);
 }
 
+const DESK_TIME_ZONE = "Asia/Karachi";
+
+function renderDeskClock() {
+  const now = new Date();
+  const time = new Intl.DateTimeFormat("en-GB", {
+    timeZone: DESK_TIME_ZONE,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
+  }).format(now);
+  const date = new Intl.DateTimeFormat("en-GB", {
+    timeZone: DESK_TIME_ZONE,
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(now);
+
+  document.querySelectorAll("[data-desk-clock-time]").forEach((element) => {
+    element.textContent = time;
+    if (element.tagName === "TIME") element.dateTime = now.toISOString();
+  });
+  document.querySelectorAll("[data-desk-clock-date]").forEach((element) => {
+    element.textContent = date;
+  });
+}
+
+function startDeskClock() {
+  renderDeskClock();
+  window.setInterval(renderDeskClock, 1000);
+}
+
 function renderDashboard() {
   const permits = getSavedPermits();
   const fitness = getSavedFitness();
@@ -1354,6 +1387,7 @@ function initMainPanelTabs() {
   });
 
   switchMainPanelTab(initialTab);
+  startDeskClock();
 }
 
 async function bootAdminPanel() {

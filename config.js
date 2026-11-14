@@ -14,12 +14,14 @@ window.APP_CONFIG = {
   },
   routes: {
     home: "/",
+    desk: "/desk",
     login: "/login",
     result: "/result",
     fitness: "/fitness",
   },
   routeFiles: {
     home: "/",
+    desk: "/desk.html",
     login: "/login.html",
     result: "/result.html",
     fitness: "/fitness.html",

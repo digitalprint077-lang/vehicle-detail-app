@@ -141,6 +141,22 @@ html[data-theme="dark"] .login-split-page {
   background: rgba(255, 255, 255, 0.12);
 }
 
+.login-split-home {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+}
+
+.login-split-home a {
+  color: var(--login-green);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.login-split-home a:hover,
+.login-split-home a:focus-visible {
+  text-decoration: underline;
+}
+
 .login-split-form-side {
   display: flex;
   flex-direction: column;

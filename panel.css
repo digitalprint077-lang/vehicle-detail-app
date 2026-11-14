@@ -2070,7 +2070,10 @@ html[data-theme="dark"] .panel-ui-v2 .panel-sidebar {
   color: #fff;
   background: none;
   -webkit-text-fill-color: #fff;
-  font-size: 1.25rem;
+  font-size: 1.12rem;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  white-space: nowrap;
 }
 
 .panel-ui-v2 .panel-sidebar-label {
@@ -2709,6 +2712,67 @@ html[data-theme="dark"] .panel-ui-v2 {
   background: color-mix(in srgb, var(--panel-surface) 88%, transparent);
 }
 
+.desk-clock-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 11rem;
+  margin-left: auto;
+  line-height: 1.15;
+}
+
+.desk-clock-bar time {
+  font-variant-numeric: tabular-nums;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--panel-text);
+}
+
+.desk-clock-bar [data-desk-clock-date] {
+  color: var(--panel-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.desk-clock {
+  margin-left: auto;
+  min-width: 15.5rem;
+  padding: 0.75rem 0.95rem 0.8rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  text-align: right;
+}
+
+.desk-clock-place {
+  display: block;
+  color: rgba(244, 251, 248, 0.72);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.desk-clock-time {
+  display: block;
+  margin-top: 0.15rem;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+}
+
+.desk-clock-date {
+  display: block;
+  margin-top: 0.2rem;
+  color: rgba(244, 251, 248, 0.86);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
 .panel-ui-v2 .panel-workspace-chip {
   display: inline-flex;
   align-items: center;
@@ -2910,9 +2974,23 @@ html[data-theme="dark"] .panel-ui-v2 {
   .desk-actions {
     grid-template-columns: 1fr;
   }
+
+  .desk-clock {
+    width: 100%;
+    margin-left: 0;
+    text-align: left;
+  }
+
+  .panel-ui-v2 .panel-hero-banner {
+    flex-wrap: wrap;
+  }
 }
 
 @media (max-width: 720px) {
+  .desk-clock-bar [data-desk-clock-date] {
+    display: none;
+  }
+
   .panel-ui-v2 .panel-workspace-chip {
     display: none;
   }
