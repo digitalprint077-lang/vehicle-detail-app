@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="assets/sindh-emblem.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/sindh-emblem.png">
-  <title>Vehicle Detail Panel</title>
+  <title>Permit Workflow</title>
   <script src="/clean-url.js"></script>
   <script>
     (function () {
@@ -20,7 +20,7 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="panel.css?v=54">
+  <link rel="stylesheet" href="panel.css?v=55">
   <link rel="stylesheet" href="permit-frame.css?v=44">
   <link rel="stylesheet" href="permit-print.css?v=48">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,7 +38,7 @@
         <img class="panel-sidebar-emblem" src="assets/sindh-emblem.png" alt="">
         <div>
           <span class="panel-eyebrow">Provincial desk</span>
-          <h1 class="page-title">Vehicle Detail</h1>
+          <h1 class="page-title">Permit Workflow</h1>
         </div>
       </div>
       <p class="panel-sidebar-status"><span class="panel-sidebar-dot" aria-hidden="true"></span> Session ready</p>
@@ -96,6 +96,10 @@
         <span class="panel-eyebrow">Sindh transport desk</span>
         <h2 class="panel-workspace-title" id="panel-workspace-title">Dashboard</h2>
       </div>
+      <div class="desk-clock-bar">
+        <time data-desk-clock-time datetime="">00:00:00</time>
+        <span data-desk-clock-date>Karachi</span>
+      </div>
       <span class="panel-workspace-chip">Official A4 output</span>
     </header>
 
@@ -143,6 +147,11 @@
         <div class="panel-hero-copy">
           <p class="panel-hero-kicker">Desk overview</p>
           <p class="panel-hero-text">Start a permit or fitness record, check what is expiring, and open recent files without searching the lists.</p>
+        </div>
+        <div class="desk-clock" aria-label="Karachi time">
+          <span class="desk-clock-place">Karachi</span>
+          <time class="desk-clock-time" data-desk-clock-time datetime="">00:00:00</time>
+          <span class="desk-clock-date" data-desk-clock-date>Loading date</span>
         </div>
       </section>
 
@@ -790,6 +799,6 @@
   <script src="ui-icons.js?v=3"></script>
   <script src="theme.js?v=3"></script>
   <script src="qrcode.min.js"></script>
-  <script src="app.js?v=43"></script>
+  <script src="app.js?v=44"></script>
 </body>
 </html>
