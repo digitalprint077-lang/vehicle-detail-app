@@ -20,7 +20,7 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="panel.css?v=53">
+  <link rel="stylesheet" href="panel.css?v=54">
   <link rel="stylesheet" href="permit-frame.css?v=44">
   <link rel="stylesheet" href="permit-print.css?v=48">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -607,67 +607,75 @@
     </div>
 
     <div id="panel-main-tab-saved-permits" class="panel-main-tab-panel" role="tabpanel" aria-labelledby="panel-main-tab-btn-saved-permits" hidden>
-      <section class="panel-card">
-        <div class="panel-card-header">
-          <h2 class="card-title">Saved Permits</h2>
+      <section class="panel-hero panel-hero-modern panel-hero-compact panel-hero-banner">
+        <div class="panel-hero-icon" data-icon="folder" aria-hidden="true"></div>
+        <div class="panel-hero-copy">
+          <p class="panel-hero-kicker">Permit archive</p>
+          <p class="panel-hero-text">Search saved route permits, load one back into the form, or keep a backup file.</p>
         </div>
-        <div class="permit-saved-section">
+      </section>
+      <section class="panel-card save-library">
+        <div class="save-library-bar">
           <div class="permit-saved-search field">
-            <label for="saved-permits-search">Search saved permits</label>
+            <label for="saved-permits-search" class="visually-hidden">Search saved permits</label>
             <div class="panel-input-shell">
               <span class="panel-input-icon" data-icon="search" aria-hidden="true"></span>
               <input
                 type="search"
                 id="saved-permits-search"
-                placeholder="Name, R.P. no., registration, CNIC..."
+                placeholder="Search name, R.P. no., registration, CNIC..."
                 autocomplete="off"
                 enterkeyhint="search"
               >
             </div>
           </div>
-          <div class="permit-backup-actions">
+          <div class="permit-backup-actions save-library-actions">
             <button type="button" id="export-backup-btn" class="permit-action-btn btn-with-icon">
               <span data-icon="save" aria-hidden="true"></span>
-              <span>Download backup</span>
+              <span>Backup</span>
             </button>
             <label class="permit-action-btn btn-with-icon permit-backup-import-label">
               <span data-icon="folder" aria-hidden="true"></span>
-              <span>Restore backup</span>
+              <span>Restore</span>
               <input type="file" id="import-backup-input" accept="application/json,.json" hidden>
             </label>
             <button type="button" id="cloud-sync-retry-btn" class="permit-action-btn btn-with-icon">
               <span data-icon="download" aria-hidden="true"></span>
-              <span>Sync from cloud</span>
+              <span>Sync</span>
             </button>
           </div>
-          <ul id="saved-permits-list" class="permit-saved-list"></ul>
-          <p id="saved-permits-empty" class="permit-saved-empty">No saved permits yet. Open Route Permit, fill the form, and click Save Permit.</p>
         </div>
+        <ul id="saved-permits-list" class="permit-saved-list"></ul>
+        <p id="saved-permits-empty" class="permit-saved-empty save-library-empty">No saved permits yet. Open Route Permit, fill the form, and click Save Permit.</p>
       </section>
     </div>
 
     <div id="panel-main-tab-saved-fitness" class="panel-main-tab-panel" role="tabpanel" aria-labelledby="panel-main-tab-btn-saved-fitness" hidden>
-      <section class="panel-card">
-        <div class="panel-card-header">
-          <h2 class="card-title">Saved Fitness</h2>
+      <section class="panel-hero panel-hero-modern panel-hero-compact panel-hero-banner">
+        <div class="panel-hero-icon" data-icon="certificate" aria-hidden="true"></div>
+        <div class="panel-hero-copy">
+          <p class="panel-hero-kicker">Fitness archive</p>
+          <p class="panel-hero-text">Find a saved fitness record and load it back into the certificate form.</p>
         </div>
-        <div class="permit-saved-section">
+      </section>
+      <section class="panel-card save-library">
+        <div class="save-library-bar">
           <div class="permit-saved-search field">
-            <label for="saved-fitness-search">Search saved fitness records</label>
+            <label for="saved-fitness-search" class="visually-hidden">Search saved fitness records</label>
             <div class="panel-input-shell">
               <span class="panel-input-icon" data-icon="search" aria-hidden="true"></span>
               <input
                 type="search"
                 id="saved-fitness-search"
-                placeholder="Registration, chassis, engine, status..."
+                placeholder="Search registration, chassis, engine, status..."
                 autocomplete="off"
                 enterkeyhint="search"
               >
             </div>
           </div>
-          <ul id="saved-fitness-list" class="permit-saved-list"></ul>
-          <p id="saved-fitness-empty" class="permit-saved-empty">No saved fitness records yet. Open Fitness Certificate, fill the form, and click Save Fitness.</p>
         </div>
+        <ul id="saved-fitness-list" class="permit-saved-list"></ul>
+        <p id="saved-fitness-empty" class="permit-saved-empty save-library-empty">No saved fitness records yet. Open Fitness Certificate, fill the form, and click Save Fitness.</p>
       </section>
     </div>
     </div>
@@ -782,6 +790,6 @@
   <script src="ui-icons.js?v=3"></script>
   <script src="theme.js?v=3"></script>
   <script src="qrcode.min.js"></script>
-  <script src="app.js?v=42"></script>
+  <script src="app.js?v=43"></script>
 </body>
 </html>

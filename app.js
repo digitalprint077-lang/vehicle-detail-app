@@ -699,10 +699,9 @@ function renderSavedPermitsList() {
 
     const info = document.createElement("div");
     info.className = "permit-saved-info";
-    info.innerHTML = `
-      <strong>${getPermitLabel(entry.permit, entry.vehicle)}</strong>
-      <span>Saved ${formatSavedDate(entry.updatedAt || entry.savedAt)}</span>
-    `;
+    info.innerHTML = `<span class="save-record-kind">Permit</span><strong></strong><span class="save-record-meta"></span>`;
+    info.querySelector("strong").textContent = getPermitLabel(entry.permit, entry.vehicle);
+    info.querySelector(".save-record-meta").textContent = `Updated ${formatSavedDate(entry.updatedAt || entry.savedAt)}`;
 
     const buttons = document.createElement("div");
     buttons.className = "permit-saved-buttons";
@@ -824,10 +823,9 @@ function renderSavedFitnessList() {
 
     const info = document.createElement("div");
     info.className = "permit-saved-info";
-    info.innerHTML = `
-      <strong>${entry.label || getFitnessLabel(entry.fitness)}</strong>
-      <span>Saved ${formatSavedDate(entry.updatedAt || entry.savedAt)}</span>
-    `;
+    info.innerHTML = `<span class="save-record-kind">Fitness</span><strong></strong><span class="save-record-meta"></span>`;
+    info.querySelector("strong").textContent = entry.label || getFitnessLabel(entry.fitness);
+    info.querySelector(".save-record-meta").textContent = `Updated ${formatSavedDate(entry.updatedAt || entry.savedAt)}`;
 
     const buttons = document.createElement("div");
     buttons.className = "permit-saved-buttons";
