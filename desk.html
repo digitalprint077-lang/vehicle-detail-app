@@ -20,9 +20,9 @@
     })();
   </script>
   <link rel="stylesheet" href="styles.css?v=3">
-  <link rel="stylesheet" href="panel.css?v=55">
+  <link rel="stylesheet" href="panel.css?v=56">
   <link rel="stylesheet" href="permit-frame.css?v=44">
-  <link rel="stylesheet" href="permit-print.css?v=48">
+  <link rel="stylesheet" href="permit-print.css?v=49">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -215,219 +215,248 @@
     </div>
 
     <div id="panel-main-tab-route" class="panel-main-tab-panel" role="tabpanel" aria-labelledby="panel-main-tab-btn-route" hidden>
-    <section class="panel-hero panel-hero-modern panel-hero-compact panel-hero-banner">
-      <div class="panel-hero-icon" data-icon="truck" aria-hidden="true"></div>
-      <div class="panel-hero-copy">
-        <p class="panel-hero-kicker">Sindh route permit workspace</p>
-        <p class="panel-hero-text">Search vehicle details, edit permit data, save records, and print official A4 when ready.</p>
+    <section class="rp-head">
+      <div class="rp-head-icon" data-icon="truck" aria-hidden="true"></div>
+      <div class="rp-head-copy">
+        <p class="rp-head-kicker">Route permit</p>
+        <h2 class="rp-head-title">Authentication of Route Permit</h2>
+        <p class="rp-head-text">Fill the vehicle and permit details, save the record, then print the official A4 sheet.</p>
+      </div>
+      <div class="rp-head-chips">
+        <span class="rp-chip"><small>R.P. No.</small><strong data-rp-summary="rpNo">-</strong></span>
+        <span class="rp-chip" data-rp-validity><small>Valid upto</small><strong data-rp-summary="validUpto">-</strong></span>
       </div>
     </section>
 
-    <section class="panel-card panel-form-card">
-      <div class="panel-card-header">
-        <h2 class="card-title">Search Vehicle</h2>
-        <span class="panel-badge">Route Permit</span>
-      </div>
+    <div class="rp-workspace">
+      <div class="rp-main">
+        <section class="panel-card panel-form-card rp-card">
+          <header class="rp-group-head rp-card-head">
+            <span class="rp-group-num" aria-hidden="true">01</span>
+            <div>
+              <h3>Vehicle</h3>
+              <p>Registration, chassis, and engine numbers used on the public check page.</p>
+            </div>
+          </header>
 
-      <form id="vehicle-form" class="vehicle-form" novalidate>
-          <div class="panel-form-grid">
-            <div class="field">
-              <label for="registration">Registration#</label>
-              <div class="panel-input-shell">
-                <span class="panel-input-icon" data-icon="hash" aria-hidden="true"></span>
-                <input type="text" id="registration" name="registration" value="JV-3805" placeholder="e.g. JV-3805" required>
+          <form id="vehicle-form" class="vehicle-form" novalidate>
+            <div class="panel-form-grid">
+              <div class="field">
+                <label for="registration">Registration#</label>
+                <div class="panel-input-shell">
+                  <span class="panel-input-icon" data-icon="hash" aria-hidden="true"></span>
+                  <input type="text" id="registration" name="registration" value="JV-3805" placeholder="e.g. JV-3805" required>
+                </div>
+              </div>
+              <div class="field">
+                <label for="engine">Engine#</label>
+                <div class="panel-input-shell">
+                  <span class="panel-input-icon" data-icon="cog" aria-hidden="true"></span>
+                  <input type="text" id="engine" name="engine" value="6HH102666P" placeholder="e.g. 6HH102666P" required>
+                </div>
+              </div>
+              <div class="field field-full">
+                <label for="chassis">Chassis#</label>
+                <div class="panel-input-shell">
+                  <span class="panel-input-icon" data-icon="layers" aria-hidden="true"></span>
+                  <input type="text" id="chassis" name="chassis" value="JALFTR33KH-7000279" placeholder="e.g. JALFTR33KH-7000279" required>
+                </div>
+              </div>
+              <div class="field">
+                <label for="issue-date">Issue Date</label>
+                <div class="panel-input-shell">
+                  <span class="panel-input-icon" data-icon="calendar" aria-hidden="true"></span>
+                  <input type="date" id="issue-date" name="issueDate">
+                </div>
+              </div>
+              <div class="field">
+                <label for="expiry-date">Expiry Date</label>
+                <div class="panel-input-shell">
+                  <span class="panel-input-icon" data-icon="calendar" aria-hidden="true"></span>
+                  <input type="date" id="expiry-date" name="expiryDate">
+                </div>
+              </div>
+              <div class="field field-full">
+                <label for="status">Status</label>
+                <div class="panel-input-shell">
+                  <span class="panel-input-icon" data-icon="shield" aria-hidden="true"></span>
+                  <select id="status" name="status">
+                    <option value="Valid Certificate">Valid Certificate</option>
+                    <option value="Expired">Expired</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Invalid">Invalid</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div class="field">
-              <label for="engine">Engine#</label>
-              <div class="panel-input-shell">
-                <span class="panel-input-icon" data-icon="cog" aria-hidden="true"></span>
-                <input type="text" id="engine" name="engine" value="6HH102666P" placeholder="e.g. 6HH102666P" required>
-              </div>
-            </div>
-            <div class="field field-full">
-              <label for="chassis">Chassis#</label>
-              <div class="panel-input-shell">
-                <span class="panel-input-icon" data-icon="layers" aria-hidden="true"></span>
-                <input type="text" id="chassis" name="chassis" value="JALFTR33KH-7000279" placeholder="e.g. JALFTR33KH-7000279" required>
-              </div>
-            </div>
-            <div class="field">
-              <label for="issue-date">Issue Date</label>
-              <div class="panel-input-shell">
-                <span class="panel-input-icon" data-icon="calendar" aria-hidden="true"></span>
-                <input type="date" id="issue-date" name="issueDate">
-              </div>
-            </div>
-            <div class="field">
-              <label for="expiry-date">Expiry Date</label>
-              <div class="panel-input-shell">
-                <span class="panel-input-icon" data-icon="calendar" aria-hidden="true"></span>
-                <input type="date" id="expiry-date" name="expiryDate">
-              </div>
-            </div>
-            <div class="field field-full">
-              <label for="status">Status</label>
-              <div class="panel-input-shell">
-                <span class="panel-input-icon" data-icon="shield" aria-hidden="true"></span>
-                <select id="status" name="status">
-                  <option value="Valid Certificate">Valid Certificate</option>
-                  <option value="Expired">Expired</option>
-                  <option value="Pending">Pending</option>
-                  <option value="Invalid">Invalid</option>
-                </select>
-              </div>
-            </div>
-          </div>
 
-          <div class="panel-result-actions">
-            <button type="submit" class="submit-btn btn-with-icon">
-              <span data-icon="eye" aria-hidden="true"></span>
-              <span>Show Route Permit</span>
-            </button>
-          </div>
-        </form>
-    </section>
+            <div class="rp-card-foot">
+              <button type="submit" class="permit-action-btn btn-with-icon rp-check-btn">
+                <span data-icon="eye" aria-hidden="true"></span>
+                <span>Open check page</span>
+              </button>
+            </div>
+          </form>
+        </section>
 
-    <section class="panel-card panel-permit-card">
-      <div class="panel-card-header panel-card-header-split">
-        <div>
-          <h2 class="card-title">Route Permit Data</h2>
-          <p class="panel-card-lead">Form-only screen — tap <strong>Print A4</strong> to open the official document preview.</p>
-        </div>
-        <span class="panel-badge panel-badge-outline">Permit editor</span>
-      </div>
+        <section class="panel-card panel-permit-card rp-card">
+          <div class="panel-permit-layout">
+            <div class="panel-permit-side">
+              <div id="permit-tab-edit" class="permit-tab-panel is-active">
+                <form id="route-permit-form" class="vehicle-form panel-permit-form rp-permit-form" novalidate>
+              <section class="rp-group" aria-labelledby="rp-group-2">
+                <header class="rp-group-head">
+                  <span class="rp-group-num" aria-hidden="true">02</span>
+                  <div>
+                    <h3 id="rp-group-2">Permit details</h3>
+                    <p>Permit number, vehicle type, and how long the authentication is valid.</p>
+                  </div>
+                </header>
+                <div class="panel-form-grid panel-form-grid-single">
+                  <div class="field">
+                    <label for="rp-no">R.P. No.</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="edit" aria-hidden="true"></span>
+                      <input type="text" id="rp-no" name="rpNo" value="466/013" placeholder="e.g. 466/013">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="permit-registration">Registration No</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="hash" aria-hidden="true"></span>
+                      <input type="text" id="permit-registration" name="registrationNo" value="TAC-466">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="vehicle-type">Vehicle Type</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="truck" aria-hidden="true"></span>
+                      <select id="vehicle-type">
+                        <option value="">Select vehicle type</option>
+                        <option value="TRUCK" selected>TRUCK</option>
+                        <option value="PICKUP">PICKUP</option>
+                        <option value="TRUCK TRAILER">TRUCK TRAILER</option>
+                        <option value="DUMPER TRUCK">DUMPER TRUCK</option>
+                        <option value="OIL TANKER">OIL TANKER</option>
+                        <option value="GAS BOWSER">GAS BOWSER</option>
+                        <option value="GAS BOWSER TRAILER">GAS BOWSER TRAILER</option>
+                        <option value="__custom__">Custom</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="valid-upto">Authentication Valid Upto</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="calendar" aria-hidden="true"></span>
+                      <input type="date" id="valid-upto" name="validUpto" value="2028-08-26">
+                    </div>
+                  </div>
+                  <div class="field field-full" id="vehicle-type-custom-wrap" hidden>
+                    <label for="vehicle-type-custom">Custom vehicle type</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="edit" aria-hidden="true"></span>
+                      <input type="text" id="vehicle-type-custom" placeholder="Type vehicle type" autocomplete="off">
+                    </div>
+                  </div>
+                </div>
+              </section>
 
-      <div class="panel-permit-layout">
-        <div class="panel-permit-side">
-          <div id="permit-tab-edit" class="permit-tab-panel is-active">
-            <form id="route-permit-form" class="vehicle-form panel-permit-form" novalidate>
-              <div class="panel-form-grid panel-form-grid-single">
-                <div class="field">
-                  <label for="rp-no">R.P. NO.</label>
-                  <div class="panel-input-shell">
-                    <span class="panel-input-icon" data-icon="edit" aria-hidden="true"></span>
-                    <input type="text" id="rp-no" name="rpNo" value="466/013" placeholder="e.g. 466/013">
+              <section class="rp-group" aria-labelledby="rp-group-3">
+                <header class="rp-group-head">
+                  <span class="rp-group-num" aria-hidden="true">03</span>
+                  <div>
+                    <h3 id="rp-group-3">Owner</h3>
+                    <p>Name, CNIC or NTN, and address exactly as they should print.</p>
+                  </div>
+                </header>
+                <div class="panel-form-grid panel-form-grid-single">
+                  <div class="field">
+                    <label for="full-name">Full Name</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="user" aria-hidden="true"></span>
+                      <input type="text" id="full-name" name="fullName" value="Mr. NAJEEB ULLAH">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="cnic-ntn">CNIC/NTN No</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="idcard" aria-hidden="true"></span>
+                      <input type="text" id="cnic-ntn" name="cnicNtn" value="54401-1502793-1">
+                    </div>
+                  </div>
+                  <div class="field field-full">
+                    <label for="owner-address">Owner Address</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="map" aria-hidden="true"></span>
+                      <input type="text" id="owner-address" name="ownerAddress" value="MOH KHAIR ROAD MOH ANDAR COLONY PASHTOON QUETTA">
+                    </div>
                   </div>
                 </div>
-                <div class="field">
-                  <label for="vehicle-type">Vehicle Type</label>
-                  <div class="panel-input-shell">
-                    <span class="panel-input-icon" data-icon="truck" aria-hidden="true"></span>
-                    <select id="vehicle-type">
-                      <option value="">Select vehicle type</option>
-                      <option value="TRUCK" selected>TRUCK</option>
-                      <option value="PICKUP">PICKUP</option>
-                      <option value="TRUCK TRAILER">TRUCK TRAILER</option>
-                      <option value="DUMPER TRUCK">DUMPER TRUCK</option>
-                      <option value="OIL TANKER">OIL TANKER</option>
-                      <option value="GAS BOWSER">GAS BOWSER</option>
-                      <option value="GAS BOWSER TRAILER">GAS BOWSER TRAILER</option>
-                      <option value="__custom__">Custom</option>
-                    </select>
+              </section>
+
+              <section class="rp-group" aria-labelledby="rp-group-4">
+                <header class="rp-group-head">
+                  <span class="rp-group-num" aria-hidden="true">04</span>
+                  <div>
+                    <h3 id="rp-group-4">Route</h3>
+                    <p>Cities the vehicle is allowed to operate in.</p>
                   </div>
-                </div>
-                <div class="field" id="vehicle-type-custom-wrap" hidden>
-                  <label for="vehicle-type-custom">Custom vehicle type</label>
-                  <div class="panel-input-shell">
-                    <span class="panel-input-icon" data-icon="edit" aria-hidden="true"></span>
-                    <input type="text" id="vehicle-type-custom" placeholder="Type vehicle type" autocomplete="off">
+                </header>
+                <div class="panel-form-grid panel-form-grid-single">
+                  <div class="field field-full">
+                    <label for="route-details">Route Details</label>
+                    <div class="panel-input-shell is-textarea">
+                      <span class="panel-input-icon" data-icon="list" aria-hidden="true"></span>
+                      <textarea id="route-details" name="routeDetails" rows="6">KARACHI, TANDO M KHAN, THATTA, TANDO ALLAH YAR, MATIARI, JAMSHORO, DADU, BADIN, SUJAWWAL, HYDERABAD, KAMBER SHAHDADKOT, LARKANA, SHIKARPUR, JACOBABAD, KASHMORE KANDHKOT, KHAIRPUR, SUKKUR, GHOTKI, THARPARKAR MITHI, MIRPURKHAS, UMERKOT, SHAHEED BENAZIRABAD, NAUSHEHROFEROZE, SANGHAR</textarea>
+                    </div>
                   </div>
+                  <p class="rp-field-note field-full">Separate cities with commas. <span id="rp-route-count">0 cities</span> on this route.</p>
                 </div>
-                <div class="field field-full">
-                  <label for="full-name">Full Name</label>
-                  <div class="panel-input-shell">
-                    <span class="panel-input-icon" data-icon="user" aria-hidden="true"></span>
-                    <input type="text" id="full-name" name="fullName" value="Mr. NAJEEB ULLAH">
+              </section>
+
+              <section class="rp-group" aria-labelledby="rp-group-5">
+                <header class="rp-group-head">
+                  <span class="rp-group-num" aria-hidden="true">05</span>
+                  <div>
+                    <h3 id="rp-group-5">Signatory and notes</h3>
+                    <p>Signature block and the Urdu instructions printed at the bottom.</p>
                   </div>
-                </div>
-                <div class="field">
-                  <label for="cnic-ntn">CNIC/NTN No</label>
-                  <div class="panel-input-shell">
-                    <span class="panel-input-icon" data-icon="idcard" aria-hidden="true"></span>
-                    <input type="text" id="cnic-ntn" name="cnicNtn" value="54401-1502793-1">
+                </header>
+                <div class="panel-form-grid panel-form-grid-single">
+                  <div class="field">
+                    <label for="signatory-title">Signatory Title</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="user" aria-hidden="true"></span>
+                      <input type="text" id="signatory-title" name="signatoryTitle" value="SECRETARY">
+                    </div>
                   </div>
-                </div>
-                <div class="field">
-                  <label for="permit-registration">Registration No</label>
-                  <div class="panel-input-shell">
-                    <span class="panel-input-icon" data-icon="hash" aria-hidden="true"></span>
-                    <input type="text" id="permit-registration" name="registrationNo" value="TAC-466">
+                  <div class="field">
+                    <label for="signatory-city">Signatory City</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="map" aria-hidden="true"></span>
+                      <input type="text" id="signatory-city" name="signatoryCity" value="KARACHI">
+                    </div>
                   </div>
-                </div>
-                <div class="field field-full">
-                  <label for="owner-address">Owner Address</label>
-                  <div class="panel-input-shell">
-                    <span class="panel-input-icon" data-icon="map" aria-hidden="true"></span>
-                    <input type="text" id="owner-address" name="ownerAddress" value="MOH KHAIR ROAD MOH ANDAR COLONY PASHTOON QUETTA">
+                  <div class="field field-full">
+                    <label for="signatory-authority">Signatory Authority</label>
+                    <div class="panel-input-shell">
+                      <span class="panel-input-icon" data-icon="building" aria-hidden="true"></span>
+                      <input type="text" id="signatory-authority" name="signatoryAuthority" value="PROVINCIAL TRANSPORT AUTHORITY, SINDH">
+                    </div>
                   </div>
-                </div>
-                <div class="field field-full">
-                  <label for="valid-upto">Authentication Valid Upto</label>
-                  <div class="panel-input-shell">
-                    <span class="panel-input-icon" data-icon="calendar" aria-hidden="true"></span>
-                    <input type="date" id="valid-upto" name="validUpto" value="2028-08-26">
-                  </div>
-                </div>
-                <div class="field field-full">
-                  <label for="route-details">Route Details</label>
-                  <div class="panel-input-shell is-textarea">
-                    <span class="panel-input-icon" data-icon="list" aria-hidden="true"></span>
-                    <textarea id="route-details" name="routeDetails" rows="5">KARACHI, TANDO M KHAN, THATTA, TANDO ALLAH YAR, MATIARI, JAMSHORO, DADU, BADIN, SUJAWWAL, HYDERABAD, KAMBER SHAHDADKOT, LARKANA, SHIKARPUR, JACOBABAD, KASHMORE KANDHKOT, KHAIRPUR, SUKKUR, GHOTKI, THARPARKAR MITHI, MIRPURKHAS, UMERKOT, SHAHEED BENAZIRABAD, NAUSHEHROFEROZE, SANGHAR</textarea>
-                  </div>
-                </div>
-                <div class="field field-full">
-                  <label for="signatory-title">Signatory Title</label>
-                  <div class="panel-input-shell">
-                    <span class="panel-input-icon" data-icon="user" aria-hidden="true"></span>
-                    <input type="text" id="signatory-title" name="signatoryTitle" value="SECRETARY">
-                  </div>
-                </div>
-                <div class="field field-full">
-                  <label for="signatory-authority">Signatory Authority</label>
-                  <div class="panel-input-shell">
-                    <span class="panel-input-icon" data-icon="building" aria-hidden="true"></span>
-                    <input type="text" id="signatory-authority" name="signatoryAuthority" value="PROVINCIAL TRANSPORT AUTHORITY, SINDH">
-                  </div>
-                </div>
-                <div class="field field-full">
-                  <label for="urdu-footer">Urdu Footer Text</label>
-                  <div class="panel-input-shell is-textarea">
-                    <span class="panel-input-icon" data-icon="certificate" aria-hidden="true"></span>
-                    <textarea id="urdu-footer" name="urduFooter" rows="4">ضروری ہدایات۔ گاڑیوں کے آپریٹرز (مالکان / ڈرائیورز) انسانی جانوں کے تحفظ کے پیش نظر انڈس ہائی وے اور مہران ہائی وے کے ممنوعہ علاقوں میں سفر نہیں کریں گے۔
+                  <div class="field field-full">
+                    <label for="urdu-footer">Urdu Footer Text</label>
+                    <div class="panel-input-shell is-textarea">
+                      <span class="panel-input-icon" data-icon="certificate" aria-hidden="true"></span>
+                      <textarea id="urdu-footer" dir="rtl" lang="ur" name="urduFooter" rows="4">ضروری ہدایات۔ گاڑیوں کے آپریٹرز (مالکان / ڈرائیورز) انسانی جانوں کے تحفظ کے پیش نظر انڈس ہائی وے اور مہران ہائی وے کے ممنوعہ علاقوں میں سفر نہیں کریں گے۔
 فوری طبی امداد کا باکس رکھیں، آگ بجھانے کا آلہ لازمی رکھیں، بس میں ایمرجنسی گیٹ لازمی ہے۔</textarea>
+                    </div>
                   </div>
                 </div>
-                <div class="field field-full">
-                  <label for="signatory-city">Signatory City</label>
-                  <div class="panel-input-shell">
-                    <span class="panel-input-icon" data-icon="map" aria-hidden="true"></span>
-                    <input type="text" id="signatory-city" name="signatoryCity" value="KARACHI">
-                  </div>
-                </div>
-              </div>
-            </form>
-
-            <div class="permit-edit-save-section permit-action-dock">
-              <p class="permit-edit-save-intro">Save this permit, then open Saved Permits in the sidebar to load it again.</p>
-              <div class="permit-save-actions permit-action-toolbar">
-                <button type="button" id="save-permit-btn" class="submit-btn submit-btn-secondary btn-with-icon">
-                  <span data-icon="save" aria-hidden="true"></span>
-                  <span>Save Permit</span>
-                </button>
-                <button type="button" id="new-permit-btn" class="permit-action-btn btn-with-icon">
-                  <span data-icon="plus" aria-hidden="true"></span>
-                  <span>New Permit</span>
-                </button>
-                <button type="button" id="print-permit-btn" class="permit-action-btn permit-action-btn-print btn-with-icon">
-                  <span data-icon="print" aria-hidden="true"></span>
-                  <span>Print A4</span>
-                </button>
-                <p id="permit-save-status" class="permit-save-status" aria-live="polite"></p>
+              </section>
+                </form>
               </div>
             </div>
-          </div>
-        </div>
 
         <aside class="panel-permit-live" id="panel-permit-live" aria-label="Route permit print preview" aria-hidden="true" hidden>
           <div class="permit-print-overlay-toolbar">
@@ -498,8 +527,50 @@
             </div>
           </div>
         </aside>
+          </div>
+        </section>
       </div>
-    </section>
+
+      <aside class="rp-rail" aria-label="Permit summary and actions">
+        <section class="rp-summary">
+          <div class="rp-summary-head">
+            <span class="rp-summary-icon" data-icon="certificate" aria-hidden="true"></span>
+            <div>
+              <small>Permit summary</small>
+              <strong data-rp-summary="rpNo">-</strong>
+            </div>
+            <span class="rp-validity-badge" id="rp-validity-badge">-</span>
+          </div>
+          <dl class="rp-summary-list">
+            <div><dt>Vehicle type</dt><dd data-rp-summary="vehicleType">-</dd></div>
+            <div><dt>Registration</dt><dd data-rp-summary="registrationNo">-</dd></div>
+            <div><dt>Owner</dt><dd data-rp-summary="fullName">-</dd></div>
+            <div><dt>CNIC/NTN</dt><dd data-rp-summary="cnicNtn">-</dd></div>
+            <div><dt>Valid upto</dt><dd data-rp-summary="validUpto">-</dd></div>
+            <div><dt>Route</dt><dd data-rp-summary="routeCount">-</dd></div>
+          </dl>
+        </section>
+
+        <section class="permit-edit-save-section permit-action-dock rp-actions">
+          <div class="permit-save-actions permit-action-toolbar">
+            <button type="button" id="save-permit-btn" class="submit-btn submit-btn-secondary btn-with-icon">
+              <span data-icon="save" aria-hidden="true"></span>
+              <span>Save Permit</span>
+            </button>
+            <button type="button" id="print-permit-btn" class="permit-action-btn permit-action-btn-print btn-with-icon">
+              <span data-icon="print" aria-hidden="true"></span>
+              <span>Print A4</span>
+            </button>
+            <button type="button" id="new-permit-btn" class="permit-action-btn btn-with-icon">
+              <span data-icon="plus" aria-hidden="true"></span>
+              <span>New Permit</span>
+            </button>
+            <p id="permit-save-status" class="permit-save-status" aria-live="polite"></p>
+          </div>
+          <p class="permit-edit-save-intro">Saved permits appear under Saved Permits in the sidebar.</p>
+        </section>
+      </aside>
+    </div>
     </div>
 
     <div id="panel-main-tab-fitness" class="panel-main-tab-panel" role="tabpanel" aria-labelledby="panel-main-tab-btn-fitness" hidden>
@@ -799,6 +870,6 @@
   <script src="ui-icons.js?v=3"></script>
   <script src="theme.js?v=3"></script>
   <script src="qrcode.min.js"></script>
-  <script src="app.js?v=44"></script>
+  <script src="app.js?v=45"></script>
 </body>
 </html>
