@@ -956,28 +956,12 @@ function startNewFitness() {
 }
 
 function switchFitnessTab(tabName) {
-  const isEdit = tabName === "edit";
-  const editPanel = document.getElementById("fitness-tab-edit");
-  const savedPanel = document.getElementById("fitness-tab-saved");
-  const editBtn = document.getElementById("fitness-tab-btn-edit");
-  const savedBtn = document.getElementById("fitness-tab-btn-saved");
-
-  editPanel?.classList.toggle("is-active", isEdit);
-  savedPanel?.classList.toggle("is-active", !isEdit);
-  editBtn?.classList.toggle("is-active", isEdit);
-  savedBtn?.classList.toggle("is-active", !isEdit);
-  editBtn?.setAttribute("aria-selected", isEdit ? "true" : "false");
-  savedBtn?.setAttribute("aria-selected", isEdit ? "false" : "true");
-
-  if (editPanel) editPanel.hidden = !isEdit;
-  if (savedPanel) savedPanel.hidden = isEdit;
+  switchMainPanelTab(tabName === "saved" ? "saved-fitness" : "fitness");
 }
 
 function initFitnessSaving() {
   document.getElementById("save-fitness-btn")?.addEventListener("click", saveCurrentFitness);
   document.getElementById("new-fitness-btn")?.addEventListener("click", startNewFitness);
-  document.getElementById("fitness-tab-btn-edit")?.addEventListener("click", () => switchFitnessTab("edit"));
-  document.getElementById("fitness-tab-btn-saved")?.addEventListener("click", () => switchFitnessTab("saved"));
   document.getElementById("saved-fitness-search")?.addEventListener("input", renderSavedFitnessList);
   renderSavedFitnessList();
 }
@@ -1112,21 +1096,7 @@ function startNewPermit() {
 }
 
 function switchPermitTab(tabName) {
-  const isEdit = tabName === "edit";
-  const editPanel = document.getElementById("permit-tab-edit");
-  const savedPanel = document.getElementById("permit-tab-saved");
-  const editBtn = document.getElementById("permit-tab-btn-edit");
-  const savedBtn = document.getElementById("permit-tab-btn-saved");
-
-  editPanel?.classList.toggle("is-active", isEdit);
-  savedPanel?.classList.toggle("is-active", !isEdit);
-  editBtn?.classList.toggle("is-active", isEdit);
-  savedBtn?.classList.toggle("is-active", !isEdit);
-  editBtn?.setAttribute("aria-selected", isEdit ? "true" : "false");
-  savedBtn?.setAttribute("aria-selected", isEdit ? "false" : "true");
-
-  if (editPanel) editPanel.hidden = !isEdit;
-  if (savedPanel) savedPanel.hidden = isEdit;
+  switchMainPanelTab(tabName === "saved" ? "saved-permits" : "route");
 }
 
 function initPermitSaving() {
@@ -1134,8 +1104,6 @@ function initPermitSaving() {
     void saveCurrentPermit();
   });
   document.getElementById("new-permit-btn")?.addEventListener("click", startNewPermit);
-  document.getElementById("permit-tab-btn-edit")?.addEventListener("click", () => switchPermitTab("edit"));
-  document.getElementById("permit-tab-btn-saved")?.addEventListener("click", () => switchPermitTab("saved"));
   document.getElementById("saved-permits-search")?.addEventListener("input", renderSavedPermitsList);
   document.getElementById("export-backup-btn")?.addEventListener("click", exportSavedRecordsBackup);
   document.getElementById("cloud-sync-retry-btn")?.addEventListener("click", () => {
@@ -1308,7 +1276,7 @@ function closeSidebar() {
 }
 
 function switchMainPanelTab(tabName) {
-  const tabs = ["dashboard", "route", "fitness"];
+  const tabs = ["dashboard", "route", "fitness", "saved-permits", "saved-fitness"];
   if (!tabs.includes(tabName)) tabName = "dashboard";
 
   tabs.forEach((name) => {
@@ -1325,6 +1293,8 @@ function switchMainPanelTab(tabName) {
     dashboard: "Dashboard",
     route: "Route Permit",
     fitness: "Fitness Certificate",
+    "saved-permits": "Saved Permits",
+    "saved-fitness": "Saved Fitness",
   };
   const workspaceTitle = document.getElementById("panel-workspace-title");
   if (workspaceTitle) workspaceTitle.textContent = titles[tabName];
@@ -1339,7 +1309,7 @@ function initMainPanelTabs() {
   let initialTab = "dashboard";
 
   const tabParam = new URLSearchParams(window.location.search).get("tab");
-  if (tabParam === "fitness" || tabParam === "route" || tabParam === "dashboard") {
+  if (["dashboard", "route", "fitness", "saved-permits", "saved-fitness"].includes(tabParam)) {
     initialTab = tabParam;
   }
 
@@ -1367,12 +1337,16 @@ function initMainPanelTabs() {
     startNewFitness();
   });
   document.getElementById("desk-open-permits")?.addEventListener("click", () => {
-    switchMainPanelTab("route");
-    switchPermitTab("saved");
+    switchMainPanelTab("saved-permits");
   });
   document.getElementById("desk-open-fitness")?.addEventListener("click", () => {
-    switchMainPanelTab("fitness");
-    switchFitnessTab("saved");
+    switchMainPanelTab("saved-fitness");
+  });
+  document.getElementById("panel-main-tab-btn-saved-permits")?.addEventListener("click", () => {
+    switchMainPanelTab("saved-permits");
+  });
+  document.getElementById("panel-main-tab-btn-saved-fitness")?.addEventListener("click", () => {
+    switchMainPanelTab("saved-fitness");
   });
   document.getElementById("panel-main-tab-btn-route")?.addEventListener("click", () => {
     switchMainPanelTab("route");

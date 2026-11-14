@@ -2436,6 +2436,17 @@ body.panel-ui-v2.is-print-preview-visible .panel-permit-live {
   font-size: 0.92rem;
 }
 
+.panel-ui-v2 .panel-sidebar .permit-tab-count {
+  margin-left: auto;
+  min-width: 1.4rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 0.72rem;
+  text-align: center;
+}
+
 .panel-ui-v2 .panel-sidebar .panel-main-tab .ui-icon {
   width: 1.15rem;
   height: 1.15rem;
