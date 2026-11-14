@@ -7,7 +7,7 @@
   <link rel="icon" href="/assets/sindh-emblem.png" type="image/png">
   <link rel="apple-touch-icon" href="/assets/sindh-emblem.png">
   <title>Permit Workflow — Provincial Transport Authority, Sindh</title>
-  <meta name="description" content="Route permits and fitness certificates for the Provincial Transport Authority, Sindh. Staff open the desk to prepare, save, and print the official A4 sheets.">
+  <meta name="description" content="Route permits and fitness certificates for the Provincial Transport Authority, Sindh. Scan the QR code on a printed permit to check the record.">
   <script>
     (function () {
       try {
@@ -20,7 +20,7 @@
       }
     })();
   </script>
-  <link rel="stylesheet" href="/home.css?v=2">
+  <link rel="stylesheet" href="/home.css?v=3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -50,7 +50,6 @@
           <span class="theme-toggle-icon" data-icon="moon" aria-hidden="true"></span>
           <span class="theme-toggle-label">Night</span>
         </button>
-        <a class="home-btn home-btn-light home-btn-sm" href="/login">Staff sign in</a>
       </div>
     </header>
 
@@ -59,18 +58,18 @@
         <div class="home-hero-copy">
           <p class="home-pill"><span class="home-pill-dot" aria-hidden="true"></span> Provincial Transport Authority, Sindh, Karachi</p>
           <h1>Route permits and fitness certificates, <span>ready to print.</span></h1>
-          <p class="home-lead">One desk for Sindh transport staff to prepare vehicle records, save them, and print the official A4 sheet. Every printed permit links to a public page where anyone can check the record.</p>
+          <p class="home-lead">Official route permits and fitness certificates issued in Sindh. Every printed permit carries a QR code that opens a public page where anyone can check the record.</p>
           <div class="home-hero-actions">
-            <a class="home-btn home-btn-primary" href="/login">
-              Open the desk
+            <a class="home-btn home-btn-primary" href="#verify">
+              Check a permit
               <span class="home-btn-arrow" aria-hidden="true">→</span>
             </a>
             <a class="home-btn home-btn-glass" href="#how">How it works</a>
           </div>
           <ul class="home-hero-facts">
-            <li><span data-icon="print" aria-hidden="true"></span> Official A4 output</li>
-            <li><span data-icon="qr" aria-hidden="true"></span> QR check page</li>
-            <li><span data-icon="shield" aria-hidden="true"></span> Staff-only desk</li>
+            <li><span data-icon="print" aria-hidden="true"></span> Official A4 permit</li>
+            <li><span data-icon="qr" aria-hidden="true"></span> QR verification</li>
+            <li><span data-icon="shield" aria-hidden="true"></span> Issued by PTA Sindh</li>
           </ul>
         </div>
 
@@ -120,18 +119,11 @@
     </main>
   </div>
 
-  <section class="home-strip" aria-label="What the desk covers">
-    <div><strong>2</strong><span>Official records: route permit and fitness</span></div>
-    <div><strong>A4</strong><span>Print layout matching the PTA sheet</span></div>
-    <div><strong>QR</strong><span>Public check page on every permit</span></div>
-    <div><strong>Cloud</strong><span>Saved records with backup and restore</span></div>
-  </section>
-
   <section id="services" class="home-section">
     <div class="home-section-head">
       <p class="home-kicker">Services</p>
-      <h2>Everything the transport desk prints.</h2>
-      <p>Two official records, prepared in one place, and a public page that confirms them.</p>
+      <h2>Official vehicle records for Sindh.</h2>
+      <p>Two official records, and a public page that confirms them.</p>
     </div>
     <div class="home-cards">
       <article class="home-card">
@@ -139,8 +131,8 @@
         <h3>Route permit</h3>
         <p>Owner name, CNIC or NTN, vehicle type, registration, and route. Printed as the A4 summary carried on the vehicle.</p>
         <ul>
-          <li>Custom vehicle types</li>
           <li>R.P. number and validity</li>
+          <li>Carried on the vehicle</li>
         </ul>
       </article>
       <article class="home-card home-card-featured">
@@ -149,7 +141,7 @@
         <p>Registration, chassis, engine, issue and expiry dates, and the certificate status, on the same official sheet.</p>
         <ul>
           <li>Valid, expired, or pending</li>
-          <li>Expiry tracked on the dashboard</li>
+          <li>Issue and expiry dates shown</li>
         </ul>
       </article>
       <article class="home-card">
@@ -167,32 +159,32 @@
   <section id="how" class="home-section home-section-how">
     <div class="home-section-head">
       <p class="home-kicker">How it works</p>
-      <h2>From sign-in to the printed sheet.</h2>
+      <h2>From the issued permit to a verified record.</h2>
     </div>
     <ol class="home-steps">
       <li>
         <span class="home-step-num">01</span>
-        <span class="home-step-icon" data-icon="lock" aria-hidden="true"></span>
-        <h3>Sign in</h3>
-        <p>Staff open the desk with the admin username and password. Refreshing the page signs out.</p>
+        <span class="home-step-icon" data-icon="certificate" aria-hidden="true"></span>
+        <h3>Permit issued</h3>
+        <p>The Provincial Transport Authority issues the route permit or fitness certificate for the vehicle.</p>
       </li>
       <li>
         <span class="home-step-num">02</span>
-        <span class="home-step-icon" data-icon="edit" aria-hidden="true"></span>
-        <h3>Fill the form</h3>
-        <p>Choose Route Permit or Fitness Certificate and enter the vehicle details.</p>
+        <span class="home-step-icon" data-icon="print" aria-hidden="true"></span>
+        <h3>Printed on A4</h3>
+        <p>The official sheet is printed with the vehicle details and a QR code.</p>
       </li>
       <li>
         <span class="home-step-num">03</span>
-        <span class="home-step-icon" data-icon="save" aria-hidden="true"></span>
-        <h3>Save the record</h3>
-        <p>Records are kept in the desk with a cloud copy, and can be downloaded as a backup.</p>
+        <span class="home-step-icon" data-icon="qr" aria-hidden="true"></span>
+        <h3>Scan the QR</h3>
+        <p>Point a phone camera at the QR code on the printed permit.</p>
       </li>
       <li>
         <span class="home-step-num">04</span>
-        <span class="home-step-icon" data-icon="print" aria-hidden="true"></span>
-        <h3>Print A4</h3>
-        <p>Open the print view and print the official sheet with its QR code.</p>
+        <span class="home-step-icon" data-icon="shield" aria-hidden="true"></span>
+        <h3>See the status</h3>
+        <p>The check page shows the vehicle numbers, dates, and whether the record is valid.</p>
       </li>
     </ol>
   </section>
@@ -217,11 +209,11 @@
 
   <section class="home-cta">
     <div>
-      <h2>Ready to prepare today's permits?</h2>
-      <p>Sign in to open the dashboard, saved records, and print view.</p>
+      <h2>Have a printed permit?</h2>
+      <p>Scan its QR code with your phone camera to open the official check page.</p>
     </div>
-    <a class="home-btn home-btn-light" href="/login">
-      Staff sign in
+    <a class="home-btn home-btn-light" href="#verify">
+      How to check
       <span class="home-btn-arrow" aria-hidden="true">→</span>
     </a>
   </section>
@@ -234,7 +226,7 @@
         <span>Provincial Transport Authority, Sindh, Karachi</span>
       </div>
     </div>
-    <p>The public entrance. The working desk is for authorised staff.</p>
+    <p>Route permits and fitness certificates, Government of Sindh.</p>
   </footer>
 
   <script src="/ui-icons.js?v=3"></script>
